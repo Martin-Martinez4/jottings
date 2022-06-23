@@ -3,62 +3,42 @@ import React, { ReactElement, useEffect, useState, useContext } from 'react';
 
 import { Task } from '../types/draggableTypes';
 
+import { useSelector } from 'react-redux';
+
 import DragAndDrop from '../component/DragAndDrop/DragAndDrop';
 import Draggable from '../component/Draggables/Draggable';
 import DataContext from '../context/DataContext';
 
+import {DataType} from "../types/dataType";
+
 
 const Home = () => {
+    
+    const project = useSelector(state => state.project)
 
-    const { data } = useContext(DataContext)
 
     const [ taskArrays, setTaskArray ] = useState<{[key: string]: ReactElement<any, string>[]}>({})
     
-    useEffect(() => {
   
-      let TemptaskArrays:{[key: string]: ReactElement<any, string>[]} = {}
-
-      if(data){
-
-        for (const [key, value] of Object.entries(data)){
-    
-            const tasktype = `${value.type}`;
-    
-            if(TemptaskArrays[tasktype] === undefined){
-              
-              TemptaskArrays = {...TemptaskArrays,  [tasktype]: [<Draggable task={{id: key, taskName: value.taskName, type: value.type, content: value.content}} ></Draggable>]}
-              
-              
-            }
-            else{
-                
-              TemptaskArrays = {...TemptaskArrays,  [tasktype]: [...TemptaskArrays[tasktype], <Draggable task={{id: key, taskName: value.taskName, type: value.type, content: value.content}} ></Draggable>]}
-    
-            }
-    
-      }
-    
-      
-          setTaskArray(TemptaskArrays)
-      }
-  
-
-    
-    }, [data])
-
-
     return(
         <div>
             {
-                Object.entries(taskArrays).map((key)=> {
+              project?.project?.category.map((object) => {
 
-                    return (<div>
-                        <DragAndDrop name={key[0]} draggables={key[1]}></DragAndDrop>
-                        {/* {key[1]} */}
-                        </div>)
-                        
+                const tasks = object.tasks.map((task) => {
+                  return (
+                    <div key={task._id}>
+                  <Draggable key={task._id} task={{id: task._id, taskName: task.title, type: object.title, content: task.content, category_id: object._id}} ></Draggable>
+                  </div>)
+
                 })
-               
+
+                return (<div key={`id_${object._id}`}>
+                  <DragAndDrop  id={object._id} name={object.title} draggables={tasks}></DragAndDrop>
+                  {/* {key[1]} */}
+                  </div>)
+
+              })
             }
         </div>
     )

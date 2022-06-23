@@ -14,6 +14,7 @@ const Draggable:FC<DraggableProps> = ({ task }) => {
         event.dataTransfer.setData("id", task.id);
         event.dataTransfer.setData("taskName", task.taskName);
         event.dataTransfer.setData("type", task.type);
+        event.dataTransfer.setData("category_id", task.category_id);
 
     }
 

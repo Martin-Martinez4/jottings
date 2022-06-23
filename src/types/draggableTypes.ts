@@ -5,6 +5,7 @@ export type Task =  {
     taskName: string;
     content: string;
     type: string;
+    category_id: string;
 }
 
 export type DraggableProps = {
@@ -16,5 +17,6 @@ export type DraggableProps = {
 export type DragAndDropProps = {
 
     name: string;
+    id: string;
     draggables: ReactElement<any, string>[];
 }
