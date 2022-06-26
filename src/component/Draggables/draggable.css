@@ -1,0 +1,16 @@
+
+.draggable-heading-area{
+
+    display: flex;
+    flex-direction: column;
+}
+
+.draggable-heading-top-bar{
+
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 0.5rem;
+
+    border: black solid 1px;
+}
+  

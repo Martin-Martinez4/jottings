@@ -18,5 +18,5 @@ export type DragAndDropProps = {
 
     name: string;
     id: string;
-    draggables: ReactElement<any, string>[];
+    draggables?: ReactElement<any, string>[];
 }

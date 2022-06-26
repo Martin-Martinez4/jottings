@@ -12,7 +12,7 @@ const middlewares = [sagaMiddleware];
 export default configureStore({
 
     reducer: {
-        task: taskReducer,
+        // task: taskReducer,
         project: projectReducer
     },
     middleware: [...getDefaultMiddleware({ thunk: false}), sagaMiddleware]

@@ -16,9 +16,9 @@ function App() {
 
   useEffect(() => {
 
-    dispatch(getProject("62b11390b112f2275f19299f"))
+    dispatch(getProject("62b3b1ee8d4d049b41dea2d6"))
 
-  }, [dispatch, project])
+  }, [dispatch])
 
 
   return (
