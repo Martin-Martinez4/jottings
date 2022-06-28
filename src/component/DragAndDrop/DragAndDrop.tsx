@@ -1,14 +1,15 @@
 
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, ReactElement, useEffect, useState } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 // import { getChangeType } from '../../actions/taskSlice';
-import { getChangeType, getCreateTask, getEditCategory, getDeleteCategory } from '../../actions/projectSlice';
+import { getChangeType, getCreateTask, getEditCategory, getDeleteCategory, getChangeCategoryOrder } from '../../actions/projectSlice';
 import Draggable from '../Draggables/Draggable';
 import { DragAndDropProps, Task } from '../../types/draggableTypes';
 import Plus_Icon from '../Svg_Icons/Plus_Icon/Plus_Icon';
 import Edit_Icon from '../Svg_Icons/Edit_Icon/Edit_Icon';
 import Close_Icon from '../Svg_Icons/Close_Icon/Close_Icon';
 import "./dragAndDrop.css"
+import { JsxElement } from 'typescript';
 
 
 const DragAndDrop: FC<DragAndDropProps> = ({ id, name, draggables }) => {
@@ -32,16 +33,30 @@ const DragAndDrop: FC<DragAndDropProps> = ({ id, name, draggables }) => {
   const tasks = useSelector(state => 
     {
         const tasks = state.project.tasks[id]
-        return tasks && Object.keys(tasks)?.map((task_id) => {
+      
+        let toReturn: ReactElement<any, any>[] = []
 
-        const task = tasks[task_id]
+        if(tasks){
 
-        return (
-          <div key={task._id}>
-        <Draggable key={task._id} task={{id: task._id, taskName: task.title, type: name, content: task.content, category_id: id}} ></Draggable>
-        </div>)
 
-      })
+          Object.keys(tasks)?.forEach((task_id) => {
+  
+            const task = tasks[task_id]
+
+            toReturn[task.index] = <div key={task._id}>
+                                    <Draggable key={task._id} task={{id: task._id, taskName: task.title, type: name, content: task.content, category_id: id}} ></Draggable>
+                                  </div>
+  
+          })
+
+          return toReturn;
+        }
+        else{
+
+          return []
+        }
+        
+      
     }
   );
 
@@ -159,34 +174,68 @@ const clearState = (setFunc, CurrentState) => {
     e.preventDefault();
     e.stopPropagation();
   };
-  // const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  // };
+  
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>, task: Task) => {
 
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    
+    e.dataTransfer.setData("component_type", "category");
+    e.dataTransfer.setData("category_id", id);
+    e.dataTransfer.setData("original_index", category.index);
+
+}
+
+
+
+const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
 
     e.preventDefault();
     e.stopPropagation();
+
+    const component_type = e.dataTransfer.getData("component_type");
     
     const id = e.dataTransfer.getData("id");
-    const old_cat_id = e.dataTransfer.getData("category_id");
-    const newType =  e.currentTarget.getAttribute("data-name")
-    const cat_id =  e.currentTarget.getAttribute("data-id")
 
-    dispatch(getChangeType({ project_id: project.project_id, task_id: id, category_id: old_cat_id, target_category_id: cat_id }));
+    if(component_type === "category"){
 
-    return
+      // const project_id = req.body.project_id;
+      // const category_id = req.body.category_id;
+
+      const category_id = e.dataTransfer.getData("category_id");
+      const original_index = e.dataTransfer.getData("original_index");
+      const target_index = e.currentTarget.getAttribute("data-index");
+
+      dispatch(getChangeCategoryOrder({ project_id: project.project_id, category_id: category_id, original_index: original_index, target_index: target_index }));
+
+    }else{
+
+      const task_id = e.dataTransfer.getData("id")
+      const old_cat_id = e.dataTransfer.getData("category_id");
+      const newType =  e.currentTarget.getAttribute("data-name")
+      const target_category_id =  e.currentTarget.getAttribute("data-id")
+
+      console.log({ project_id: project.project_id, task_id: task_id, category_id: old_cat_id, target_category_id: target_category_id })
+  
+      dispatch(getChangeType({ project_id: project.project_id, task_id: task_id, category_id: old_cat_id, target_category_id: target_category_id }));
+  
+      return
+    }
+
   };
 
 
   return (
     
-    <div className={'drag-drop-container'}>
+    <div 
+      className={'drag-drop-container'}
+      onDragStart={(e) => handleDragStart(e)}
+      >
 
       <div className={'drag-drop-zone'}
         data-name = {name}
         data-id= {id}
+        data-index= {category.index}
+        draggable
         onDrop={e => handleDrop(e)}
         onDragOver={e => handleDragOver(e)}
         onDragEnter={e => handleDragEnter(e)}

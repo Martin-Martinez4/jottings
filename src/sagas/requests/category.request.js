@@ -75,4 +75,57 @@ export function requestEditCategory(body){
         });
 }
 
+export function requestChangeTaskOrder(body){
+  /*
+        Body:{
+            "title",
+            "category_id",
+            "project_id",
+        }
+    */
+    console.log(body)
+    return fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/category/task/order`, {
+
+    
+        method: "post",
+        headers: { "Content-Type": "application/json"},
+        body: JSON.stringify(body)
+        
+    })
+    .then(responses =>  {
+        
+            return responses.json()
+    })
+    .catch(err => {
+
+        return "NA"
+    });
+}
+
+export function requestChangeCategroyOrder(body){
+  /*
+        Body:{
+            "title",
+            "category_id",
+            "project_id",
+        }
+    */
+    return fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/category/order`, {
+
+    
+        method: "post",
+        headers: { "Content-Type": "application/json"},
+        body: JSON.stringify(body)
+        
+    })
+    .then(responses =>  {
+        
+            return responses.json()
+    })
+    .catch(err => {
+
+        return "NA"
+    });
+}
+
 

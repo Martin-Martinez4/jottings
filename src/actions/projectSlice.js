@@ -83,6 +83,18 @@ const projectSlice = createSlice({
             return state = {...state, categories: {...state.categories, [category_id]: newCategoryObject[category_id]}};
 
         },
+        getChangeCategoryOrder() {},
+        changeCategoryOrder: (state, action) => {
+
+            console.log("here")
+            console.log("paylaod: ",action.payload)
+
+            // const category_id = action.payload.category_id;
+            const new_categories_object = action.payload.new_categories_object;
+
+            return state = {...state, categories: {...state.categories, ...new_categories_object}};
+
+        },
         getDeleteCategory() {},
         deleteCategory: (state, action) => {
 
@@ -107,6 +119,17 @@ const projectSlice = createSlice({
 
             return state = {...state, categories: {...state.categories, [category_id]: newCategoryObject[category_id]}};
 
+        },
+        getChangeTaskOrder() {},
+        changeTaskOrder: (state, action) => {
+
+            // Send back cat_id: {title, _id} then spread into state
+
+            const category_id = action.payload.category_id;
+            const newCategoryObject = action.payload.new_category_object;
+
+            return state = {...state, tasks: {...state.tasks, [category_id]: newCategoryObject[category_id]}};
+
         }
     }
 })
@@ -120,6 +143,8 @@ export const {
                 getCreateCategory, createCategory,
                 getDeleteCategory, deleteCategory,
                 getEditCategory, editCategory,
+                getChangeTaskOrder, changeTaskOrder,
+                getChangeCategoryOrder, changeCategoryOrder
             } = projectSlice.actions;
 export default projectSlice.reducer;
 

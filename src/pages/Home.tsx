@@ -20,7 +20,35 @@ const Home = () => {
     const dispatch = useDispatch();
     
     const project = useSelector(state => state.project.project);
-    const categories = useSelector(state => state.project.categories);
+    const categories = useSelector(state => {
+
+      const categories = state.project.categories
+
+      console.log(categories)
+      
+      let categoriesArray = []
+
+      if(categories){
+
+  
+        Object.keys(categories).forEach((object) => {
+                  
+          const category = categories[`${object}`]
+  
+  
+          
+          categoriesArray[category.index] = (<div key={`id_${category._id}`}>
+            <DragAndDrop  id={category._id} name={category.title}></DragAndDrop>
+            </div>)
+  
+  
+        })
+      }
+
+      return categoriesArray
+
+
+    });
     const tasks = useSelector(state => state.project.tasks);
 
     useEffect(() => {}, [project]);
@@ -54,9 +82,7 @@ const Home = () => {
   const clearState = (setFunc, CurrentState) => {
 
     Object.keys(CurrentState).forEach( (stateProp) => {
-  
-      console.log(stateProp);
-  
+    
       setFunc(CurrentState => ({...CurrentState, [stateProp]: ""}))
   
       }
@@ -95,6 +121,8 @@ const Home = () => {
   //   dispatch(getDeleteCategory)
 
   // }
+
+  let categoriesArray = [];
     
   
     return(
@@ -113,15 +141,22 @@ const Home = () => {
         }
         <div className="categories-container">
             {
-              categories && Object.keys(categories).map((object) => {
+              
+  
+              // categories && Object.keys(categories).forEach((object) => {
                 
-                const category = categories[`${object}`]
-                
-                return (<div key={`id_${category._id}`}>
-                  <DragAndDrop  id={category._id} name={category.title}></DragAndDrop>
-                  </div>)
+              //   const category = categories[`${object}`]
 
-              })
+
+                
+              //   categoriesArray[category.index] = (<div key={`id_${category._id}`}>
+              //     <DragAndDrop  id={category._id} name={category.title}></DragAndDrop>
+              //     </div>)
+
+
+              // })
+
+              categories
             }
         </div>
       </>

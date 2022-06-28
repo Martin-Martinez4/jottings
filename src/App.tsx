@@ -16,7 +16,7 @@ function App() {
 
   useEffect(() => {
 
-    dispatch(getProject("62b3b1ee8d4d049b41dea2d6"))
+    dispatch(getProject("62ba0710f53789be2ac41114"))
 
   }, [dispatch])
 

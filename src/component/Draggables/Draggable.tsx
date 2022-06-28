@@ -2,7 +2,7 @@
 import React, { FC, useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
-import { getDeleteTask, getEditTask } from "../../actions/projectSlice";
+import { getChangeType, getChangeTaskOrder, getDeleteTask, getEditTask } from "../../actions/projectSlice";
 
 import { Task, DraggableProps } from "../../types/draggableTypes";
 
@@ -39,12 +39,17 @@ const Draggable:FC<DraggableProps> = ({ task }) => {
     const project = useSelector(state => state.project.project)
 
 
-    const onDragStart = (event: React.DragEvent<HTMLDivElement>, task: Task) => {
-    
-        event.dataTransfer.setData("id", task.id);
-        event.dataTransfer.setData("taskName", task.taskName);
-        event.dataTransfer.setData("type", task.type);
-        event.dataTransfer.setData("category_id", task.category_id);
+    const onDragStart = (e: React.DragEvent<HTMLDivElement>, task: Task) => {
+
+        e.stopPropagation();
+
+        e.dataTransfer.setData("component_type", "task");
+        e.dataTransfer.setData("id", task.id);
+        e.dataTransfer.setData("taskName", task.taskName);
+        e.dataTransfer.setData("type", task.type);
+        e.dataTransfer.setData("category_id", task.category_id);
+        e.dataTransfer.setData("original_index", task2.index);
+
 
     }
 
@@ -98,6 +103,48 @@ const Draggable:FC<DraggableProps> = ({ task }) => {
 
     }
 
+    const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const component_type = e.dataTransfer.getData("component_type")
+        const id = e.dataTransfer.getData("id");
+        const old_category_id = e.dataTransfer.getData("category_id");
+        const original_index = parseInt(e.dataTransfer.getData("original_index"));
+
+        const newType =  e.currentTarget.getAttribute("data-name");
+        const target_category_id =  task.category_id;
+        const target_index = task2.index
+
+        // console.log("task_id: ", id);
+        // console.log("old_category_id: ", old_category_id);
+        // console.log("target_category_id: ", target_category_id);
+        // console.log("original_index: ", original_index);
+        // console.log("target_index: ", target_index);
+
+        console.log(component_type)
+
+        // if(component_type === "task"){
+
+            if(old_category_id === target_category_id){
+    
+                dispatch(getChangeTaskOrder({ project_id: project.project_id, task_id: id, category_id: old_category_id, target_category_id: target_category_id, original_index: original_index, target_index: target_index }));
+            }
+            else{
+    
+                dispatch(getChangeType({ project_id: project.project_id, task_id: id, category_id: old_category_id, target_category_id: target_category_id, original_index: original_index, target_index: target_index }));
+            }
+        // }
+
+
+
+        
+
+        
+        return
+      };
+
     // const onIsDropped = (event: React.DragEvent<HTMLDivElement>) => {
 
     //     console.log(event.dataTransfer.getData("id"))
@@ -110,9 +157,9 @@ const Draggable:FC<DraggableProps> = ({ task }) => {
     return(
 
         <div
-            key={task2._id} 
+            key={task2._id}
+            onDrop={e => handleDrop(e)} 
             onDragStart = {(event) => onDragStart(event, task)}
-            // onDrop = {(event) => onIsDropped(event)}
             draggable
             className="draggable"
         >

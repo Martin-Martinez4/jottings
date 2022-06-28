@@ -5,11 +5,11 @@ import { getChangeType } from "../actions/projectSlice";
 import { 
         getProject, 
         getDeleteTask, getCreateTask, getEditTask,
-        getCreateCategory, getEditCategory, getDeleteCategory,
+        getCreateCategory, getEditCategory, getDeleteCategory, getChangeTaskOrder, getChangeCategoryOrder
         } from "../actions/projectSlice";
 
 import { handleChangeType, handleDeleteTask, handleCreateTask, handleEditTask } from "./handler/task.handler";
-import { handleCreateCategory, handleEditCategory, handleDeleteCategory } from "./handler/category.handler";
+import { handleCreateCategory, handleEditCategory, handleDeleteCategory, handleChangeTaskOrder, handleChangeCategoryOrder } from "./handler/category.handler";
 export function* watcherSaga(){
 
     yield takeLatest(getProject.type, handleGetProject)
@@ -20,6 +20,8 @@ export function* watcherSaga(){
     yield takeLatest(getCreateCategory.type, handleCreateCategory)
     yield takeLatest(getEditCategory.type, handleEditCategory)
     yield takeLatest(getDeleteCategory.type, handleDeleteCategory)
+    yield takeLatest(getChangeTaskOrder.type, handleChangeTaskOrder)
+    yield takeLatest(getChangeCategoryOrder.type, handleChangeCategoryOrder)
 }
 
 
