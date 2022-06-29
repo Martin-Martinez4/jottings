@@ -1,19 +1,27 @@
 
 import { createSlice, current } from "@reduxjs/toolkit";
+import type { RootState } from '../app/store';
+import { EditTaskType } from "../types/project.actions.types";
+
+interface ActionGetProject {
+  type: string;
+  payload: string
+}
+
 
 const projectSlice = createSlice({
 
     name: 'project',
-    initialState: {},
+    initialState: {project:{}, tasks:{}, categories: {}},
     reducers: {
 
-        getProject() {},
+        getProject(state, action){},
         oneProject: (state, action) => {
 
             return {...state, project: action.payload.project, categories: action.payload.categories, tasks: action.payload.tasks }
 
         },
-        getChangeType() {},
+        getChangeType(state, actio) {},
         ChangeType: (state, action) => {
   
           const payload = action.payload;
@@ -47,7 +55,7 @@ const projectSlice = createSlice({
           }
   
         },
-        getDeleteTask() {},
+        getDeleteTask(state, action) {},
         deleteTask: (state, action) => {
 
             const newTasksObject = action.payload.new_tasks_object;
@@ -57,7 +65,7 @@ const projectSlice = createSlice({
             return state = {...state, tasks: {...state.tasks, ...newTasksObject}}
 
         },
-        getCreateTask() {},
+        getCreateTask(state, action) {},
         createTask: (state, action) => {
 
             const newTasksObject = action.payload.new_tasks_object;
@@ -65,16 +73,18 @@ const projectSlice = createSlice({
             return state = {...state, tasks: {...state.tasks, ...newTasksObject}}
 
         },
-        getEditTask() {},
-        editTask: (state, action) => {
+        getEditTask(state, action) {},
+        editTask: (state, action: EditTaskType) => {
+
+            console.log(action)
 
             const category_id = action.payload.category_id;
             const newTaskObject = action.payload.new_task_object;
 
-            return state = {...state, tasks: {...state.tasks, [category_id]:{...state.tasks[category_id], ...newTaskObject}}};
+            return state = {...state, tasks: {...state.tasks, [category_id]:{...(state.tasks as any)[category_id], ...newTaskObject}}};
 
         },
-        getCreateCategory() {},
+        getCreateCategory(state, action) {},
         createCategory: (state, action) => {
 
             const category_id = action.payload.category_id;
@@ -83,19 +93,17 @@ const projectSlice = createSlice({
             return state = {...state, categories: {...state.categories, [category_id]: newCategoryObject[category_id]}};
 
         },
-        getChangeCategoryOrder() {},
+        getChangeCategoryOrder(state, action) {},
         changeCategoryOrder: (state, action) => {
 
-            console.log("here")
-            console.log("paylaod: ",action.payload)
 
-            // const category_id = action.payload.category_id;
-            const new_categories_object = action.payload.new_categories_object;
+          // const category_id = action.payload.category_id;
+          const new_categories_object = action.payload.new_categories_object;
 
-            return state = {...state, categories: {...state.categories, ...new_categories_object}};
+          return state = {...state, categories: {...state.categories, ...new_categories_object}};
 
         },
-        getDeleteCategory() {},
+        getDeleteCategory(state, action) {},
         deleteCategory: (state, action) => {
 
             // Send back cat_id: {} then spread in
@@ -109,7 +117,7 @@ const projectSlice = createSlice({
             return state = {...state, categories: {...newCategoryObject}};
 
         },
-        getEditCategory() {},
+        getEditCategory(state, action) {},
         editCategory: (state, action) => {
 
             // Send back cat_id: {title, _id} then spread into state
@@ -120,7 +128,7 @@ const projectSlice = createSlice({
             return state = {...state, categories: {...state.categories, [category_id]: newCategoryObject[category_id]}};
 
         },
-        getChangeTaskOrder() {},
+        getChangeTaskOrder(state, action) {},
         changeTaskOrder: (state, action) => {
 
             // Send back cat_id: {title, _id} then spread into state
@@ -146,5 +154,9 @@ export const {
                 getChangeTaskOrder, changeTaskOrder,
                 getChangeCategoryOrder, changeCategoryOrder
             } = projectSlice.actions;
+
+// Other code such as selectors can use the imported `RootState` type
+export const selectTasks = (state: RootState) => state.project.tasks
+export const selectProject = (state: RootState) => state.project
 export default projectSlice.reducer;
 

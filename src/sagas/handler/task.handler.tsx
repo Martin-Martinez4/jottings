@@ -1,9 +1,10 @@
 
+import { SagaIterator } from "redux-saga";
 import { call, put } from "redux-saga/effects";
 import { ChangeType, deleteTask, editTask } from "../../actions/projectSlice";
 import { requestChangeType, requestDeleteTask, requestCreateTask, requestEditTask } from "../requests/task.request";
 
-export function* handleChangeType(action){
+export function* handleChangeType(action: { payload: object; }): SagaIterator{
 
     try{
 
@@ -16,7 +17,7 @@ export function* handleChangeType(action){
         console.log(err)
     }
 }
-export function* handleDeleteTask(action){
+export function* handleDeleteTask(action: { payload: object; }): SagaIterator{
 
     try{
 
@@ -29,7 +30,7 @@ export function* handleDeleteTask(action){
     }
 }
 
-export function* handleCreateTask(action){
+export function* handleCreateTask(action: { payload: object; }): SagaIterator{
 
     try{
 
@@ -43,7 +44,7 @@ export function* handleCreateTask(action){
 
 }
 
-export function* handleEditTask(action){
+export function* handleEditTask(action: { payload: object; }): SagaIterator{
 
     try{
 

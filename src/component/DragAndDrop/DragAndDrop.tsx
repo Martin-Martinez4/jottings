@@ -1,18 +1,18 @@
 
-import React, { FC, ReactElement, useEffect, useState } from 'react';
-import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import React, { FC, ReactElement, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 // import { getChangeType } from '../../actions/taskSlice';
 import { getChangeType, getCreateTask, getEditCategory, getDeleteCategory, getChangeCategoryOrder } from '../../actions/projectSlice';
 import Draggable from '../Draggables/Draggable';
-import { DragAndDropProps, Task } from '../../types/draggableTypes';
+import { DragAndDropProps } from '../../types/draggableTypes';
 import Plus_Icon from '../Svg_Icons/Plus_Icon/Plus_Icon';
 import Edit_Icon from '../Svg_Icons/Edit_Icon/Edit_Icon';
 import Close_Icon from '../Svg_Icons/Close_Icon/Close_Icon';
 import "./dragAndDrop.css"
-import { JsxElement } from 'typescript';
+import { StateType } from '../../types/project.type';
 
 
-const DragAndDrop: FC<DragAndDropProps> = ({ id, name, draggables }) => {
+const DragAndDrop: FC<DragAndDropProps> = ({ id, name }) => {
 
   const dispatch = useDispatch();
 
@@ -26,11 +26,11 @@ const DragAndDrop: FC<DragAndDropProps> = ({ id, name, draggables }) => {
 
   })
 
-  const project = useSelector(state => state.project.project)
+  const project = useSelector((state: StateType) => state.project.project)
 
-  const category = useSelector(state => state.project.categories[id])
+  const category = useSelector((state: StateType) => state.project.categories[id])
   
-  const tasks = useSelector(state => 
+  const tasks = useSelector((state: StateType) => 
     {
         const tasks = state.project.tasks[id]
       
@@ -66,29 +66,27 @@ const DragAndDrop: FC<DragAndDropProps> = ({ id, name, draggables }) => {
 
   }
 
-  const toggleStateValue = (setFunc, currentState) => {
+  const toggleStateValue = (setFunc: React.Dispatch<React.SetStateAction<any>>, currentState: boolean) => {
 
     setFunc(!currentState)
 
   }
 
-  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>, setFunc, CurrentState) => {
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>, setFunc: React.Dispatch<React.SetStateAction<any>>, CurrentState: object) => {
 
 
-    setFunc(CurrentState => ({...CurrentState, [e.target.name]: (e.target.value).toString()}))
+    setFunc((CurrentState: object) => ({...CurrentState, [e.target.name]: (e.target.value).toString()}))
 
     e.preventDefault();
 
     
 }
 
-const clearState = (setFunc, CurrentState) => {
+const clearState = (setFunc: React.Dispatch<React.SetStateAction<any>>, CurrentState: object) => {
 
   Object.keys(CurrentState).forEach( (stateProp) => {
 
-    console.log(stateProp);
-
-    setFunc(CurrentState => ({...CurrentState, [stateProp]: ""}))
+    setFunc((CurrentState: object) => ({...CurrentState, [stateProp]: ""}))
 
     }
 
@@ -96,7 +94,7 @@ const clearState = (setFunc, CurrentState) => {
 
 }
 
-  const onCreate = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+  const onCreate = () => {
 
     try{
 
@@ -122,7 +120,7 @@ const clearState = (setFunc, CurrentState) => {
 
   }
 
-  const onEditCategory = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+  const onEditCategory = () => {
 
     try{
 
@@ -156,6 +154,7 @@ const clearState = (setFunc, CurrentState) => {
 
     }
 
+    /*eslint no-unused-vars: ["error", { "argsIgnorePattern": "^(_|action)" }]*/
     dispatch(getDeleteCategory(body))
 
   }
@@ -175,13 +174,13 @@ const clearState = (setFunc, CurrentState) => {
     e.stopPropagation();
   };
   
-  const handleDragStart = (e: React.DragEvent<HTMLDivElement>, task: Task) => {
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
 
     e.stopPropagation();
     
     e.dataTransfer.setData("component_type", "category");
     e.dataTransfer.setData("category_id", id);
-    e.dataTransfer.setData("original_index", category.index);
+    e.dataTransfer.setData("original_index", category.index.toString());
 
 }
 
@@ -194,12 +193,7 @@ const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
 
     const component_type = e.dataTransfer.getData("component_type");
     
-    const id = e.dataTransfer.getData("id");
-
     if(component_type === "category"){
-
-      // const project_id = req.body.project_id;
-      // const category_id = req.body.category_id;
 
       const category_id = e.dataTransfer.getData("category_id");
       const original_index = e.dataTransfer.getData("original_index");
@@ -211,7 +205,6 @@ const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
 
       const task_id = e.dataTransfer.getData("id")
       const old_cat_id = e.dataTransfer.getData("category_id");
-      const newType =  e.currentTarget.getAttribute("data-name")
       const target_category_id =  e.currentTarget.getAttribute("data-id")
 
       console.log({ project_id: project.project_id, task_id: task_id, category_id: old_cat_id, target_category_id: target_category_id })
@@ -253,7 +246,7 @@ const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
               <input name="title" onChange={(e) => onInputChange(e, setEditTitle, editTitle)} value={`${editTitle.title}`}></input>
               <div>
 
-                <span onClick={(e) => onEditCategory(e)} >Save</span><span>Cancel</span>
+                <span onClick={() => onEditCategory()} >Save</span><span>Cancel</span>
               </div>
             </div>
             :
@@ -265,7 +258,7 @@ const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
               <div className="create-box">
                 <div className="draggable-heading-area">
                     <div className="draggable-heading-top-bar">
-                      <span onClick={(e) => onCreate(e) }>Save</span>
+                      <span onClick={() => onCreate() }>Save</span>
                       <span>Cancel</span>
                     </div>
                     <input name="title" onChange={(e) => onInputChange(e, setNewTaskContent, newTaskContent)} type="text" value={newTaskContent.title}></input>

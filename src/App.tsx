@@ -6,13 +6,14 @@ import { useEffect } from 'react';
 
 import {useDispatch, useSelector} from "react-redux";
 import { getProject } from "./actions/projectSlice";
+import { StateType } from './types/project.type';
 
 
 function App() {
 
   const dispatch = useDispatch();
 
-  const project = useSelector(state => state.project);
+  const project = useSelector((state: StateType) => state.project);
 
   useEffect(() => {
 

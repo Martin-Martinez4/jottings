@@ -9,7 +9,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 const middlewares = [sagaMiddleware];
 
-export default configureStore({
+export const store = configureStore({
 
     reducer: {
         // task: taskReducer,
@@ -19,5 +19,8 @@ export default configureStore({
 })
 
 sagaMiddleware.run(watcherSaga);
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
 

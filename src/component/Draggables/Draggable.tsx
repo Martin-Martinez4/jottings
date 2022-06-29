@@ -11,6 +11,7 @@ import Plus_Icon from "../Svg_Icons/Plus_Icon/Plus_Icon";
 import Edit_Icon from "../Svg_Icons/Edit_Icon/Edit_Icon";
 
 import "./draggable.css"
+import { StateType } from "../../types/project.type";
 
 // category_id and task _id are passed in
 // useSelect to get task info
@@ -23,8 +24,8 @@ const Draggable:FC<DraggableProps> = ({ task }) => {
 
     const [editVisible, setEditVisible] = useState(false);
     
-    const task2 = useSelector(state => state.project.tasks[task.category_id][task.id]);
-    const project_id = useSelector(state => state.project.project.project_id);
+    const task2 = useSelector((state: StateType) => state.project.tasks[task.category_id][task.id]);
+    const project_id = useSelector((state: StateType) => state.project.project.project_id);
 
     const [ editContent, setEditContent ] = useState({
 
@@ -36,7 +37,7 @@ const Draggable:FC<DraggableProps> = ({ task }) => {
 
     const dispatch = useDispatch();
 
-    const project = useSelector(state => state.project.project)
+    const project = useSelector((state: StateType) => state.project.project)
 
 
     const onDragStart = (e: React.DragEvent<HTMLDivElement>, task: Task) => {
@@ -48,12 +49,12 @@ const Draggable:FC<DraggableProps> = ({ task }) => {
         e.dataTransfer.setData("taskName", task.taskName);
         e.dataTransfer.setData("type", task.type);
         e.dataTransfer.setData("category_id", task.category_id);
-        e.dataTransfer.setData("original_index", task2.index);
+        e.dataTransfer.setData("original_index", task2.index.toString());
 
 
     }
 
-    const onDelete = (e) => {
+    const onDelete = () => {
 
         if(project.project_id && task.id && task.category_id){
 
@@ -66,23 +67,23 @@ const Draggable:FC<DraggableProps> = ({ task }) => {
 
     }
 
-    const toggleVisible = (setFunc, currentState) => {
+    const toggleVisible = (setFunc: React.Dispatch<React.SetStateAction<any>>, currentState: boolean) => {
 
         setFunc(!currentState);
 
     }
 
-    const onInputChange = (e: React.ChangeEvent<HTMLInputElement>, setFunc, CurrentState) => {
+    const onInputChange = (e: React.ChangeEvent<any>, setFunc: React.Dispatch<React.SetStateAction<any>>, CurrentState: object) => {
 
 
-        setFunc(CurrentState => ({...CurrentState, [e.target.name]: (e.target.value).toString()}))
+        setFunc((CurrentState: object) => ({...CurrentState, [e.target.name]: (e.target.value).toString()}))
     
         e.preventDefault();
     
         
     }
 
-    const onEdit = async (e) => {
+    const onEdit = async () => {
 
         const body = {
 
@@ -166,7 +167,7 @@ const Draggable:FC<DraggableProps> = ({ task }) => {
             <div className="draggable-heading-area">
                 <div className="draggable-heading-top-bar">
 
-                    <Close_Icon clicked={(e) => onDelete(e)} ></Close_Icon>
+                    <Close_Icon clicked={() => onDelete()} ></Close_Icon>
                     <Edit_Icon clicked={(e) => toggleVisible(setEditVisible, editVisible)} ></Edit_Icon>
                     <div className="close"></div>
                     <div className="math-plus"></div>
@@ -186,7 +187,7 @@ const Draggable:FC<DraggableProps> = ({ task }) => {
                         ?
                         <div>
                             <textarea name="content" value={`${editContent.content}`} onChange={(e) => onInputChange(e, setEditContent, editContent)} cols={20} rows={10}></textarea>
-                            <span onClick={(e) => onEdit(e) }>Save</span><span>Cancel</span>
+                            <span onClick={() => onEdit() }>Save</span><span>Cancel</span>
                         </div>
                         :
                         <p>

@@ -10,23 +10,24 @@ import Close_Icon from '../component/Svg_Icons/Close_Icon/Close_Icon';
 
 import DragAndDrop from '../component/DragAndDrop/DragAndDrop';
 
-import {DataType} from "../types/dataType";
-
 import "./home.css";
+import { JsxElement } from 'typescript';
+import { StateType } from '../types/project.type';
 
 
 const Home = () => {
 
     const dispatch = useDispatch();
     
-    const project = useSelector(state => state.project.project);
-    const categories = useSelector(state => {
+    const project = useSelector((state: StateType) => state.project.project);
+
+    const state = useSelector((state: StateType) => state.project)
+
+    const categories = useSelector((state: StateType) => {
 
       const categories = state.project.categories
-
-      console.log(categories)
       
-      let categoriesArray = []
+      let categoriesArray: ReactElement[] = []
 
       if(categories){
 
@@ -49,7 +50,7 @@ const Home = () => {
 
 
     });
-    const tasks = useSelector(state => state.project.tasks);
+    const tasks = useSelector((state: StateType) => state.project.tasks);
 
     useEffect(() => {}, [project]);
 
@@ -63,23 +64,23 @@ const Home = () => {
 
     })
 
-  const toggleVisible = (setFunc, currentState) => {
+  const toggleVisible = (setFunc: React.Dispatch<React.SetStateAction<any>>, currentState: boolean) => {
 
     setFunc(!currentState);
 
   }
 
-  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>, setFunc, CurrentState) => {
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>, setFunc: React.Dispatch<React.SetStateAction<any>>, CurrentState: string) => {
 
 
-      setFunc(CurrentState => ({...CurrentState, [e.target.name]: (e.target.value).toString()}))
+      setFunc((CurrentState: object) => ({...CurrentState, [e.target.name]: (e.target.value).toString()}))
   
       e.preventDefault();
   
       
   }
 
-  const clearState = (setFunc, CurrentState) => {
+  const clearState = (setFunc: { (value: React.SetStateAction<{ title: string; }>): void; (arg0: (CurrentState: any) => any): void; }, CurrentState: { title?: string; }) => {
 
     Object.keys(CurrentState).forEach( (stateProp) => {
     
@@ -121,8 +122,6 @@ const Home = () => {
   //   dispatch(getDeleteCategory)
 
   // }
-
-  let categoriesArray = [];
     
   
     return(
