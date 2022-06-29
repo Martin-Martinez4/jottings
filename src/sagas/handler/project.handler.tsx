@@ -13,7 +13,7 @@ export function* handleGetProject(action: { payload: string; }): Generator<
     try{
         
         //  takes function name, arguments
-        //  srguements can be passed in on call to dispatch
+        //  arguements can be passed in on call to dispatch
         const response = yield call(requestGetOneProject, project_id);
         // console.log(response)
         yield put(oneProject({...response as object}))

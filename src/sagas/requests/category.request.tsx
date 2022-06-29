@@ -1,5 +1,6 @@
+import { handleChangeCategoryOrderPayloadType, HandleChangeTaskOrderPayloadType, HandleCreateCategoryPayloadType, HandleDeleteCategoryPayloadType, HandleEditCategoryPayloadType } from "../../types/category.handler.types";
 
-export function requestCreateCategory(body){
+export function requestCreateCategory(body: HandleCreateCategoryPayloadType){
     /*
         Body:{
             "title",
@@ -24,7 +25,7 @@ export function requestCreateCategory(body){
         });
 }
 
-export function requestDeleteCategory(body){
+export function requestDeleteCategory(body: HandleDeleteCategoryPayloadType){
     /*
         Body:{
             "category_id",
@@ -49,7 +50,7 @@ export function requestDeleteCategory(body){
         });
 }
 
-export function requestEditCategory(body){
+export function requestEditCategory(body: HandleEditCategoryPayloadType){
     /*
         Body:{
             "title",
@@ -75,7 +76,7 @@ export function requestEditCategory(body){
         });
 }
 
-export function requestChangeTaskOrder(body){
+export function requestChangeTaskOrder(body: HandleChangeTaskOrderPayloadType){
   /*
         Body:{
             "title",
@@ -102,7 +103,7 @@ export function requestChangeTaskOrder(body){
     });
 }
 
-export function requestChangeCategroyOrder(body){
+export function requestChangeCategroyOrder(body: handleChangeCategoryOrderPayloadType){
   /*
         Body:{
             "title",

@@ -1,7 +1,7 @@
 
 import React, { FC, ReactElement, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-// import { getChangeType } from '../../actions/taskSlice';
+
 import { getChangeType, getCreateTask, getEditCategory, getDeleteCategory, getChangeCategoryOrder } from '../../actions/projectSlice';
 import Draggable from '../Draggables/Draggable';
 import { DragAndDropProps } from '../../types/draggableTypes';
@@ -72,6 +72,7 @@ const DragAndDrop: FC<DragAndDropProps> = ({ id, name }) => {
 
   }
 
+  /*  eslint-disable-next-line  no-unused-vars*/
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>, setFunc: React.Dispatch<React.SetStateAction<any>>, CurrentState: object) => {
 
 
@@ -196,8 +197,8 @@ const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     if(component_type === "category"){
 
       const category_id = e.dataTransfer.getData("category_id");
-      const original_index = e.dataTransfer.getData("original_index");
-      const target_index = e.currentTarget.getAttribute("data-index");
+      const original_index = parseInt(e.dataTransfer.getData("original_index"));
+      const target_index = e.currentTarget.getAttribute("data-index")? parseInt(e.currentTarget.getAttribute("data-index") as string) : null;
 
       dispatch(getChangeCategoryOrder({ project_id: project.project_id, category_id: category_id, original_index: original_index, target_index: target_index }));
 

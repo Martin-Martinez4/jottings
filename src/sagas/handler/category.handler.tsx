@@ -3,8 +3,10 @@ import { call, put } from "redux-saga/effects";
 import { requestCreateCategory, requestEditCategory, requestDeleteCategory, requestChangeTaskOrder, requestChangeCategroyOrder } from "../requests/category.request";
 import { createCategory, editCategory, deleteCategory, changeTaskOrder, changeCategoryOrder } from "../../actions/projectSlice";
 import { SagaIterator } from "@redux-saga/types";
+import { handleChangeCategoryOrderType, HandleChangeTaskOrderType, HandleCreateCategoryType, HandleDeleteCategoryType, HandleEditCategoryType } from "../../types/category.handler.types";
 
-export function* handleCreateCategory(action: { payload: object; }): SagaIterator{
+export function* handleCreateCategory(action: HandleCreateCategoryType): SagaIterator{
+
 
     try{
 
@@ -17,7 +19,7 @@ export function* handleCreateCategory(action: { payload: object; }): SagaIterato
     }
 }
 
-export function* handleEditCategory(action: { payload: object; }): SagaIterator{
+export function* handleEditCategory(action: HandleEditCategoryType): SagaIterator{
 
     try{
 
@@ -29,7 +31,8 @@ export function* handleEditCategory(action: { payload: object; }): SagaIterator{
         console.log(err)
     }
 }
-export function* handleDeleteCategory(action: { payload: object; }): SagaIterator{
+export function* handleDeleteCategory(action: HandleDeleteCategoryType): SagaIterator{
+
 
     try{
 
@@ -42,7 +45,7 @@ export function* handleDeleteCategory(action: { payload: object; }): SagaIterato
     }
 }
 
-export function* handleChangeTaskOrder(action: { payload: object; }): SagaIterator{
+export function* handleChangeTaskOrder(action: HandleChangeTaskOrderType): SagaIterator{
 
     try{
 
@@ -55,7 +58,7 @@ export function* handleChangeTaskOrder(action: { payload: object; }): SagaIterat
     }
 }
 
-export function* handleChangeCategoryOrder(action: { payload: object; }): SagaIterator{
+export function* handleChangeCategoryOrder(action: handleChangeCategoryOrderType): SagaIterator{
 
     try{
 

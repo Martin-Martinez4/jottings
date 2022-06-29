@@ -1,6 +1,7 @@
+import { HandleChangeTypePayloadType, HandleCreateTaskPayloadType, HandleDeleteTaskPayloadType, HandleEditTaskPayloadType } from "../../types/task.handler.type";
 
 
-export function requestChangeType(body){
+export function requestChangeType(body: HandleChangeTypePayloadType){
 
     if(body.category_id === body.target_category_id){
 
@@ -24,7 +25,7 @@ export function requestChangeType(body){
         });
 }
 
-export function requestDeleteTask(body){
+export function requestDeleteTask(body: HandleDeleteTaskPayloadType){
 
     return fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/task/`, {
         
@@ -43,7 +44,7 @@ export function requestDeleteTask(body){
         });
 }
 
-export function requestCreateTask(body){
+export function requestCreateTask(body: HandleCreateTaskPayloadType){
 
     return fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/task/`, {
         
@@ -62,7 +63,7 @@ export function requestCreateTask(body){
         });
 }
 
-export function requestEditTask(body){
+export function requestEditTask(body: HandleEditTaskPayloadType){
     /*
         Body:{
             "content",

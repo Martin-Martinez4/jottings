@@ -1,5 +1,5 @@
 
-export function requestGetOneProject(project_id){
+export function requestGetOneProject(project_id: string){
     
     return fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/project/${project_id}`, {
         
