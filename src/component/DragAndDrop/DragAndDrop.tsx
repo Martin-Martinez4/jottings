@@ -3,6 +3,8 @@ import React, { FC, ReactElement, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { getChangeType, getCreateTask, getEditCategory, getDeleteCategory, getChangeCategoryOrder } from '../../actions/projectSlice';
+import { Container, TopBar, CreateNewPrompt, CategoryTitle, CreateBox } from "./dragAndDrop.styles";
+import { Input, ButtonContainer, PrimaryButton, RedButton, TextArea } from '../../global.style';
 import Draggable from '../Draggables/Draggable';
 import { DragAndDropProps } from '../../types/draggableTypes';
 import Plus_Icon from '../Svg_Icons/Plus_Icon/Plus_Icon';
@@ -18,6 +20,7 @@ const DragAndDrop: FC<DragAndDropProps> = ({ id, name }) => {
 
   const [newVisible, setNewVisible] = useState(false);
   const [editVisible, setEditVisible] = useState(false);
+  const [deleteVisible, setDeleteVisible] = useState(false);
   const [editTitle, setEditTitle] = useState({title: name});
   const [newTaskContent, setNewTaskContent] = useState({
 
@@ -87,7 +90,7 @@ const clearState = (setFunc: React.Dispatch<React.SetStateAction<any>>, CurrentS
 
   Object.keys(CurrentState).forEach( (stateProp) => {
 
-    setFunc((CurrentState: object) => ({...CurrentState, [stateProp]: ""}))
+      setFunc((CurrentState: object) => ({...CurrentState, [stateProp]: ""}))
 
     }
 
@@ -199,7 +202,7 @@ const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
       const category_id = e.dataTransfer.getData("category_id");
       const original_index = parseInt(e.dataTransfer.getData("original_index"));
       const target_index = e.currentTarget.getAttribute("data-index")? parseInt(e.currentTarget.getAttribute("data-index") as string) : null;
-
+      
       dispatch(getChangeCategoryOrder({ project_id: project.project_id, category_id: category_id, original_index: original_index, target_index: target_index }));
 
     }else{
@@ -207,10 +210,9 @@ const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
       const task_id = e.dataTransfer.getData("id")
       const old_cat_id = e.dataTransfer.getData("category_id");
       const target_category_id =  e.currentTarget.getAttribute("data-id")
-
-      console.log({ project_id: project.project_id, task_id: task_id, category_id: old_cat_id, target_category_id: target_category_id })
+      const original_index = parseInt(e.dataTransfer.getData("original_index"));
   
-      dispatch(getChangeType({ project_id: project.project_id, task_id: task_id, category_id: old_cat_id, target_category_id: target_category_id }));
+      dispatch(getChangeType({ project_id: project.project_id, task_id: task_id, category_id: old_cat_id, target_category_id: target_category_id, original_index: original_index }));
   
       return
     }
@@ -220,62 +222,91 @@ const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
 
   return (
     
-    <div 
-      className={'drag-drop-container'}
-      onDragStart={(e) => handleDragStart(e)}
+    <Container
+      onDragStart={(e: React.DragEvent<HTMLDivElement>) => handleDragStart(e)}
       >
 
-      <div className={'drag-drop-zone'}
-        data-name = {name}
-        data-id= {id}
-        data-index= {category.index}
-        draggable
-        onDrop={e => handleDrop(e)}
-        onDragOver={e => handleDragOver(e)}
-        onDragEnter={e => handleDragEnter(e)}
-        onDragLeave={e => handleDragLeave(e)}
+      <Container className={'drag-drop-zone'}
+        // data-name = {name}
+        // data-id= {id}
+        // data-index= {category.index}
+        // draggable
+        // onDrop={e => handleDrop(e)}
+        // onDragOver={e => handleDragOver(e)}
+        // onDragEnter={e => handleDragEnter(e)}
+        // onDragLeave={e => handleDragLeave(e)}
         >
-          <div className="draggable-heading-top-bar">
-            <Close_Icon clicked={() => onDelete()} ></Close_Icon>
-            <Plus_Icon clicked={() => toggleStateValue(setNewVisible, newVisible)} ></Plus_Icon>
-            <Edit_Icon clicked={() => toggleStateValue(setEditVisible, editVisible)} ></Edit_Icon>
-          </div>
+          <div
+            data-name = {name}
+            data-id= {id}
+            data-index= {category.index}
+            draggable
+            onDrop={e => handleDrop(e)}
+            onDragOver={e => handleDragOver(e)}
+            onDragEnter={e => handleDragEnter(e)}
+            onDragLeave={e => handleDragLeave(e)}
+          >
+          <TopBar>
+            <Close_Icon clicked={() => toggleStateValue(setDeleteVisible, deleteVisible)} title={"Delete Categoy"}></Close_Icon>
+            <Plus_Icon clicked={() => toggleStateValue(setNewVisible, newVisible)} title={"Create New Task"}></Plus_Icon>
+            <Edit_Icon clicked={() => toggleStateValue(setEditVisible, editVisible)} title={"Edit Category"}></Edit_Icon>
+          </TopBar>
           {
             editVisible 
             ?
-            <div>
-              <input name="title" onChange={(e) => onInputChange(e, setEditTitle, editTitle)} value={`${editTitle.title}`}></input>
-              <div>
+            <CreateNewPrompt>
+              <Input name="title" onChange={(e) => onInputChange(e, setEditTitle, editTitle)} value={`${editTitle.title}`}></Input>
+              <ButtonContainer>
 
-                <span onClick={() => onEditCategory()} >Save</span><span>Cancel</span>
-              </div>
-            </div>
+                <PrimaryButton onClick={() => onEditCategory()} >Save</PrimaryButton>
+                <RedButton onClick={() => toggleStateValue(setEditVisible, editVisible)}>Cancel</RedButton>
+
+              </ButtonContainer>
+            </CreateNewPrompt>
             :
-            <h3>{category.title}</h3>
+            <CategoryTitle>{category.title}</CategoryTitle>
+          }
+          {
+            deleteVisible 
+            ?
+            <CreateNewPrompt>
+              <p>Delete Category?</p>
+              <ButtonContainer>
+
+                <PrimaryButton onClick={() => onDelete()} >Delete</PrimaryButton>
+                <RedButton onClick={() => toggleStateValue(setDeleteVisible, deleteVisible)}>Cancel</RedButton>
+
+              </ButtonContainer>
+            </CreateNewPrompt>
+            :
+            <CategoryTitle>{category.title}</CategoryTitle>
           }
 
           {
               newVisible && 
-              <div className="create-box">
-                <div className="draggable-heading-area">
-                    <div className="draggable-heading-top-bar">
-                      <span onClick={() => onCreate() }>Save</span>
-                      <span>Cancel</span>
-                    </div>
-                    <input name="title" onChange={(e) => onInputChange(e, setNewTaskContent, newTaskContent)} type="text" value={newTaskContent.title}></input>
+              <CreateBox>
+        
+                <Input name="title" onChange={(e) => onInputChange(e, setNewTaskContent, newTaskContent)} type="text" value={newTaskContent.title}></Input>
 
-                </div>
-                <div>
-                    <textarea name="content" onChange={(e) => onInputChange(e, setNewTaskContent, newTaskContent)} value={newTaskContent.content} ></textarea>
+                <TextArea name="content" onChange={(e) => onInputChange(e, setNewTaskContent, newTaskContent)} value={newTaskContent.content} ></TextArea>
 
-                </div>
-            </div>
+                <ButtonContainer>
+
+                  <PrimaryButton onClick={() => onCreate() }>Save</PrimaryButton>
+                  <RedButton onClick={() => toggleStateValue(setNewVisible, newVisible)} >Cancel</RedButton>
+                        
+                </ButtonContainer>
+              </CreateBox>
           }
+          </div>
+          <div>
+
           {
             tasks
           }
-      </div>
-    </div>
+          </div>
+      </Container>
+    </Container>
   );
 };
 export default DragAndDrop;

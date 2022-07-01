@@ -1,7 +1,7 @@
 
 import './App.css';
 
-import Home from './pages/Home';
+import Home from './pages/home/Home';
 import { useEffect } from 'react';
 
 import {useDispatch, useSelector} from "react-redux";
@@ -13,8 +13,6 @@ function App() {
 
   const dispatch = useDispatch();
 
-  const project = useSelector((state: StateType) => state.project);
-
   useEffect(() => {
 
     dispatch(getProject("62ba0710f53789be2ac41114"))
@@ -25,7 +23,6 @@ function App() {
   return (
     <div className="App">
 
-       
       <Home></Home>
     </div>
   );

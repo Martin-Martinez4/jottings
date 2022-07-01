@@ -1,18 +1,19 @@
 
 import React, { ReactElement, useEffect, useState } from 'react';
 
-import { Task } from '../types/draggableTypes';
+import { ButtonContainer, RedButton, PrimaryButton, Input } from '../../global.style';
 
-import { getCreateCategory, getDeleteCategory } from '../actions/projectSlice';
+import { getCreateCategory, getDeleteCategory } from '../../actions/projectSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import Plus_Icon from '../component/Svg_Icons/Plus_Icon/Plus_Icon';
-import Close_Icon from '../component/Svg_Icons/Close_Icon/Close_Icon';
+import Plus_Icon from '../../component/Svg_Icons/Plus_Icon/Plus_Icon';
+import Close_Icon from '../../component/Svg_Icons/Close_Icon/Close_Icon';
 
-import DragAndDrop from '../component/DragAndDrop/DragAndDrop';
+import { CategoriesContainer, TopBar, SideBar } from './home.styles';
+
+import DragAndDrop from '../../component/DragAndDrop/DragAndDrop';
 
 import "./home.css";
-import { JsxElement } from 'typescript';
-import { StateType } from '../types/project.type';
+import { StateType } from '../../types/project.type';
 
 
 const Home = () => {
@@ -110,53 +111,37 @@ const Home = () => {
     return
 
   }
-
-  // const onDelete = () => {
-
-  //   const body = {
-
-  //     project_id: project.project_id,
-  //     category_id: newCategory.title,
-  //   }
-
-  //   dispatch(getDeleteCategory)
-
-  // }
     
   
     return(
       <>
-        <Plus_Icon clicked={() => toggleVisible(setNewVisible, newVisible)} ></Plus_Icon>
-        {/* <Close_Icon clicked={() => onDelete()} ></Close_Icon> */}
+        <TopBar>
+
+          <Plus_Icon clicked={() => toggleVisible(setNewVisible, newVisible)} title={"Create New Category"} ></Plus_Icon>
+        </TopBar>
         {
           newVisible
           ?
           <div>
-            <input name="title" value={newCategory.title} onChange={(e) => onInputChange(e, setNewCategory, newCategory.title)}></input>
-            {/* <textarea name="content" value={newCategory.content} onChange={(e) => onInputChange(e, setNewCategory, newCategory.content)} ></textarea> */}
-            <span  onClick={ () => onCreate() }>Save</span><span>Cancel</span>
+            <Input name="title" value={newCategory.title} onChange={(e) => onInputChange(e, setNewCategory, newCategory.title)}></Input>
+            <ButtonContainer>
+
+              <PrimaryButton  onClick={ () => onCreate() }>Save</PrimaryButton>
+              <RedButton onClick={() => toggleVisible(setNewVisible, newVisible)} >Cancel</RedButton>
+            </ButtonContainer>
           </div>
           :""
         }
-        <div className="categories-container">
+
+        <div style={{display: "flex"}}>
+
+        <SideBar>test</SideBar>
+        <CategoriesContainer>
             {
               
-  
-              // categories && Object.keys(categories).forEach((object) => {
-                
-              //   const category = categories[`${object}`]
-
-
-                
-              //   categoriesArray[category.index] = (<div key={`id_${category._id}`}>
-              //     <DragAndDrop  id={category._id} name={category.title}></DragAndDrop>
-              //     </div>)
-
-
-              // })
-
               categories
             }
+        </CategoriesContainer>
         </div>
       </>
     )

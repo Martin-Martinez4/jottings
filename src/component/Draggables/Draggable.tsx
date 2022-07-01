@@ -4,7 +4,11 @@ import React, { FC, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getChangeType, getChangeTaskOrder, getDeleteTask, getEditTask } from "../../actions/projectSlice";
 
+import { TopBar, DraggableContainer } from "./draggables.styles";
+
 import { Task, DraggableProps } from "../../types/draggableTypes";
+
+import { Input, TextArea, ButtonContainer, PrimaryButton, RedButton } from "../../global.style";
 
 import Close_Icon from "../Svg_Icons/Close_Icon/Close_Icon";
 import Plus_Icon from "../Svg_Icons/Plus_Icon/Plus_Icon";
@@ -23,6 +27,8 @@ const Draggable:FC<DraggableProps> = ({ task }) => {
     const [ taskInfo, setTaskInfo ] = useState<Task>();
 
     const [editVisible, setEditVisible] = useState(false);
+    const [deleteVisible, setDeleteVisible] = useState(false);
+
     
     const task2 = useSelector((state: StateType) => state.project.tasks[task.category_id][task.id]);
     const project_id = useSelector((state: StateType) => state.project.project.project_id);
@@ -32,6 +38,21 @@ const Draggable:FC<DraggableProps> = ({ task }) => {
         content: `${task2.content}`,
         title: `${task2.title}`
     })
+
+    const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+      };
+    
+      const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+      };
+    
+      const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+      };
 
     
 
@@ -118,15 +139,7 @@ const Draggable:FC<DraggableProps> = ({ task }) => {
         const target_category_id =  task.category_id;
         const target_index = task2.index
 
-        // console.log("task_id: ", id);
-        // console.log("old_category_id: ", old_category_id);
-        // console.log("target_category_id: ", target_category_id);
-        // console.log("original_index: ", original_index);
-        // console.log("target_index: ", target_index);
-
-        console.log(component_type)
-
-        // if(component_type === "task"){
+        if(component_type === "task"){
 
             if(old_category_id === target_category_id){
     
@@ -136,7 +149,7 @@ const Draggable:FC<DraggableProps> = ({ task }) => {
     
                 dispatch(getChangeType({ project_id: project.project_id, task_id: id, category_id: old_category_id, target_category_id: target_category_id, original_index: original_index, target_index: target_index }));
             }
-        // }
+        }
 
 
 
@@ -146,39 +159,32 @@ const Draggable:FC<DraggableProps> = ({ task }) => {
         return
       };
 
-    // const onIsDropped = (event: React.DragEvent<HTMLDivElement>) => {
-
-    //     console.log(event.dataTransfer.getData("id"))
-    //     console.log(event.dataTransfer.getData("taskName"))
-
-    //     return
-
-    // }
-
     return(
 
-        <div
+        <DraggableContainer
             key={task2._id}
             onDrop={e => handleDrop(e)} 
             onDragStart = {(event) => onDragStart(event, task)}
             draggable
-            className="draggable"
-        >
+            onDragOver={e => handleDragOver(e)}
+            onDragEnter={e => handleDragEnter(e)}
+            onDragLeave={e => handleDragLeave(e)}
+            >
             <div className="draggable-heading-area">
-                <div className="draggable-heading-top-bar">
+                <TopBar>
 
-                    <Close_Icon clicked={() => onDelete()} ></Close_Icon>
-                    <Edit_Icon clicked={(e) => toggleVisible(setEditVisible, editVisible)} ></Edit_Icon>
+                    <Close_Icon clicked={() => toggleVisible(setDeleteVisible, deleteVisible)} title={"Delete Task"} ></Close_Icon>
+                    <Edit_Icon clicked={(e) => toggleVisible(setEditVisible, editVisible)} title={"Edit Task"}></Edit_Icon>
                     <div className="close"></div>
                     <div className="math-plus"></div>
                     <div className="close"></div>
-                </div>
+                </TopBar>
                 {
                     editVisible
                     ?
-                        <input name="title" value={`${editContent.title}`}  onChange={(e) => onInputChange(e, setEditContent, editContent)}></input>
+                        <Input name="title" value={`${editContent.title}`}  onChange={(e) => onInputChange(e, setEditContent, editContent)}></Input>
                     :
-                    <h4>{task2.title}</h4>
+                    <span>{task2.title}</span>
                 }
             </div>
             <div>
@@ -186,17 +192,35 @@ const Draggable:FC<DraggableProps> = ({ task }) => {
                         editVisible
                         ?
                         <div>
-                            <textarea name="content" value={`${editContent.content}`} onChange={(e) => onInputChange(e, setEditContent, editContent)} cols={20} rows={10}></textarea>
-                            <span onClick={() => onEdit() }>Save</span><span>Cancel</span>
+                            <TextArea name="content" value={`${editContent.content}`} onChange={(e) => onInputChange(e, setEditContent, editContent)} cols={20} rows={10}></TextArea>
+                            <ButtonContainer>
+
+                                <PrimaryButton onClick={() => onEdit() }>Save</PrimaryButton>
+                                <RedButton onClick={() => toggleVisible(setEditVisible, editVisible)} >Cancel</RedButton>
+                            </ButtonContainer>
                         </div>
                         :
                         <p>
                            {task2.content}
                         </p>
                     }
+                    {
+                        deleteVisible
+                        ?
+                        <div>
+                            <p>Delete Task?</p>
+                            <ButtonContainer>
+
+                                <PrimaryButton onClick={() => onDelete() }>Delete</PrimaryButton>
+                                <RedButton onClick={() => toggleVisible(setDeleteVisible, deleteVisible)} >Cancel</RedButton>
+                            </ButtonContainer>
+                        </div>
+                        :
+                        ""
+                    }
 
             </div>
-        </div>
+        </DraggableContainer>
     )
 
 

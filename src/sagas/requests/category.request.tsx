@@ -84,7 +84,6 @@ export function requestChangeTaskOrder(body: HandleChangeTaskOrderPayloadType){
             "project_id",
         }
     */
-    console.log(body)
     return fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/category/task/order`, {
 
     
