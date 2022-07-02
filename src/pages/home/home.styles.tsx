@@ -9,6 +9,8 @@ export const CategoriesContainer  = styled.div`
     gap: 2rem;
 
     min-height: calc(100vh - ${props => props.theme.sizes.top_bar_height});
+    min-width: calc(100vw - ${props => props.theme.sizes.side_bar_width});
+
     padding: 2rem; 
 
     box-sizing: border-box;

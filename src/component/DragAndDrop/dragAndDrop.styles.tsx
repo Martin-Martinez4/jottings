@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
 
-    width: 16vw;
+    min-width: 16vw;
     max-height: auto;
 
     box-sizing: border-box;

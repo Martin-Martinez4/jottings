@@ -11,7 +11,7 @@ import {
 import { handleChangeType, handleDeleteTask, handleCreateTask, handleEditTask } from "./handler/task.handler";
 import { handleCreateCategory, handleEditCategory, handleDeleteCategory, handleChangeTaskOrder, handleChangeCategoryOrder } from "./handler/category.handler";
 export function* watcherSaga(){
-
+    
     yield takeLatest(getProject.type, handleGetProject)
     yield takeLatest(getChangeType.type, handleChangeType)
     yield takeLatest(getDeleteTask.type, handleDeleteTask)

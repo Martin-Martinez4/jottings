@@ -279,7 +279,7 @@ const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
               </ButtonContainer>
             </CreateNewPrompt>
             :
-            <CategoryTitle>{category.title}</CategoryTitle>
+            ""
           }
 
           {
