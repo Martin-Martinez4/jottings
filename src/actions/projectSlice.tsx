@@ -138,6 +138,11 @@ const projectSlice = createSlice({
 
             return state = {...state, tasks: {...state.tasks, [category_id]: newCategoryObject[category_id]}};
 
+        },
+        getMessage: () => {
+
+          console.log(`Message`)
+
         }
     }
 })

@@ -1,5 +1,9 @@
 
-import { take, takeLatest } from "redux-saga/effects";
+import io from 'socket.io-client';
+import { take, takeLatest, call, put, fork } from "redux-saga/effects";
+import { requestEditCategory } from './requests/category.request';
+import { editCategory } from '../actions/projectSlice';
+import { eventChannel } from 'redux-saga';
 import { handleGetProject } from "./handler/project.handler";
 import { getChangeType } from "../actions/projectSlice";
 import { 
@@ -10,6 +14,9 @@ import {
 
 import { handleChangeType, handleDeleteTask, handleCreateTask, handleEditTask } from "./handler/task.handler";
 import { handleCreateCategory, handleEditCategory, handleDeleteCategory, handleChangeTaskOrder, handleChangeCategoryOrder } from "./handler/category.handler";
+
+const START_APP = `START_APP`;
+
 export function* watcherSaga(){
     
     yield takeLatest(getProject.type, handleGetProject)
@@ -23,5 +30,3 @@ export function* watcherSaga(){
     yield takeLatest(getChangeTaskOrder.type, handleChangeTaskOrder)
     yield takeLatest(getChangeCategoryOrder.type, handleChangeCategoryOrder)
 }
-
-

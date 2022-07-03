@@ -1,5 +1,5 @@
 
-import React, { FC, ReactElement, useState } from 'react';
+import React, { FC, ReactElement, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { getChangeType, getCreateTask, getEditCategory, getDeleteCategory, getChangeCategoryOrder } from '../../actions/projectSlice';
@@ -12,6 +12,10 @@ import Edit_Icon from '../Svg_Icons/Edit_Icon/Edit_Icon';
 import Close_Icon from '../Svg_Icons/Close_Icon/Close_Icon';
 import "./dragAndDrop.css"
 import { StateType } from '../../types/project.type';
+
+import io from "socket.io-client";
+
+const socket = io('http://localhost:3001');
 
 
 const DragAndDrop: FC<DragAndDropProps> = ({ id, name }) => {
@@ -62,6 +66,8 @@ const DragAndDrop: FC<DragAndDropProps> = ({ id, name }) => {
       
     }
   );
+
+  useEffect(() => {console.log("tasks changed")}, [tasks])
 
   const toggleNewVisible = () => {
 
@@ -225,6 +231,8 @@ const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     <Container
       onDragStart={(e: React.DragEvent<HTMLDivElement>) => handleDragStart(e)}
       >
+
+      {/* <PrimaryButton>test</PrimaryButton> */}
 
       <Container className={'drag-drop-zone'}
         // data-name = {name}
