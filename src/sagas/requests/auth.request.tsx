@@ -1,8 +1,9 @@
 
 export function requestLogin(body: any){
+
+    console.log(body)
     
     return fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/auth/signin`, {
-
         
         method: "put",
         credentials:'include',
