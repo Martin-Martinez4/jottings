@@ -1,6 +1,11 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route
+} from "react-router-dom";
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -12,11 +17,17 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <Theme>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </Theme>
+    <Router>
+      <Theme>
+        <Provider store={store}>
+          <Routes>
+
+            <Route path="/*" element={<App />} />
+
+          </Routes>
+        </Provider>
+      </Theme>
+    </Router>
   </React.StrictMode>
 );
 

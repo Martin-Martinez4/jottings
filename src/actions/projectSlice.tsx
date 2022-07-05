@@ -76,8 +76,6 @@ const projectSlice = createSlice({
         getEditTask(state, action) {},
         editTask: (state, action: EditTaskType) => {
 
-            console.log(action)
-
             const category_id = action.payload.category_id;
             const newTaskObject = action.payload.new_task_object;
 
@@ -139,11 +137,6 @@ const projectSlice = createSlice({
             return state = {...state, tasks: {...state.tasks, [category_id]: newCategoryObject[category_id]}};
 
         },
-        getMessage: () => {
-
-          console.log(`Message`)
-
-        }
     }
 })
 

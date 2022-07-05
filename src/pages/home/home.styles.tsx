@@ -1,37 +1,92 @@
 
 import styled from "styled-components";
 
-export const CategoriesContainer  = styled.div`
-    
+export const HomeContentContainer = styled.div`
+
     display: flex;
-    /* flex-wrap: wrap; */
-    overflow: auto;
-    gap: 2rem;
+    flex-direction: column;
 
-    min-height: calc(100vh - ${props => props.theme.sizes.top_bar_height});
-    min-width: calc(100vw - ${props => props.theme.sizes.side_bar_width});
-
-    padding: 2rem; 
-
+    padding: 2rem;
     box-sizing: border-box;
 
-    background-color: ${props => (props.theme.colors.main_color)};
+    min-height: calc(100vh - ${props => props.theme.sizes.top_bar_height});
+    width: 100vw;
+    overflow-x: none;
+
+    color: ${props => props.theme.colors.white};
+    background-color: ${props => props.theme.colors.main_color};
+
+  
+
 `;
 
-export const TopBar = styled.nav`
+export const ProjectContainer = styled.div`
 
-    height: ${props => props.theme.sizes.top_bar_height};
+    display: flex;
+
+    padding-bottom: 1rem;
+    box-sizing: border-box;
+
+    /* height: max-content; */
+    height: max-content;
+
+    overflow-y: auto;
+    overflow-x: auto;
+
+    border-bottom: dashed 1px ${props => props.theme.colors.secondary_color};
+
+      /* Works on Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: ${props => props.theme.colors.grey_opacity_75} ${props => props.theme.colors.main_color};
+  
+  /* Works on Chrome, Edge, and Safari */
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: ${props => props.theme.colors.main_color};
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: ${props => props.theme.colors.grey_opacity_75};
+    border-radius: 2px;
+    /* border: 1px solid ${props => props.theme.colors.secondary_color}; */
+  }
+
+`;
+
+export const ProjectInforamtionContainer = styled.div<{width?: string, height?: string}>`
+
+    min-width: 30rem;
+    width: 30rem;
+    height: 13rem;
+
+    margin: .5rem;
+
+    padding: .5rem;
+
     background-color: ${props => props.theme.colors.white};
+    color: ${props => props.theme.colors.black};
 
+
+    box-shadow: 1px 1px 1px 1px ${props => props.theme.colors.black};
+    border: 1px solid ${props => props.theme.colors.grey_opacity_50};
+    border-radius: 4px;
     
+    overflow: hidden;
+    
+    cursor: pointer;
+    
+    
+    &:hover{
+        
+        opacity: .95;
+        border: 1px solid ${props => props.theme.colors.secondary_color};
 
-`
-export const SideBar = styled.nav`
+    }
 
-    width: ${props => props.theme.sizes.side_bar_width};
-    background-color: ${props => props.theme.colors.quaternary_color};
-
-`
+`;
 
 
 

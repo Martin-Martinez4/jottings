@@ -14,6 +14,15 @@ export const BaseSVG = styled.svg`
 
 `
 
+export const LogoSVG = styled(BaseSVG)`
+
+    height: 2.25rem;
+    width: 2.25rem;
+
+    margin: .5rem;
+
+`;
+
 export const RedSVG = styled(BaseSVG)`
 
     &:hover{

@@ -1,5 +1,5 @@
 
-import React, { FC, ReactElement, useEffect, useState } from 'react';
+import React, { FC, ReactElement, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { getChangeType, getCreateTask, getEditCategory, getDeleteCategory, getChangeCategoryOrder } from '../../actions/projectSlice';
@@ -13,9 +13,9 @@ import Close_Icon from '../Svg_Icons/Close_Icon/Close_Icon';
 import "./dragAndDrop.css"
 import { StateType } from '../../types/project.type';
 
-import io from "socket.io-client";
+// import io from "socket.io-client";
 
-const socket = io('http://localhost:3001');
+// const socket = io('http://localhost:3001');
 
 
 const DragAndDrop: FC<DragAndDropProps> = ({ id, name }) => {
@@ -67,7 +67,7 @@ const DragAndDrop: FC<DragAndDropProps> = ({ id, name }) => {
     }
   );
 
-  useEffect(() => {console.log("tasks changed")}, [tasks])
+  // useEffect(() => {console.log("tasks changed")}, [tasks])
 
   const toggleNewVisible = () => {
 

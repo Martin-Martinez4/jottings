@@ -27,11 +27,14 @@ export const theme = {
         white: "#fdfdff",
         black: "#0c0c13",
         grey: "#e7e7f3",
+        grey_opacity_50 : "rgba(231, 231, 243, .5)",
+        grey_opacity_75 : "rgba(231, 231, 243, .75)",
         red: "#BB2222"
     },
     sizes: {
 
         top_bar_height: "2rem",
+        top_bar_height_larger: "3rem",
         side_bar_width: "3.5rem",
 
     }
@@ -91,10 +94,10 @@ export const ButtonContainer = styled.div`
 
 `
 
-export const Button = styled.div`
+export const Button = styled.div<{width?: string, height?: string}>`
     
-    width: 4rem;
-    height: 2rem;
+    width: ${props => props.width? props.width : '4rem'};
+    height: ${props => props.height? props.height : '2rem'};
 
     border-radius: 2px;
 
@@ -123,6 +126,28 @@ export const Button = styled.div`
 export const PrimaryButton = styled(Button)`
     
     background-color: ${props => props.theme.colors.main_color};
+    color: ${props => props.theme.colors.white};
+
+`
+export const TransparentButton = styled(Button)`
+    
+    /* background-color: ${props => props.theme.colors.main_color}; */
+    color: ${props => props.theme.colors.white};
+
+    border: none;
+    
+
+`
+export const SecondaryButton = styled(Button)`
+    
+    background-color: ${props => props.theme.colors.secondary_color};
+    color: ${props => props.theme.colors.quaternary_color};
+    font-weight: bold;
+
+`
+export const QuaternaryButton = styled(Button)`
+    
+    background-color: ${props => props.theme.colors.quaternary_color};
     color: ${props => props.theme.colors.white};
 
 `

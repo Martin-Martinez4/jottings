@@ -4,6 +4,7 @@ import createSagaMiddleware from '@redux-saga/core';
 import { watcherSaga } from '../sagas/rootSaga';
 import taskReducer from "../actions/taskSlice";
 import projectReducer from "../actions/projectSlice";
+import authReducer from "../actions/authSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -13,7 +14,8 @@ export const store = configureStore({
 
     reducer: {
         // task: taskReducer,
-        project: projectReducer
+        project: projectReducer,
+        auth: authReducer
     },
     middleware: [...getDefaultMiddleware({ thunk: false}), sagaMiddleware]
 })

@@ -1,12 +1,20 @@
 
 import './App.css';
 
-import Home from './pages/home/Home';
+import {
+  Routes,
+  Route,
+  Navigate
+ 
+} from "react-router-dom";
+
+import ProjectView from './pages/project/Project';
+import Signin from './pages/signin/Signin';
+import Home from './pages/home/home';
 import { useEffect } from 'react';
 
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch } from "react-redux";
 import { getProject } from "./actions/projectSlice";
-import { StateType } from './types/project.type';
 
 
 function App() {
@@ -23,7 +31,13 @@ function App() {
   return (
     <div className="App">
 
-      <Home></Home>
+      <Routes>
+
+        <Route path="/*" element={<ProjectView/>} />
+        <Route path="/signin" element={<Signin/>} />
+        <Route path="/home" element={<Home/>} />
+
+      </Routes>
     </div>
   );
 }
