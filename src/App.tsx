@@ -10,7 +10,7 @@ import {
 
 import ProjectView from './pages/project/Project';
 import Signin from './pages/signin/Signin';
-import Home from './pages/home/home';
+import Home from './pages/home/Home';
 import { useEffect } from 'react';
 
 import { useDispatch } from "react-redux";
