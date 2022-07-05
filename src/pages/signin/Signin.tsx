@@ -14,8 +14,6 @@ const Signin = () => {
     const dispatch = useDispatch();
     const user = useSelector((state: any) => state.auth)
 
-    console.log(user);
-
     useEffect(() => {
         console.log(user)
 

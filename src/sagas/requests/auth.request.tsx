@@ -1,16 +1,12 @@
 
 export function requestLogin(body: any){
-    /*
-        Body:{
-            "title",
-            "category_id",
-            "project_id",
-        }
-    */
+    
     return fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/auth/signin`, {
 
         
         method: "put",
+        credentials:'include',
+        cache:'no-cache',
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify(body)
        
