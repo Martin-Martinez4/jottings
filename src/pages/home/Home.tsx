@@ -1,10 +1,18 @@
 
+import { useEffect } from "react";
+import { StateType } from "../../types/project.type";
 import { HomeContentContainer, ProjectContainer, ProjectInforamtionContainer } from "./home.styles";
 import { SiginPageTopNav, TopNavRight } from "../signin/Signin.styles";
 import { TransparentButton } from "../../global.style";
 import LogoSvg from "../../component/Svg_Icons/Logo/Logo._svg";
+import { useSelector } from "react-redux";
 
 const Home = () => {
+
+    const user = useSelector((state:StateType) => state.auth)
+
+
+    useEffect(() => {console.log("user", user)}, [user])
 
     return(
 

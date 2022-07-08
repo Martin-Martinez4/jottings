@@ -8,6 +8,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import Plus_Icon from '../../component/Svg_Icons/Plus_Icon/Plus_Icon';
 import Close_Icon from '../../component/Svg_Icons/Close_Icon/Close_Icon';
 
+import { getUser } from '../../actions/authSlice';
+
 import { CategoriesContainer, TopBar, SideBar } from './project.styles';
 
 import DragAndDrop from '../../component/DragAndDrop/DragAndDrop';

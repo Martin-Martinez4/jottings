@@ -15,7 +15,6 @@ const Signin = () => {
     const user = useSelector((state: any) => state.auth)
 
     useEffect(() => {
-        console.log(user)
 
         if(user.isAuth){
 
@@ -23,7 +22,7 @@ const Signin = () => {
 
         }
 
-    }, [user])
+    }, [user, navigate])
 
     const handleSignin = () => {
 

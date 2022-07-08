@@ -24,14 +24,7 @@ export const taskSlice = createSlice({
 
           // have to return tasks objects
 
-          console.log(current(state))
           state = {...state, tasks: {...state.tasks, newTasks}}
-
-
-
-          console.log(`newTasks: `, action.payload.tasks)
-          console.log(current(state))
-
 
           return {...state, tasks: {...state.tasks, newTasks}}
 

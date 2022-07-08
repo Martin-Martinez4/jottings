@@ -1,4 +1,5 @@
 
+import { AuthType } from "./auth.type"
 
 export type CategoryType = {
 
@@ -46,7 +47,8 @@ export type ProjectType = {
 
 export type StateType = {
 
-    project: ProjectType
+    project: ProjectType,
+    auth: AuthType
 
 }
 

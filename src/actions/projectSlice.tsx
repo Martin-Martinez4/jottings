@@ -1,5 +1,5 @@
 
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from '../app/store';
 import { EditTaskType } from "../types/project.actions.types";
 
@@ -21,7 +21,7 @@ const projectSlice = createSlice({
             return {...state, project: action.payload.project, categories: action.payload.categories, tasks: action.payload.tasks }
 
         },
-        getChangeType(state, actio) {},
+        getChangeType(state, action) {},
         ChangeType: (state, action) => {
   
           const payload = action.payload;
@@ -59,8 +59,6 @@ const projectSlice = createSlice({
         deleteTask: (state, action) => {
 
             const newTasksObject = action.payload.new_tasks_object;
-
-            console.log("got here");
 
             return state = {...state, tasks: {...state.tasks, ...newTasksObject}}
 
@@ -107,10 +105,7 @@ const projectSlice = createSlice({
             // Send back cat_id: {} then spread in
             // also set tasks[cat_id]: {}
 
-            const category_id = action.payload.category_id;
             const newCategoryObject = action.payload.new_category_object;
-
-            console.log(newCategoryObject)
 
             return state = {...state, categories: {...newCategoryObject}};
 

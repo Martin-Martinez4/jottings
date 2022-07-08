@@ -67,8 +67,6 @@ const DragAndDrop: FC<DragAndDropProps> = ({ id, name }) => {
     }
   );
 
-  // useEffect(() => {console.log("tasks changed")}, [tasks])
-
   const toggleNewVisible = () => {
 
     setNewVisible(!newVisible);
