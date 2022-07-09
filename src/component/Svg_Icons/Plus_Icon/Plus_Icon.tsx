@@ -1,22 +1,23 @@
 
 import { FC } from 'react';
-import { PrimarySvg, WhiteSvg } from '../Svg.styles';
+import { TertiarySvg, WhiteSvg } from '../Svg.styles';
 
 import "../svg_icons.css";
 
 type TaskAndCategoryType = {
 
-    clicked: (e: any) => any;
+    clicked?: (e: any) => any;
 	title? :string;
+	fill?: string;
 }
 
-export const Plus_Icon: FC<TaskAndCategoryType> = ({ clicked, title }) => {
+export const Plus_Icon: FC<TaskAndCategoryType> = ({ clicked, title, fill }) => {
 
 	
 
     return (
 
-        <PrimarySvg  onClick={clicked} version="1.1" className="svg pointer" x="0px" y="0px" viewBox="0 0 490 490">
+        <TertiarySvg  onClick={clicked} version="1.1" className="svg pointer" x="0px" y="0px" fill={`${fill ? fill : ""}`}viewBox="0 0 490 490">
 			{
 				title
 				?
@@ -34,7 +35,7 @@ export const Plus_Icon: FC<TaskAndCategoryType> = ({ clicked, title }) => {
 					S354.2,56.2,394,96S455.7,188.7,455.7,245z"/>
 			</g>
 		
-		</PrimarySvg>
+		</TertiarySvg>
         
     )
   }

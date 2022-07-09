@@ -120,7 +120,12 @@ const Home = () => {
         <TopBar>
           <LogoSVGAlt></LogoSVGAlt>
 
-          <Plus_Icon clicked={() => toggleVisible(setNewVisible, newVisible)} title={"Create New Category"} ></Plus_Icon>
+          <h3>{project.title}</h3>
+
+          <Plus_Icon clicked={() => toggleVisible(setNewVisible, newVisible)} title={"Create New Category"}></Plus_Icon>
+
+
+
         </TopBar>
         {
           newVisible
@@ -136,15 +141,24 @@ const Home = () => {
           :""
         }
 
+
         <div style={{display: "flex"}}>
 
-        <SideBar>test</SideBar>
-        <CategoriesContainer>
+        <SideBar>
+          <p style={{color: "white"}}>...</p>
+
+        </SideBar>
+
+        <div>
+
+        <CategoriesContainer> 
+
             {
               
               categories
             }
         </CategoriesContainer>
+          </div>
         </div>
       </>
     )

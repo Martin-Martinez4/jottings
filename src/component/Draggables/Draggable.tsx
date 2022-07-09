@@ -175,9 +175,6 @@ const Draggable:FC<DraggableProps> = ({ task }) => {
 
                     <Close_Icon clicked={() => toggleVisible(setDeleteVisible, deleteVisible)} title={"Delete Task"} ></Close_Icon>
                     <Edit_Icon clicked={(e) => toggleVisible(setEditVisible, editVisible)} title={"Edit Task"}></Edit_Icon>
-                    <div className="close"></div>
-                    <div className="math-plus"></div>
-                    <div className="close"></div>
                 </TopBar>
                 {
                     editVisible

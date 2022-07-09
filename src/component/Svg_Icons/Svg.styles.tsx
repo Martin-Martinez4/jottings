@@ -58,6 +58,19 @@ export const SecondarySvg = styled(BaseSVG)`
 
 
 `
+
+export const TertiarySvg = styled(BaseSVG)`
+
+    &:hover{
+
+        fill: ${props => props.theme.colors.tertiary_color};
+
+        transform: scale(1.1)
+    }
+
+
+`
+
 export const WhiteSvg = styled(BaseSVG)`
 
     fill: ${props => props.theme.colors.white};

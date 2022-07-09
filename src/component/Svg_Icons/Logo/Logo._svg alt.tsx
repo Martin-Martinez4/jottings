@@ -37,8 +37,8 @@ const LogoSVGAlt: FC<withClickedType> = ({ clicked }) => {
             <circle cx="82" cy="54" r="10" fill="#FDFDFF"/>
 
             <defs>
-                <filter id="filter0_d_405_2866" x="0" y="0" width="86" height="26" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                    <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                <filter id="filter0_d_405_2866" x="0" y="0" width="86" height="26" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                    <feFlood floodOpacity="0" result="BackgroundImageFix"/>
                     <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
                     <feOffset dy="4"/>
                     <feGaussianBlur stdDeviation="2"/>
@@ -47,8 +47,8 @@ const LogoSVGAlt: FC<withClickedType> = ({ clicked }) => {
                     <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_405_2866"/>
                     <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_405_2866" result="shape"/>
                 </filter>
-                <filter id="filter1_d_405_2866" x="29" y="18" width="28" height="59" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                    <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                <filter id="filter1_d_405_2866" x="29" y="18" width="28" height="59" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                    <feFlood floodOpacity="0" result="BackgroundImageFix"/>
                     <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
                     <feOffset dy="4"/>
                     <feGaussianBlur stdDeviation="2"/>
@@ -57,8 +57,8 @@ const LogoSVGAlt: FC<withClickedType> = ({ clicked }) => {
                     <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_405_2866"/>
                     <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_405_2866" result="shape"/>
                 </filter>
-                <filter id="filter2_i_405_2866" x="56" y="29" width="52.0835" height="54" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                    <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                <filter id="filter2_i_405_2866" x="56" y="29" width="52.0835" height="54" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                    <feFlood floodOpacity="0" result="BackgroundImageFix"/>
                     <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
                     <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
                     <feOffset dy="4"/>
@@ -67,8 +67,8 @@ const LogoSVGAlt: FC<withClickedType> = ({ clicked }) => {
                     <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
                     <feBlend mode="normal" in2="shape" result="effect1_innerShadow_405_2866"/>
                 </filter>
-                <filter id="filter3_d_405_2866" x="1.5" y="61" width="55.5" height="34" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                    <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                <filter id="filter3_d_405_2866" x="1.5" y="61" width="55.5" height="34" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                    <feFlood floodOpacity="0" result="BackgroundImageFix"/>
                     <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
                     <feOffset dy="4"/>
                     <feGaussianBlur stdDeviation="2"/>

@@ -6,6 +6,10 @@ import { HomeContentContainer, ProjectContainer, ProjectInforamtionContainer } f
 import { SiginPageTopNav, TopNavRight } from "../signin/Signin.styles";
 import { TransparentButton } from "../../global.style";
 import LogoSvg from "../../component/Svg_Icons/Logo/Logo._svg";
+import Plus_Icon from "../../component/Svg_Icons/Plus_Icon/Plus_Icon";
+import Edit_Icon from "../../component/Svg_Icons/Edit_Icon/Edit_Icon";
+import Close_Icon from "../../component/Svg_Icons/Close_Icon/Close_Icon";
+import { TopBar } from "../../component/Draggables/draggables.styles";
 import { useSelector, useDispatch } from "react-redux";
 import { getProject } from "../../actions/projectSlice";
 import { getUser } from "../../actions/authSlice";
@@ -29,9 +33,13 @@ const Home = () => {
 
         const project_id = el.getAttribute("data-id");
 
-        dispatch(getProject(project_id));
+        if(project_id){
 
-        navigate("/project")
+            dispatch(getProject(project_id));
+    
+            navigate("/project");
+        }
+
 
 
 
@@ -46,9 +54,17 @@ const Home = () => {
 
             return (
                     <ProjectInforamtionContainer key={`project_${project._id.toString()}`} data-id={project._id.toString()} onClick={(e) => handleGoToProject(e)}>
-                        <p>{project?.logo_url? project?.logo_url.toString() : ""}</p>
-                        <p>{project.title? project.title.toString(): ""}</p>
-                        <p>{project.description.toString()}</p>
+                    <TopBar>
+
+                        <Close_Icon  data-id={project._id.toString()} clicked={(e) => {console.log("delete")}} title={"Delete Project"} ></Close_Icon>
+                        <Edit_Icon data-id={project._id.toString()} clicked={() => {console.log("edit")}} title={"Edit Project"}></Edit_Icon>
+                    </TopBar>
+                    <div>
+
+                        <p data-id={project._id.toString()} onClick={(e) => handleGoToProject(e)}>{project?.logo_url? project?.logo_url.toString() : ""}</p>
+                        <p data-id={project._id.toString()} onClick={(e) => handleGoToProject(e)}>{project.title? project.title.toString(): ""}</p>
+                        <p data-id={project._id.toString()} onClick={(e) => handleGoToProject(e)}>{project.description.toString()}</p>
+                    </div>
                     </ProjectInforamtionContainer>
                 
 
@@ -60,7 +76,7 @@ const Home = () => {
     }, [user])
 
 
-    useEffect(() => {console.log("user", user, "userProjects", userProjects)}, [user])
+    useEffect(() => {}, [user])
     useEffect(() => { dispatch(getUser()) }, []);
 
 
@@ -69,8 +85,8 @@ const Home = () => {
         <>
             <SiginPageTopNav>
                 <LogoSvg></LogoSvg>
-                <TopNavRight width={"2rem"}>
-                    <TransparentButton width={"6rem"} height={"2rem"}>...</TransparentButton>
+                <TopNavRight width={"10rem"}>
+                    <TransparentButton width={"8rem"} height={"2rem"}>Sign Out</TransparentButton>
                 </TopNavRight>
             </SiginPageTopNav>
             <HomeContentContainer>
@@ -80,7 +96,8 @@ const Home = () => {
                 </div>
                 <div>
                     <h3>{user.username}'s project</h3>
-                    <ProjectContainer>
+                    <ProjectContainer> 
+                        <Plus_Icon title={"Create New Project"} fill="white"></Plus_Icon>
                        { userProjects}
                         {/* <ProjectInforamtionContainer>
                             <p>Logo</p>
@@ -94,7 +111,9 @@ const Home = () => {
                 <div>
                     <h3>Team Name</h3>
                     <ProjectContainer>
+                        <Plus_Icon title={"Create New Project"} fill="white"></Plus_Icon>
                         <ProjectInforamtionContainer>
+
                             <p>Logo</p>
                             <p>Project Name</p>
                             <p>description: Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis quisquam amet quae ipsa nihil ut doloribus quasi velit fugiat consequatur.</p>
