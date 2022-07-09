@@ -1,11 +1,27 @@
 
 import { LogoSVG } from "../Svg.styles";
+import { useNavigate } from "react-router-dom";
+import { FC } from "react";
 
-const LogoSvg = () => {
+type withClickedType = {
+
+    clicked?: (e: any) => any;
+}
+
+const LogoSvg: FC<withClickedType> = ({ clicked }) => {
+
+    const navigate = useNavigate();
+
+
+    function handleOnClick(){
+
+        navigate("/home");
+
+    }
 
     return(
 
-        <LogoSVG width="109" height="95" viewBox="0 0 109 95" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <LogoSVG onClick={clicked? clicked : () => handleOnClick() } width="109" height="95" viewBox="0 0 109 95" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g filter="url(#filter0_d_404_2894)">
                 <rect x="4" width="78" height="18" fill="#FDFDFF"/>
             </g>

@@ -7,6 +7,7 @@ import { getCreateCategory, getDeleteCategory } from '../../actions/projectSlice
 import { useSelector, useDispatch } from 'react-redux';
 import Plus_Icon from '../../component/Svg_Icons/Plus_Icon/Plus_Icon';
 import Close_Icon from '../../component/Svg_Icons/Close_Icon/Close_Icon';
+import LogoSvg from '../../component/Svg_Icons/Logo/Logo._svg';
 
 import { getUser } from '../../actions/authSlice';
 
@@ -55,7 +56,8 @@ const Home = () => {
     });
     const tasks = useSelector((state: StateType) => state.project.tasks);
 
-    useEffect(() => {}, [project]);
+    useEffect(() => { dispatch(getUser()) }, [project]);
+    
 
     const [ taskArrays, setTaskArray ] = useState<{[key: string]: ReactElement<any, string>[]}>({})
 
@@ -118,6 +120,7 @@ const Home = () => {
     return(
       <>
         <TopBar>
+          <LogoSvg></LogoSvg>
 
           <Plus_Icon clicked={() => toggleVisible(setNewVisible, newVisible)} title={"Create New Category"} ></Plus_Icon>
         </TopBar>

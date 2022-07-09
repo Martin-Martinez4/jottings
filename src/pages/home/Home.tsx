@@ -8,6 +8,7 @@ import { TransparentButton } from "../../global.style";
 import LogoSvg from "../../component/Svg_Icons/Logo/Logo._svg";
 import { useSelector, useDispatch } from "react-redux";
 import { getProject } from "../../actions/projectSlice";
+import { getUser } from "../../actions/authSlice";
 
 const Home = () => {
 
@@ -60,6 +61,8 @@ const Home = () => {
 
 
     useEffect(() => {console.log("user", user, "userProjects", userProjects)}, [user])
+    useEffect(() => { dispatch(getUser()) }, []);
+
 
     return(
 
