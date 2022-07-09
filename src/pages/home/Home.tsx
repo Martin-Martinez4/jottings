@@ -30,6 +30,8 @@ const Home = () => {
 
         dispatch(getProject(project_id));
 
+        navigate("/project")
+
 
 
         
