@@ -20,8 +20,12 @@ export const CategoriesContainer  = styled.div`
 
 export const TopBar = styled.nav`
 
-    height: ${props => props.theme.sizes.top_bar_height};
+    height: ${props => props.theme.sizes.top_bar_height_larger};
     background-color: ${props => props.theme.colors.white};
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
     
 

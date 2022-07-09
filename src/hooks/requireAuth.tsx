@@ -2,6 +2,9 @@
 import { Outlet } from "react-router-dom";
 import { StateType } from "../types/project.type";
 import {getUser} from "../actions/authSlice";
+import Circles from "../component/Svg_Icons/Loading_Icons/Circles";
+import Bars from "../component/Svg_Icons/Loading_Icons/Bars";
+import LoadingPage from "../pages/LoadingPage/LoadingPage";
 import Signin from "../pages/signin/Signin";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
@@ -33,7 +36,7 @@ const RequireAuth = () => {
            isAuth === true
            ? <Outlet />
            : isAuth === undefined
-           ? <p>Loading</p>
+           ? <><LoadingPage></LoadingPage></>
            : <Signin />
     );
 }

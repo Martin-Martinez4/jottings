@@ -7,15 +7,13 @@ import { getCreateCategory, getDeleteCategory } from '../../actions/projectSlice
 import { useSelector, useDispatch } from 'react-redux';
 import Plus_Icon from '../../component/Svg_Icons/Plus_Icon/Plus_Icon';
 import Close_Icon from '../../component/Svg_Icons/Close_Icon/Close_Icon';
-import LogoSvg from '../../component/Svg_Icons/Logo/Logo._svg';
-
+import LogoSVGAlt from '../../component/Svg_Icons/Logo/Logo._svg alt';
 import { getUser } from '../../actions/authSlice';
 
 import { CategoriesContainer, TopBar, SideBar } from './project.styles';
 
 import DragAndDrop from '../../component/DragAndDrop/DragAndDrop';
 
-import "./home.css";
 import { StateType } from '../../types/project.type';
 
 
@@ -120,7 +118,7 @@ const Home = () => {
     return(
       <>
         <TopBar>
-          <LogoSvg></LogoSvg>
+          <LogoSVGAlt></LogoSVGAlt>
 
           <Plus_Icon clicked={() => toggleVisible(setNewVisible, newVisible)} title={"Create New Category"} ></Plus_Icon>
         </TopBar>
