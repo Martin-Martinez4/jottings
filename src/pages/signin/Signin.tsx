@@ -38,13 +38,19 @@ const Signin = () => {
 
     }
 
+    const navigateRegister = () => {
+
+        navigate("/register")
+
+    }
+
     return (
         <>
         <SiginPageTopNav>
             <LogoSvg></LogoSvg>
             <TopNavRight width={"14rem"}>
                 <TransparentButton width={"6rem"} height={"2rem"}>Sign in</TransparentButton>
-                <TransparentButton width={"6rem"}>Register</TransparentButton>
+                <TransparentButton width={"6rem"} onClick={() => navigateRegister()}>Register</TransparentButton>
             </TopNavRight>
         </SiginPageTopNav>
         <SigninPage>
@@ -62,8 +68,8 @@ const Signin = () => {
                 <ButtonContainer>
 
                     <PrimaryButton width={"6.5rem"} height={"2rem"} onClick={() => handleSignin()}>Sign in</PrimaryButton>
-                    <SecondaryButton width={"6.5rem"} height={"2rem"}>Guest Sigin in</SecondaryButton>
-                    <QuaternaryButton width={"6.5rem"} height={"2rem"}>Register</QuaternaryButton>
+                    <SecondaryButton width={"6.5rem"} height={"2rem"} onClick={() => handleSignin()} >Guest Sigin in</SecondaryButton>
+                    <QuaternaryButton width={"6.5rem"} height={"2rem"} onClick={() => navigateRegister()}>Register</QuaternaryButton>
                 </ButtonContainer>
 
 

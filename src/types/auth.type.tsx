@@ -9,6 +9,24 @@
 //     isAuth: false 
 // }
 
+export type RegisterType = {
+
+    email: string,
+    username: string,
+    password: string,
+    password2: string,
+
+};
+
+export type SigninType = {
+
+    email: string,
+    name: string,
+    password: string
+
+
+}
+
 export type ProjectDescriptionType = {
 
     [project_id: string]:{

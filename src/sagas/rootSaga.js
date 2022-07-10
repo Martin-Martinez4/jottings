@@ -9,11 +9,11 @@ import {
         getCreateCategory, getEditCategory, getDeleteCategory, getChangeTaskOrder, getChangeCategoryOrder,
       } from "../actions/projectSlice";
 
-import { getLogin, getUser } from '../actions/authSlice';
+import { getLogin, getUser, getSignup, getSignout } from '../actions/authSlice';
 
 import { handleChangeType, handleDeleteTask, handleCreateTask, handleEditTask } from "./handler/task.handler";
 import { handleCreateCategory, handleEditCategory, handleDeleteCategory, handleChangeTaskOrder, handleChangeCategoryOrder } from "./handler/category.handler";
-import { handleLogin, handleUser } from './handler/auth.handler';
+import { handleLogin, handleUser, handleSignup, handleSignout } from './handler/auth.handler';
 
 export function* watcherSaga(){
     
@@ -28,5 +28,7 @@ export function* watcherSaga(){
     yield takeLatest(getChangeTaskOrder.type, handleChangeTaskOrder)
     yield takeLatest(getChangeCategoryOrder.type, handleChangeCategoryOrder)
     yield takeLatest(getLogin.type, handleLogin)
+    yield takeLatest(getSignup.type, handleSignup)
+    yield takeLatest(getSignout.type, handleSignout)
     yield takeLatest(getUser.type, handleUser)
 }

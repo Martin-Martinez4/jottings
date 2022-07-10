@@ -12,7 +12,7 @@ import Close_Icon from "../../component/Svg_Icons/Close_Icon/Close_Icon";
 import { TopBar } from "../../component/Draggables/draggables.styles";
 import { useSelector, useDispatch } from "react-redux";
 import { getProject } from "../../actions/projectSlice";
-import { getUser } from "../../actions/authSlice";
+import { getUser, getSignout } from "../../actions/authSlice";
 
 const Home = () => {
 
@@ -22,8 +22,13 @@ const Home = () => {
 
     const user = useSelector((state:StateType) => state.auth);
 
-    const [userProjects, setUserProjects] = useState<JSX.Element[]
-    >([]);
+    const [userProjects, setUserProjects] = useState<JSX.Element[]>([]);
+
+    function handleSignout(){
+
+        dispatch(getSignout());
+
+    }
 
     function handleGoToProject(e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>){
 
@@ -86,7 +91,7 @@ const Home = () => {
             <SiginPageTopNav>
                 <LogoSvg></LogoSvg>
                 <TopNavRight width={"10rem"}>
-                    <TransparentButton width={"8rem"} height={"2rem"}>Sign Out</TransparentButton>
+                    <TransparentButton width={"8rem"} height={"2rem"} onClick={() => handleSignout()}>Sign Out</TransparentButton>
                 </TopNavRight>
             </SiginPageTopNav>
             <HomeContentContainer>

@@ -11,6 +11,8 @@ export function requestChangeType(body: HandleChangeTypePayloadType){
     return fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/category/task`, {
         
         method: "put",
+        credentials:'include',
+        cache:'no-cache',
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify(body)
        
@@ -30,6 +32,8 @@ export function requestDeleteTask(body: HandleDeleteTaskPayloadType){
     return fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/task/`, {
         
         method: "delete",
+        credentials:'include',
+        cache:'no-cache',
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify(body)
        
@@ -49,6 +53,8 @@ export function requestCreateTask(body: HandleCreateTaskPayloadType){
     return fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/task/`, {
         
         method: "put",
+        credentials:'include',
+        cache:'no-cache',
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify(body)
        
@@ -78,6 +84,8 @@ export function requestEditTask(body: HandleEditTaskPayloadType){
 
         
         method: "put",
+        credentials:'include',
+        cache:'no-cache',
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify(body)
        

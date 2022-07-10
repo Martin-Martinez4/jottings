@@ -10,6 +10,7 @@ import { StateType } from './types/project.type';
 
 import ProjectView from './pages/project/Project';
 import Home from './pages/home/Home';
+import RegisterPage from './pages/Register/Register';
 import { useEffect } from 'react';
 import RequireAuth from './hooks/requireAuth';
 
@@ -22,8 +23,6 @@ function App() {
   const dispatch = useDispatch();
 
   const isAuth = useSelector((state:StateType) => state.auth.isAuth);
-
-  console.log(isAuth)
 
   useEffect(() => {
 
@@ -47,6 +46,7 @@ function App() {
 
         </Route>
 
+          <Route path="/register" element={<RegisterPage/>}/>
       </Routes>
     </div>
   );

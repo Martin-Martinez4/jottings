@@ -11,6 +11,8 @@ export function requestCreateCategory(body: HandleCreateCategoryPayloadType){
 
         
         method: "put",
+        credentials:'include',
+        cache:'no-cache',
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify(body)
        
@@ -36,6 +38,8 @@ export function requestDeleteCategory(body: HandleDeleteCategoryPayloadType){
 
         
         method: "delete",
+        credentials:'include',
+        cache:'no-cache',
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify(body)
        
@@ -62,6 +66,8 @@ export function requestEditCategory(body: HandleEditCategoryPayloadType){
 
         
         method: "post",
+        credentials:'include',
+        cache:'no-cache',
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify(body)
        
@@ -88,6 +94,8 @@ export function requestChangeTaskOrder(body: HandleChangeTaskOrderPayloadType){
 
     
         method: "post",
+        credentials:'include',
+        cache:'no-cache',
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify(body)
         
@@ -114,6 +122,8 @@ export function requestChangeCategroyOrder(body: handleChangeCategoryOrderPayloa
 
     
         method: "post",
+        credentials:'include',
+        cache:'no-cache',
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify(body)
         

@@ -14,6 +14,8 @@ const authSlice = createSlice({
     initialState: { email: "", username:"", profile_url:"", projects:[], permissions:{}, access_token:"", isAuth: undefined },
     reducers: {
 
+        getSignup(state, action){},
+        getSignout(state){},
         getLogin(state, action){},
         Login: (state, action) => {
             
@@ -45,7 +47,10 @@ export const {
 
     getLogin, Login,
     getLogout, Logout,
-    getUser, User
+    getUser, User,
+    getSignup,
+    getSignout,
+
 
 } = authSlice.actions;
 
