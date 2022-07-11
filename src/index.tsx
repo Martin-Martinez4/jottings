@@ -18,15 +18,15 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Router>
-      <Theme>
-        <Provider store={store}>
-          <Routes>
+    <Theme>
+      <Provider store={store}>
+        <Routes>
 
-            <Route path="/*" element={<App />} />
+        <Route path="/*" element={<App />} />
 
-          </Routes>
-        </Provider>
-      </Theme>
+        </Routes>
+      </Provider>
+    </Theme>
     </Router>
   </React.StrictMode>
 );

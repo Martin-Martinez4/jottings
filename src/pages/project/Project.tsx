@@ -1,6 +1,5 @@
 
 import React, { ReactElement, useEffect, useState } from 'react';
-
 import { ButtonContainer, RedButton, PrimaryButton, Input } from '../../global.style';
 
 import { getCreateCategory, getDeleteCategory } from '../../actions/projectSlice';
@@ -116,7 +115,7 @@ const Home = () => {
     
   
     return(
-      <>
+      <div style={{ width: "100vw", height: "100vh", overflow: "hidden" }}>
         <TopBar>
           <LogoSVGAlt></LogoSVGAlt>
 
@@ -160,7 +159,7 @@ const Home = () => {
         </CategoriesContainer>
           </div>
         </div>
-      </>
+      </div>
     )
 
 

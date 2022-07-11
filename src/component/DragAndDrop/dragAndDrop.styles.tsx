@@ -3,8 +3,18 @@ import styled from "styled-components";
 
 export const Container = styled.div`
 
-    min-width: 16vw;
-    max-height: auto;
+    width: 27vw;
+
+    @media screen and (mAX-width: 800px) {
+        &{
+            width: 75vw;
+        }
+    }
+
+    max-height: calc(100Vh - ${props => props.theme.sizes.top_bar_height_larger});
+
+    overflow-y: auto;
+    overflow-x: hidden;
 
     box-sizing: border-box;
 

@@ -5,11 +5,12 @@ export const CategoriesContainer  = styled.div`
     
     display: flex;
     /* flex-wrap: wrap; */
-    overflow: auto;
+    overflow-y: hidden;
+    overflow-x: auto;
     gap: 2rem;
 
-    min-height: calc(100vh - ${props => props.theme.sizes.top_bar_height});
-    min-width: calc(100vw - ${props => props.theme.sizes.side_bar_width});
+    height: calc((100vh - 1rem) - ${props => props.theme.sizes.top_bar_height});
+    width: calc(100vw - ${props => props.theme.sizes.side_bar_width});
 
     padding: 2rem; 
 

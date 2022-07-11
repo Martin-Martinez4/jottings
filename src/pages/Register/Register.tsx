@@ -38,8 +38,6 @@ const RegisterPage:FC = () => {
         }
 
         const emailAvaialble = await checkIfEmailAvailable(email)
-
-        console.log(emailAvaialble.available)
         
         if(password === password2 && emailAvaialble.available){
 

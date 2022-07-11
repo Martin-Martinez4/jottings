@@ -35,7 +35,7 @@ export const theme = {
 
         top_bar_height: "2rem",
         top_bar_height_larger: "3rem",
-        side_bar_width: "3.5rem",
+        side_bar_width: "4rem",
 
     }
 

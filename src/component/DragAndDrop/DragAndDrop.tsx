@@ -1,5 +1,5 @@
 
-import React, { FC, ReactElement, useState } from 'react';
+import React, { FC, ReactElement, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { getChangeType, getCreateTask, getEditCategory, getDeleteCategory, getChangeCategoryOrder } from '../../actions/projectSlice';
@@ -66,6 +66,8 @@ const DragAndDrop: FC<DragAndDropProps> = ({ id, name }) => {
       
     }
   );
+
+  useEffect(() => {}, [tasks])
 
   const toggleNewVisible = () => {
 
