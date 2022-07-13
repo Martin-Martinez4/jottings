@@ -31,9 +31,9 @@ const Draggable:FC<DraggableProps> = ({ task, dropDownCategories }) => {
     const [ menuVisible, setMenuVisible ] = useState(false);
     const [editVisible, setEditVisible] = useState(false);
     const [deleteVisible, setDeleteVisible] = useState(false);
-    const [ buttonMoveIndexAndCategory, setButtonMoveIndexAndCategory ] = useState({
+    const [ buttonMoveIndexAndCategory, setButtonMoveIndexAndCategory ] = useState<{target_index: undefined | number, target_category_id: string}>({
 
-        target_index: "",
+        target_index: undefined,
         target_category_id: ""
     })
 
@@ -178,7 +178,7 @@ const Draggable:FC<DraggableProps> = ({ task, dropDownCategories }) => {
         const target_category_id =  buttonMoveIndexAndCategory.target_category_id;
         const target_index = buttonMoveIndexAndCategory.target_index;
 
-        if(target_category_id === undefined && target_index === undefined || target_index === undefined){
+        if(target_category_id === undefined && target_index === undefined || target_index === undefined || categories[target_category_id]["length"] || target_index < 0){
 
             return
 
@@ -213,7 +213,9 @@ const Draggable:FC<DraggableProps> = ({ task, dropDownCategories }) => {
 
       const onIndexInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
-        setButtonMoveIndexAndCategory(state => ({...state, ["target_index"]: e.target.value}))
+        const target_index= e.target.value === undefined ? undefined : parseInt(e.target.value);
+
+        setButtonMoveIndexAndCategory(state => ({...state, ["target_index"]: target_index}))
 
       }
 
