@@ -8,7 +8,7 @@ import { TransparentButton } from "../../global.style";
 import LogoSvg from "../../component/Svg_Icons/Logo/Logo._svg";
 import Plus_Icon from "../../component/Svg_Icons/Plus_Icon/Plus_Icon";
 import Edit_Icon from "../../component/Svg_Icons/Edit_Icon/Edit_Icon";
-import Close_Icon from "../../component/Svg_Icons/Close_Icon/Close_Icon";
+import CloseIcon from "../../component/Svg_Icons/CloseIcon/CloseIcon";
 import { TopBar } from "../../component/Draggables/draggables.styles";
 import { useSelector, useDispatch } from "react-redux";
 import { getProject } from "../../actions/projectSlice";
@@ -61,7 +61,7 @@ const Home = () => {
                     <ProjectInforamtionContainer key={`project_${project._id.toString()}`} data-id={project._id.toString()} onClick={(e) => handleGoToProject(e)}>
                     <TopBar>
 
-                        <Close_Icon  data-id={project._id.toString()} clicked={(e) => {console.log("delete")}} title={"Delete Project"} ></Close_Icon>
+                        <CloseIcon  data-id={project._id.toString()} clicked={(e) => {console.log("delete")}} title={"Delete Project"} ></CloseIcon>
                         <Edit_Icon data-id={project._id.toString()} clicked={() => {console.log("edit")}} title={"Edit Project"}></Edit_Icon>
                     </TopBar>
                     <div>

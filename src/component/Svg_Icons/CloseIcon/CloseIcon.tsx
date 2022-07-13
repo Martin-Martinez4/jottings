@@ -13,7 +13,7 @@ type TaskAndCategoryType = {
 }
 
 
-export const Close_Icon: FC<TaskAndCategoryType> = ({ clicked, title }) => {
+export const CloseIcon: FC<TaskAndCategoryType> = ({ clicked, title }) => {
 
     return (
         <RedSVG onClick={clicked} className="svg pointer" viewBox="0 0 1024 1024">
@@ -30,6 +30,6 @@ export const Close_Icon: FC<TaskAndCategoryType> = ({ clicked, title }) => {
     )
   }
 
-  export default Close_Icon;
+  export default CloseIcon;
 
 

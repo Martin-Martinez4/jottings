@@ -1,7 +1,7 @@
 
 import { SagaIterator } from "redux-saga";
 import { call, put } from "redux-saga/effects";
-import { ChangeType, deleteTask, editTask } from "../../actions/projectSlice";
+import { ChangeType, createTask, deleteTask, editTask } from "../../actions/projectSlice";
 import { Logout } from "../../actions/authSlice";
 import { HandleChangeTypeType, HandleCreateTaskType, HandleDeleteTaskType, HandleEditTaskType } from "../../types/task.handler.type";
 import { requestChangeType, requestDeleteTask, requestCreateTask, requestEditTask } from "../requests/task.request";
@@ -83,7 +83,7 @@ export function* handleCreateTask(action: HandleCreateTaskType): SagaIterator{
         }
         else{
 
-            yield put(deleteTask({...response}))
+            yield put(createTask({...response}))
         }
     }
     catch(err){

@@ -1,5 +1,5 @@
 
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { getChangeType, getChangeTaskOrder, getDeleteTask, getEditTask } from "../../actions/projectSlice";
@@ -7,12 +7,16 @@ import { getChangeType, getChangeTaskOrder, getDeleteTask, getEditTask } from ".
 import { TopBar, DraggableContainer } from "./draggables.styles";
 
 import { Task, DraggableProps } from "../../types/draggableTypes";
+import { toggleState } from "../../utils/toggleState";
 
-import { Input, TextArea, ButtonContainer, PrimaryButton, RedButton } from "../../global.style";
+import { DropDownParent, DropDownContainer, DropDownItem } from "../DragAndDrop/dragAndDrop.styles";
 
-import Close_Icon from "../Svg_Icons/Close_Icon/Close_Icon";
+import { Input, TextArea, ButtonContainer, PrimaryButton, RedButton, Button } from "../../global.style";
+
+import CloseIcon from "../Svg_Icons/CloseIcon/CloseIcon";
 import Plus_Icon from "../Svg_Icons/Plus_Icon/Plus_Icon";
 import Edit_Icon from "../Svg_Icons/Edit_Icon/Edit_Icon";
+import Move_Icon from "../Svg_Icons/Move_Icon/Move_Svg";
 
 import "./draggable.css"
 import { StateType } from "../../types/project.type";
@@ -22,15 +26,21 @@ import { StateType } from "../../types/project.type";
 // store content and title in a temp local state
     //  Will be used for editing
 
-const Draggable:FC<DraggableProps> = ({ task }) => {
+const Draggable:FC<DraggableProps> = ({ task, dropDownCategories }) => {
     
-    const [ taskInfo, setTaskInfo ] = useState<Task>();
-
+    const [ menuVisible, setMenuVisible ] = useState(false);
     const [editVisible, setEditVisible] = useState(false);
     const [deleteVisible, setDeleteVisible] = useState(false);
+    const [ buttonMoveIndexAndCategory, setButtonMoveIndexAndCategory ] = useState({
+
+        target_index: "",
+        target_category_id: ""
+    })
 
     
     const task2 = useSelector((state: StateType) => state.project.tasks[task.category_id][task.id]);
+    const category = useSelector((state: StateType) => state.project.categories[task.category_id])
+    const categories = useSelector((state: StateType) => state.project.categories)
     const project_id = useSelector((state: StateType) => state.project.project.project_id);
 
     const [ editContent, setEditContent ] = useState({
@@ -135,13 +145,49 @@ const Draggable:FC<DraggableProps> = ({ task }) => {
         const old_category_id = e.dataTransfer.getData("category_id");
         const original_index = parseInt(e.dataTransfer.getData("original_index"));
 
-        const newType =  e.currentTarget.getAttribute("data-name");
+        // const newType =  e.currentTarget.getAttribute("data-name");
         const target_category_id =  task.category_id;
         const target_index = task2.index
 
         if(component_type === "task"){
 
             if(old_category_id === target_category_id){
+    
+                dispatch(getChangeTaskOrder({ project_id: project.project_id, task_id: id, category_id: old_category_id, target_category_id: target_category_id, original_index: original_index, target_index: target_index }));
+            }
+            else{
+    
+                dispatch(getChangeType({ project_id: project.project_id, task_id: id, category_id: old_category_id, target_category_id: target_category_id, original_index: original_index, target_index: target_index }));
+            }
+        }
+
+        return
+      };
+
+    const moveByButton = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const component_type = "task"
+        const id = task2._id
+        const old_category_id = task.category_id
+        const original_index = task2.index;
+
+        // const newType =  e.currentTarget.getAttribute("data-name");
+        const target_category_id =  buttonMoveIndexAndCategory.target_category_id;
+        const target_index = buttonMoveIndexAndCategory.target_index;
+
+        if(target_category_id === undefined && target_index === undefined || target_index === undefined){
+
+            return
+
+
+        }
+
+        if(component_type === "task"){
+
+            if(old_category_id === target_category_id || target_category_id === undefined){
     
                 dispatch(getChangeTaskOrder({ project_id: project.project_id, task_id: id, category_id: old_category_id, target_category_id: target_category_id, original_index: original_index, target_index: target_index }));
             }
@@ -159,6 +205,18 @@ const Draggable:FC<DraggableProps> = ({ task }) => {
         return
       };
 
+      const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+
+        setButtonMoveIndexAndCategory(state => ({...state, ["target_category_id"]: e.target.value}))
+
+      }
+
+      const onIndexInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+        setButtonMoveIndexAndCategory(state => ({...state, ["target_index"]: e.target.value}))
+
+      }
+
     return(
 
         <DraggableContainer
@@ -173,8 +231,52 @@ const Draggable:FC<DraggableProps> = ({ task }) => {
             <div className="draggable-heading-area">
                 <TopBar>
 
-                    <Close_Icon clicked={() => toggleVisible(setDeleteVisible, deleteVisible)} title={"Delete Task"} ></Close_Icon>
-                    <Edit_Icon clicked={(e) => toggleVisible(setEditVisible, editVisible)} title={"Edit Task"}></Edit_Icon>
+                    <CloseIcon clicked={() => toggleVisible(setDeleteVisible, deleteVisible)} title={"Delete Task"} ></CloseIcon>
+                    <Edit_Icon clicked={() => toggleVisible(setEditVisible, editVisible)} title={"Edit Task"}></Edit_Icon>
+
+                    <Move_Icon clicked={() => toggleState(setMenuVisible, menuVisible)} title={"Move Task"}></Move_Icon>
+                    <DropDownParent>
+                        {
+                        menuVisible === true
+                        ?
+
+                            <DropDownContainer>
+                                <div>
+
+                                    <p>Choose a category to move the task to</p>
+                                    <select name="categories" id="categories" onChange={(e) => onSelectChange(e)}>
+
+                                    {
+                                        dropDownCategories
+                                    }
+                                    </select>
+
+
+                                    {/* <label>Change Order</label> 
+                                    <input type="checkbox" id="reveal-email" role="button"></input> */}
+
+                                    <div>
+                                        
+                                    <p>Pick an index between 0 and {buttonMoveIndexAndCategory.target_category_id ? categories[buttonMoveIndexAndCategory.target_category_id]["length"] : category.length} to change position</p>
+                                    <div style={{ display: "flex", justifyContent: "space-around",  }}>
+
+                                    <Input type="number" width="3rem" min="0" max={`${category.length}`} onChange={(e) => onIndexInputChange(e)}></Input>
+                                    </div>
+                                    </div>
+
+                                    <ButtonContainer style={{ display: "flex", justifyContent: "center",  }}>
+                                        <PrimaryButton onClick={(e) => moveByButton(e)}>Confirm</PrimaryButton>
+                                        <RedButton onClick={() => toggleState(setMenuVisible, menuVisible)}>Cancel</RedButton>
+                                    </ButtonContainer>
+
+                                </div>
+                                
+                            </DropDownContainer>
+
+                        :
+                            ""
+                        }
+                    </DropDownParent>
                 </TopBar>
                 {
                     editVisible
@@ -184,7 +286,7 @@ const Draggable:FC<DraggableProps> = ({ task }) => {
                     <span>{task2.title}</span>
                 }
             </div>
-            <div>
+            <div style={{overflow: "hidden"}}>
                     {
                         editVisible
                         ?

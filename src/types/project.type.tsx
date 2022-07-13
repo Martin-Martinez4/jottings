@@ -6,6 +6,7 @@ export type CategoryType = {
     _id: string,
     title: string,
     index: number,
+    length: number;
 
 }
 
@@ -26,7 +27,8 @@ export type ProjectType = {
     project: {
 
         project_id: string,
-        title: string
+        title: string,
+        length: number,
     },
 
     categories: {

@@ -67,8 +67,11 @@ const Signin = () => {
 
                 <ButtonContainer>
 
-                    <PrimaryButton width={"6.5rem"} height={"2rem"} onClick={() => handleSignin()}>Sign in</PrimaryButton>
                     <SecondaryButton width={"6.5rem"} height={"2rem"} onClick={() => handleSignin()} >Guest Sigin in</SecondaryButton>
+                </ButtonContainer>
+                <ButtonContainer>
+
+                    <PrimaryButton width={"6.5rem"} height={"2rem"} onClick={() => handleSignin()}>Sign in</PrimaryButton>
                     <QuaternaryButton width={"6.5rem"} height={"2rem"} onClick={() => navigateRegister()}>Register</QuaternaryButton>
                 </ButtonContainer>
 

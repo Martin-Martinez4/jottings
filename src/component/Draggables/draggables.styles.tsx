@@ -14,11 +14,12 @@ export const DraggableContainer = styled.div`
     margin: auto;
 
     margin-bottom: 1rem;
+    /* overflow: hidden; */
 
     padding: .5rem;
 
     
-    overflow:hidden; 
+    /* overflow:hidden;  */
     text-overflow: ellipsis;
     
     box-sizing: border-box;

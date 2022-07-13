@@ -2,10 +2,9 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import { ButtonContainer, RedButton, PrimaryButton, Input } from '../../global.style';
 
-import { getCreateCategory, getDeleteCategory } from '../../actions/projectSlice';
+import { getCreateCategory } from '../../actions/projectSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import Plus_Icon from '../../component/Svg_Icons/Plus_Icon/Plus_Icon';
-import Close_Icon from '../../component/Svg_Icons/Close_Icon/Close_Icon';
 import LogoSVGAlt from '../../component/Svg_Icons/Logo/Logo._svg alt';
 import { getUser } from '../../actions/authSlice';
 
@@ -32,7 +31,22 @@ const Home = () => {
 
       if(categories){
 
-  
+        let dropDownCategories:any[] = [];
+        
+        const selectElements =  [<option id={``} value=""></option>, ...Object.keys(categories).map((object)  => {
+
+          const category = categories[`${object}`]
+
+          return (
+            
+                  <option id={`${category._id}`} value={category._id}>{category.title}</option>
+          )
+
+        })]
+
+
+        dropDownCategories.push(selectElements)
+        
         Object.keys(categories).forEach((object) => {
                   
           const category = categories[`${object}`]
@@ -40,7 +54,7 @@ const Home = () => {
   
           
           categoriesArray[category.index] = (<div key={`id_${category._id}`}>
-            <DragAndDrop  id={category._id} name={category.title}></DragAndDrop>
+            <DragAndDrop  id={category._id} name={category.title} dropDownCategories={dropDownCategories}></DragAndDrop>
             </div>)
   
   
@@ -56,7 +70,7 @@ const Home = () => {
     useEffect(() => { dispatch(getUser()) }, [project]);
     
 
-    const [ taskArrays, setTaskArray ] = useState<{[key: string]: ReactElement<any, string>[]}>({})
+    // const [ taskArrays, setTaskArray ] = useState<{[key: string]: ReactElement<any, string>[]}>({})
 
     const [newVisible, setNewVisible] = useState(false);
     const [ newCategory, setNewCategory ] = useState({
@@ -151,9 +165,7 @@ const Home = () => {
         <div>
 
         <CategoriesContainer> 
-
             {
-              
               categories
             }
         </CategoriesContainer>

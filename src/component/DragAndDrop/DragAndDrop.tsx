@@ -3,13 +3,15 @@ import React, { FC, ReactElement, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { getChangeType, getCreateTask, getEditCategory, getDeleteCategory, getChangeCategoryOrder } from '../../actions/projectSlice';
-import { Container, TopBar, CreateNewPrompt, CategoryTitle, CreateBox } from "./dragAndDrop.styles";
+import { Container, TopBar, CreateNewPrompt, CategoryTitle, CreateBox, DropDownParent, DropDownContainer } from "./dragAndDrop.styles";
 import { Input, ButtonContainer, PrimaryButton, RedButton, TextArea } from '../../global.style';
 import Draggable from '../Draggables/Draggable';
 import { DragAndDropProps } from '../../types/draggableTypes';
 import Plus_Icon from '../Svg_Icons/Plus_Icon/Plus_Icon';
 import Edit_Icon from '../Svg_Icons/Edit_Icon/Edit_Icon';
-import Close_Icon from '../Svg_Icons/Close_Icon/Close_Icon';
+import CloseIcon from '../Svg_Icons/CloseIcon/CloseIcon';
+import Move_Icon from '../Svg_Icons/Move_Icon/Move_Svg';
+import { toggleState } from '../../utils/toggleState';
 import "./dragAndDrop.css"
 import { StateType } from '../../types/project.type';
 
@@ -18,7 +20,7 @@ import { StateType } from '../../types/project.type';
 // const socket = io('http://localhost:3001');
 
 
-const DragAndDrop: FC<DragAndDropProps> = ({ id, name }) => {
+const DragAndDrop: FC<DragAndDropProps> = ({ id, name, dropDownCategories }) => {
 
   const dispatch = useDispatch();
 
@@ -32,6 +34,8 @@ const DragAndDrop: FC<DragAndDropProps> = ({ id, name }) => {
     content: "",
 
   })
+
+  const [ menuVisible, setMenuVisible ] = useState(false);
 
   const project = useSelector((state: StateType) => state.project.project)
 
@@ -51,7 +55,7 @@ const DragAndDrop: FC<DragAndDropProps> = ({ id, name }) => {
             const task = tasks[task_id]
 
             toReturn[task.index] = <div key={task._id}>
-                                    <Draggable key={task._id} task={{id: task._id, taskName: task.title, type: name, content: task.content, category_id: id}} ></Draggable>
+                                    <Draggable key={task._id} task={{id: task._id, taskName: task.title, type: name, content: task.content, category_id: id}} dropDownCategories={dropDownCategories}></Draggable>
                                   </div>
   
           })
@@ -255,9 +259,76 @@ const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
             onDragLeave={e => handleDragLeave(e)}
           >
           <TopBar>
-            <Close_Icon clicked={() => toggleStateValue(setDeleteVisible, deleteVisible)} title={"Delete Categoy"}></Close_Icon>
+            <CloseIcon clicked={() => toggleStateValue(setDeleteVisible, deleteVisible)} title={"Delete Categoy"}></CloseIcon>
             <Plus_Icon clicked={() => toggleStateValue(setNewVisible, newVisible)} title={"Create New Task"}></Plus_Icon>
             <Edit_Icon clicked={() => toggleStateValue(setEditVisible, editVisible)} title={"Edit Category"}></Edit_Icon>
+
+            {/* <DropDownParent onClick={() => toggleState(setMenuVisible, menuVisible)}>...
+            {
+              menuVisible === true
+              ?
+
+                <DropDownContainer>
+
+                    <DropDownParent>
+                      <DropDownItem>
+                        Move
+                      </DropDownItem>
+                    </DropDownParent>
+
+                    <DropDownParent>
+                      <DropDownItem>
+                        Create New
+                      </DropDownItem>
+                    </DropDownParent>
+
+                    <DropDownParent>
+                      <DropDownItem>
+                      Edit
+                      </DropDownItem>
+                    </DropDownParent>
+
+                    <DropDownParent>
+                      <DropDownItem>
+                        Delete
+                      </DropDownItem>
+                    
+                    </DropDownParent>
+                </DropDownContainer>
+
+              :
+                ""
+            }
+          </DropDownParent> */}
+          
+            <Move_Icon clicked={() => toggleState(setMenuVisible, menuVisible)} title={"Move Category"}></Move_Icon>
+
+             <DropDownParent>
+                  {
+                  menuVisible === true
+                  ?
+
+                      <DropDownContainer>
+                          <div>
+                          <p>Pick an index between 0 and {project.length -1}</p>
+                          <div style={{ display: "flex", justifyContent: "space-around",  }}>
+
+                          <Input type="number"  min="1" max="50" width="3.5rem" ></Input>
+                          <Input type="number" width="3.5rem" ></Input>
+                          </div>
+                          <ButtonContainer style={{ display: "flex", justifyContent: "center",  }}>
+                              <PrimaryButton>Confirm</PrimaryButton>
+                              <RedButton>Cancel</RedButton>
+                          </ButtonContainer>
+
+                          </div>
+                          
+                      </DropDownContainer>
+
+                  :
+                      ""
+                  }
+              </DropDownParent>
           </TopBar>
           {
             editVisible 

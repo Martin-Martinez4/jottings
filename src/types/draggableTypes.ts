@@ -11,6 +11,7 @@ export type Task =  {
 export type DraggableProps = {
 
     task: Task;
+    dropDownCategories: any;
 
 }
 
@@ -19,4 +20,5 @@ export type DragAndDropProps = {
     name: string;
     id: string;
     draggables?: ReactElement<any, string>[];
+    dropDownCategories: any,
 }

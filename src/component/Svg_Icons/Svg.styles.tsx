@@ -6,7 +6,7 @@ export const BaseSVG = styled.svg`
         height: 1.1rem;
         width: 1.1rem;
 
-        margin: 0 .25rem 0 .25rem;
+        margin: 0 .5rem 0 .5rem;
 
         box-sizing: border-box;
 

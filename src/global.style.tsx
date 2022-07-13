@@ -35,7 +35,7 @@ export const theme = {
 
         top_bar_height: "2rem",
         top_bar_height_larger: "3rem",
-        side_bar_width: "4rem",
+        side_bar_width: "0rem",
 
     }
 
@@ -119,6 +119,7 @@ export const Button = styled.div<{width?: string, height?: string}>`
     border: 1px black solid;
 
     margin: .5rem .5rem .5rem .5rem;
+    padding: .1rem;
 
     text-align: center;
     vertical-align: middle;

@@ -60,6 +60,17 @@ export const ProjectInforamtionContainer = styled.div<{width?: string, height?: 
 
     min-width: 30rem;
     width: 30rem;
+
+    @media screen and (max-width: 800px){
+
+      &{
+        min-width: 60vw;
+        width: 60vw;
+        height: 50vh;
+      }
+
+    }
+
     height: 13rem;
 
     margin: .5rem;
