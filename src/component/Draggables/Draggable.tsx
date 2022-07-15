@@ -178,7 +178,7 @@ const Draggable:FC<DraggableProps> = ({ task, dropDownCategories }) => {
         const target_category_id =  buttonMoveIndexAndCategory.target_category_id;
         const target_index = buttonMoveIndexAndCategory.target_index;
 
-        if(target_category_id === undefined && target_index === undefined || target_index === undefined || categories[target_category_id]["length"] || target_index < 0){
+        if(target_category_id === undefined && target_index === undefined || target_index === undefined || target_index >= categories[target_category_id]["length"] || target_index < 0){
 
             return
 
