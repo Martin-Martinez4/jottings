@@ -1,8 +1,10 @@
 
-import React, { ReactElement, useEffect, useState } from 'react';
-import { ButtonContainer, RedButton, PrimaryButton, Input } from '../../global.style';
+import { toggleState } from '../../utils/toggleState';
 
-import { getCreateCategory } from '../../actions/projectSlice';
+import { ReactElement, useEffect, useState } from 'react';
+import ModalHOC from '../../component/ModalHOC/ModalHOC';
+import CreateCategoryPrompt from '../../component/CreateCategoryPrompt/CreateCategoryPrompt';
+
 import { useSelector, useDispatch } from 'react-redux';
 import Plus_Icon from '../../component/Svg_Icons/Plus_Icon/Plus_Icon';
 import LogoSVGAlt from '../../component/Svg_Icons/Logo/Logo._svg alt';
@@ -20,8 +22,6 @@ const Home = () => {
     const dispatch = useDispatch();
     
     const project = useSelector((state: StateType) => state.project.project);
-
-    const state = useSelector((state: StateType) => state.project)
 
     const categories = useSelector((state: StateType) => {
 
@@ -65,94 +65,29 @@ const Home = () => {
 
 
     });
-    const tasks = useSelector((state: StateType) => state.project.tasks);
 
     useEffect(() => { dispatch(getUser()) }, [project]);
     
 
-    // const [ taskArrays, setTaskArray ] = useState<{[key: string]: ReactElement<any, string>[]}>({})
-
     const [newVisible, setNewVisible] = useState(false);
-    const [ newCategory, setNewCategory ] = useState({
-
-      title: "",
-      // content: "",
-
-    })
-
-  const toggleVisible = (setFunc: React.Dispatch<React.SetStateAction<any>>, currentState: boolean) => {
-
-    setFunc(!currentState);
-
-  }
-
-  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>, setFunc: React.Dispatch<React.SetStateAction<any>>, CurrentState: string) => {
-
-
-      setFunc((CurrentState: object) => ({...CurrentState, [e.target.name]: (e.target.value).toString()}))
-  
-      e.preventDefault();
-  
-      
-  }
-
-  const clearState = (setFunc: { (value: React.SetStateAction<{ title: string; }>): void; (arg0: (CurrentState: any) => any): void; }, CurrentState: { title?: string; }) => {
-
-    Object.keys(CurrentState).forEach( (stateProp) => {
-    
-      setFunc(CurrentState => ({...CurrentState, [stateProp]: ""}))
-  
-      }
-  
-    )
-  
-  }
-
-  const onCreate = () => {
-
-    const body = {
-
-        title: newCategory.title,
-        project_id: project.project_id,
-    }
-
-
-    dispatch(getCreateCategory(body))
-
-    toggleVisible(setNewVisible, newVisible);
-
-    clearState(setNewCategory, newCategory)
-
-    return
-
-  }
-    
+ 
   
     return(
+      <>
+        <ModalHOC visible={newVisible}>
+          <CreateCategoryPrompt toggleModalVisible={() => toggleState(setNewVisible, newVisible)}></CreateCategoryPrompt>
+        </ModalHOC>
       <div style={{ width: "100vw", height: "100vh", overflow: "hidden" }}>
         <TopBar>
           <LogoSVGAlt></LogoSVGAlt>
-
+          
           <h3>{project.title}</h3>
 
-          <Plus_Icon clicked={() => toggleVisible(setNewVisible, newVisible)} title={"Create New Category"}></Plus_Icon>
+          <Plus_Icon clicked={() => toggleState(setNewVisible, newVisible)} title={"Create New Category"}></Plus_Icon>
 
 
 
         </TopBar>
-        {
-          newVisible
-          ?
-          <div>
-            <Input name="title" value={newCategory.title} onChange={(e) => onInputChange(e, setNewCategory, newCategory.title)}></Input>
-            <ButtonContainer>
-
-              <PrimaryButton  onClick={ () => onCreate() }>Save</PrimaryButton>
-              <RedButton onClick={() => toggleVisible(setNewVisible, newVisible)} >Cancel</RedButton>
-            </ButtonContainer>
-          </div>
-          :""
-        }
 
 
         <div style={{display: "flex"}}>
@@ -172,6 +107,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+      </>
     )
 
 

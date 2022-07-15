@@ -198,10 +198,6 @@ const Draggable:FC<DraggableProps> = ({ task, dropDownCategories }) => {
         }
 
 
-
-        
-
-        
         return
       };
 

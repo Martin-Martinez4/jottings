@@ -1,28 +1,28 @@
 
-import { MouseEvent, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { StateType } from "../../types/project.type";
 import { HomeContentContainer, ProjectContainer, ProjectInforamtionContainer } from "./home.styles";
 import { SiginPageTopNav, TopNavRight } from "../signin/Signin.styles";
 import { TransparentButton } from "../../global.style";
+import CreateProjectPrompt from "../../component/CreateProjectPrompt/CreateProjectPrompt";
 import LogoSvg from "../../component/Svg_Icons/Logo/Logo._svg";
 import Plus_Icon from "../../component/Svg_Icons/Plus_Icon/Plus_Icon";
-import Edit_Icon from "../../component/Svg_Icons/Edit_Icon/Edit_Icon";
-import CloseIcon from "../../component/Svg_Icons/CloseIcon/CloseIcon";
-import { TopBar } from "../../component/Draggables/draggables.styles";
+import ModalHOC from "../../component/ModalHOC/ModalHOC";
+
 import { useSelector, useDispatch } from "react-redux";
-import { getProject } from "../../actions/projectSlice";
 import { getUser, getSignout } from "../../actions/authSlice";
+
+import ProjectCard from "../../component/ProjectCard/ProjectCard";
+import { toggleState } from "../../utils/toggleState";
 
 const Home = () => {
 
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
-    const user = useSelector((state:StateType) => state.auth);
+    const user = useSelector((state:StateType) => state.auth);   
 
-    const [userProjects, setUserProjects] = useState<JSX.Element[]>([]);
+    const [ createProjectModalVisible, setCreateProjectModalVisible ] = useState(false);
 
     function handleSignout(){
 
@@ -30,93 +30,90 @@ const Home = () => {
 
     }
 
-    function handleGoToProject(e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>){
-
-        e.preventDefault();
-
-        const el = e.target as HTMLDivElement
-
-        const project_id = el.getAttribute("data-id");
-
-        if(project_id){
-
-            dispatch(getProject(project_id));
-    
-            navigate("/project");
-        }
-
-
-
-
-        
-
-    }
-
-
-    useEffect(() => {
-        
-        let tempProjects: JSX.Element[] = user.projects.map(project => {
-
-            return (
-                    <ProjectInforamtionContainer key={`project_${project._id.toString()}`} data-id={project._id.toString()} onClick={(e) => handleGoToProject(e)}>
-                    <TopBar>
-
-                        <CloseIcon  data-id={project._id.toString()} clicked={(e) => {console.log("delete")}} title={"Delete Project"} ></CloseIcon>
-                        <Edit_Icon data-id={project._id.toString()} clicked={() => {console.log("edit")}} title={"Edit Project"}></Edit_Icon>
-                    </TopBar>
-                    <div>
-
-                        <p data-id={project._id.toString()} onClick={(e) => handleGoToProject(e)}>{project?.logo_url? project?.logo_url.toString() : ""}</p>
-                        <p data-id={project._id.toString()} onClick={(e) => handleGoToProject(e)}>{project.title? project.title.toString(): ""}</p>
-                        <p data-id={project._id.toString()} onClick={(e) => handleGoToProject(e)}>{project.description.toString()}</p>
-                    </div>
-                    </ProjectInforamtionContainer>
-                
-
-            )
-        })
-
-        setUserProjects([...tempProjects])
-        
-    }, [user])
-
-
-    useEffect(() => {}, [user])
     useEffect(() => { dispatch(getUser()) }, []);
 
 
     return(
 
         <>
+            <ModalHOC visible={createProjectModalVisible}>
+                <CreateProjectPrompt clickConfirm={() => toggleState(setCreateProjectModalVisible, createProjectModalVisible)} clickCancel={() => toggleState(setCreateProjectModalVisible, createProjectModalVisible)} >
+
+                </CreateProjectPrompt>
+            </ModalHOC>
+
             <SiginPageTopNav>
                 <LogoSvg></LogoSvg>
                 <TopNavRight width={"10rem"}>
                     <TransparentButton width={"8rem"} height={"2rem"} onClick={() => handleSignout()}>Sign Out</TransparentButton>
                 </TopNavRight>
             </SiginPageTopNav>
+
             <HomeContentContainer>
                 <div>
                     <p>Profile Pic</p>
                     <p>{user.username}</p>
                 </div>
                 <div>
+                    <div style={{display: "flex", alignItems: "center"}}>
+
                     <h3>{user.username}'s project</h3>
+                        <Plus_Icon title={"Create New Project"} clicked={(e) => toggleState(setCreateProjectModalVisible, createProjectModalVisible)} fill="white"></Plus_Icon> 
+          
+          <div>
+            
+          </div>
+        
+                    </div>
                     <ProjectContainer> 
-                        <Plus_Icon title={"Create New Project"} fill="white"></Plus_Icon>
-                       { userProjects}
-                        {/* <ProjectInforamtionContainer>
+
+                       {
+                            user.projects.map(project => {
+
+                                    return (
+
+                                        <ProjectCard key={`project_${project._id.toString()}`} project={project} ></ProjectCard>
+                                        
+                                    )
+                            })
+                        }
+                                                
+                    </ProjectContainer>
+                </div>
+                <div>
+                    <div style={{display: "flex", alignItems: "center"}}>
+
+                        <h3>Team Name</h3>
+                        <Plus_Icon title={"Create New Project"} clicked={(e) => {}} fill="white"></Plus_Icon>
+                        
+                    </div>
+                    <ProjectContainer>
+                        <ProjectInforamtionContainer>
+
                             <p>Logo</p>
                             <p>Project Name</p>
                             <p>description: Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis quisquam amet quae ipsa nihil ut doloribus quasi velit fugiat consequatur.</p>
-                        </ProjectInforamtionContainer> */}
-                       
+                        </ProjectInforamtionContainer>
+                        <ProjectInforamtionContainer>
+                            <p>Logo</p>
+                            <p>Project Name</p>
+                            <p>description: Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis quisquam amet quae ipsa nihil ut doloribus quasi velit fugiat consequatur.</p>
+                        </ProjectInforamtionContainer>
+                        <ProjectInforamtionContainer>
+                            <p>Logo</p>
+                            <p>Project Name</p>
+                            <p>description: Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis quisquam amet quae ipsa nihil ut doloribus quasi velit fugiat consequatur.</p>
+                        </ProjectInforamtionContainer>
 
                     </ProjectContainer>
                 </div>
                 <div>
-                    <h3>Team Name</h3>
-                    <ProjectContainer>
+                    <div style={{display: "flex", alignItems: "center"}}>
+
+                        <h3>Team Name</h3>
                         <Plus_Icon title={"Create New Project"} fill="white"></Plus_Icon>
+                    </div>
+                    <ProjectContainer>
                         <ProjectInforamtionContainer>
 
                             <p>Logo</p>

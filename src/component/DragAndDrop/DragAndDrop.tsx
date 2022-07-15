@@ -233,10 +233,7 @@ const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
   return (
     
     <Container
-      onDragStart={(e: React.DragEvent<HTMLDivElement>) => handleDragStart(e)}
-      >
-
-      {/* <PrimaryButton>test</PrimaryButton> */}
+      onDragStart={(e: React.DragEvent<HTMLDivElement>) => handleDragStart(e)}>
 
       <Container className={'drag-drop-zone'}
         // data-name = {name}
@@ -263,44 +260,6 @@ const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
             <Plus_Icon clicked={() => toggleStateValue(setNewVisible, newVisible)} title={"Create New Task"}></Plus_Icon>
             <Edit_Icon clicked={() => toggleStateValue(setEditVisible, editVisible)} title={"Edit Category"}></Edit_Icon>
 
-            {/* <DropDownParent onClick={() => toggleState(setMenuVisible, menuVisible)}>...
-            {
-              menuVisible === true
-              ?
-
-                <DropDownContainer>
-
-                    <DropDownParent>
-                      <DropDownItem>
-                        Move
-                      </DropDownItem>
-                    </DropDownParent>
-
-                    <DropDownParent>
-                      <DropDownItem>
-                        Create New
-                      </DropDownItem>
-                    </DropDownParent>
-
-                    <DropDownParent>
-                      <DropDownItem>
-                      Edit
-                      </DropDownItem>
-                    </DropDownParent>
-
-                    <DropDownParent>
-                      <DropDownItem>
-                        Delete
-                      </DropDownItem>
-                    
-                    </DropDownParent>
-                </DropDownContainer>
-
-              :
-                ""
-            }
-          </DropDownParent> */}
-          
             <Move_Icon clicked={() => toggleState(setMenuVisible, menuVisible)} title={"Move Category"}></Move_Icon>
 
              <DropDownParent>

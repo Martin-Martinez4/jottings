@@ -2,12 +2,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from '../app/store';
 import { EditTaskType } from "../types/project.actions.types";
-import { ProjectType } from "../types/project.type";
-
-interface ActionGetProject {
-  type: string;
-  payload: string
-}
 
 
 const projectSlice = createSlice({
@@ -96,8 +90,6 @@ const projectSlice = createSlice({
 
             const category_id = action.payload.category_id;
             const newCategoryObject = action.payload.new_category_object;
-
-            console.log(action.payload)
 
             return state = {...state, project: {...state.project, length: action.payload.projectLength}, categories: {...state.categories, [category_id]: newCategoryObject[category_id]}};
 

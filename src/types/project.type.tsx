@@ -47,6 +47,14 @@ export type ProjectType = {
 
 }
 
+export type CreateProjectType = {
+
+    title: string,
+    description: string,
+    logo_url: string
+
+}
+
 export type StateType = {
 
     project: ProjectType,

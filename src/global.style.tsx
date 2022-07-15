@@ -79,14 +79,15 @@ export const InputLabelLeft = styled.label`
 
 `;
 
-export const TextArea = styled.textarea`
+export const TextArea = styled.textarea<{width?: string, height?: string}>`
 
     padding: .25rem;
     border-radius: 3px;
     border: 1px ${props => (props.theme.colors.quaternary_color)} outset;
     box-sizing: border-box;
 
-    width: 95%;
+    width: ${props => props.width? props.width : "95%"};
+    height: ${props => props.height? props.height : ""};
     margin: 0 0 .5rem 0;
 
 

@@ -11,11 +11,11 @@ type TaskAndCategoryType = {
     title?: string
 }
 
-export const Edit_Icon: FC<TaskAndCategoryType> = ({ clicked, title }) => {
+export const Edit_Icon: FC<TaskAndCategoryType> = ({ clicked, title, ...props }) => {
 
     return (
 
-            <SecondarySvg onClick={clicked} className="svg pointer" x="0px" y="0px" viewBox="0 0 488.728 488.728" >
+            <SecondarySvg onClick={clicked} className="svg pointer" x="0px" y="0px" viewBox="0 0 488.728 488.728" {...props}>
                 {
                     title
                     ?
