@@ -21,7 +21,6 @@ const Home = () => {
 
     console.log("changes")
 
-
     const dispatch = useDispatch();
 
     const user = useSelector((state:StateType) => state.auth);   
