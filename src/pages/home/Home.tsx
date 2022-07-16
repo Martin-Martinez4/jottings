@@ -32,7 +32,7 @@ const Home = () => {
 
     }
 
-    useEffect(() => { dispatch(getUser()) }, [dispatch]);
+    useEffect(() => { dispatch(getUser()); alert("changed") }, [dispatch]);
 
 
     return(
