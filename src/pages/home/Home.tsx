@@ -19,6 +19,8 @@ const CreateProjectPrompt = React.lazy(() => import("../../component/CreateProje
 
 const Home = () => {
 
+    console.log("changes")
+
 
     const dispatch = useDispatch();
 
@@ -32,7 +34,7 @@ const Home = () => {
 
     }
 
-    useEffect(() => { dispatch(getUser()); alert("changed") }, [dispatch]);
+    useEffect(() => { dispatch(getUser()) }, [dispatch]);
 
 
     return(
