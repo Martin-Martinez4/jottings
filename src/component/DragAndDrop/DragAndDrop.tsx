@@ -20,7 +20,6 @@ import ModalHOC from '../ModalHOC/ModalHOC';
 
 const CreateTaskPrompt = React.lazy(() => (import('../CreateTaskPrompt/CreateTaskPrompt')));
 
-
 const DragAndDrop: FC<DragAndDropProps> = ({ id, name, dropDownCategories }) => {
 
   const dispatch = useDispatch();
