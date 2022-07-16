@@ -104,6 +104,51 @@ export const TextArea = styled.textarea<{width?: string, height?: string}>`
     }
 `
 
+export const TextAreaParent = styled.div<{width?: string, height?: string}>`
+        width: ${props => props.width? props.width : "95%"};
+        height: ${props => props.height? props.height : ""};
+
+        overflow: auto;
+
+        display: flex;
+        justify-content: center;
+
+    & > :first-child{
+
+        padding: .25rem;
+        border-radius: 3px;
+        border: 1px ${props => (props.theme.colors.main_color)} outset;
+        box-sizing: border-box;
+
+        color: ${props => props.theme.colors.black};
+
+        text-align: left;
+
+        overflow: auto;
+
+
+        /* width: ${props => props.width? props.width : "100%"}; */
+        width: 100%;
+        height: ${props => props.height? props.height : ""};
+        margin: 0 0 .5rem 0;
+
+
+        resize: none;
+
+        font-size: .9rem;
+
+        &:focus{
+
+            border: ${props => (props.theme.colors.secondary_color)} inset 1.5px;
+
+            outline: none;
+
+        }
+
+    }
+
+`;
+
 export const ButtonContainer = styled.div`
     
     display: flex;
@@ -140,6 +185,64 @@ export const Button = styled.div<{width?: string, height?: string}>`
 
 
 `
+
+export const PromptContainer = styled.div`
+
+    text-align: center;
+
+    background-color: white; 
+    color: black;
+    overflow: hidden;
+    width: 50%; 
+    height: 70%; 
+    position: relative; 
+    left: 25vw; 
+    top: 10vh;
+
+    padding: .5rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 3px;
+    box-shadow: 1px 1px 10px ${props => props.theme.colors.quaternary_color};
+    box-sizing: border-box;
+
+    @media screen and (max-width: 800px){
+
+        &{
+
+            width: 90%; 
+            height: 90%; 
+            position: relative; 
+            left: 1rem; 
+            top: 1rem;
+        }
+
+    }
+
+`;
+
+export const ThinnerPromptContainer = styled(PromptContainer)`
+
+    width: 25%;
+    left: calc(25% + 14%);   
+`;
+
+export const ShorterPromptContainer = styled(PromptContainer)`
+
+    height: 25%; 
+`;
+
+export const ThinnerShorterPromptContainer = styled(PromptContainer)`
+
+    height: 25%;
+    width: 25%;
+    left: calc(25% + 14%);  
+`;
+
 export const PrimaryButton = styled(Button)`
     
     background-color: ${props => props.theme.colors.main_color};

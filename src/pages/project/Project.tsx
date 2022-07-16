@@ -6,7 +6,7 @@ import ModalHOC from '../../component/ModalHOC/ModalHOC';
 import CreateCategoryPrompt from '../../component/CreateCategoryPrompt/CreateCategoryPrompt';
 
 import { useSelector, useDispatch } from 'react-redux';
-import Plus_Icon from '../../component/Svg_Icons/Plus_Icon/Plus_Icon';
+import PlusIcon from '../../component/Svg_Icons/PlusIcon/PlusIcon';
 import LogoSVGAlt from '../../component/Svg_Icons/Logo/Logo._svg alt';
 import { getUser } from '../../actions/authSlice';
 
@@ -17,7 +17,7 @@ import DragAndDrop from '../../component/DragAndDrop/DragAndDrop';
 import { StateType } from '../../types/project.type';
 
 
-const Home = () => {
+const Project = () => {
 
     const dispatch = useDispatch();
     
@@ -66,7 +66,7 @@ const Home = () => {
 
     });
 
-    useEffect(() => { dispatch(getUser()) }, [project]);
+    useEffect(() => { dispatch(getUser()) }, [project, dispatch]);
     
 
     const [newVisible, setNewVisible] = useState(false);
@@ -76,14 +76,17 @@ const Home = () => {
       <>
         <ModalHOC visible={newVisible}>
           <CreateCategoryPrompt toggleModalVisible={() => toggleState(setNewVisible, newVisible)}></CreateCategoryPrompt>
+          
         </ModalHOC>
+
+
       <div style={{ width: "100vw", height: "100vh", overflow: "hidden" }}>
         <TopBar>
           <LogoSVGAlt></LogoSVGAlt>
           
           <h3>{project.title}</h3>
 
-          <Plus_Icon clicked={() => toggleState(setNewVisible, newVisible)} title={"Create New Category"}></Plus_Icon>
+          <PlusIcon clicked={() => toggleState(setNewVisible, newVisible)} title={"Create New Category"}></PlusIcon>
 
 
 
@@ -113,5 +116,5 @@ const Home = () => {
 
 }
 
-export default Home;
+export default Project;
 

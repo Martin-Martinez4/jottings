@@ -7,9 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { getCreateCategory } from "../../actions/projectSlice";
 import { StateType } from "../../types/project.type";
+import { ThinnerShorterPromptContainer } from "../../global.style";
 
 import { ButtonContainer, Input, PrimaryButton, RedButton } from "../../global.style";
-import { CreateCategoryPromptContainer } from "./CreateCategoryPrompt.styles";
 
 
 interface IWithToggleModalVisible{
@@ -46,15 +46,16 @@ const CreateCategoryPrompt: React.FC<IWithToggleModalVisible> = ({ toggleModalVi
     
       }
 
+    
    
     return (
-        <CreateCategoryPromptContainer>
+        <ThinnerShorterPromptContainer>
             <Input value={newCategoryValues.title} name="title" onChange={(e) => onInputChange(e, setNewCategoryValues, newCategoryValues)}placeholder="Category Title" ></Input>
             <ButtonContainer>
                 <PrimaryButton onClick={() => onCreate()}>Confirm</PrimaryButton>
                 <RedButton onClick={() => toggleModalVisible()}>Cancel</RedButton>
             </ButtonContainer>
-        </CreateCategoryPromptContainer>
+        </ThinnerShorterPromptContainer>
     )
 
 }

@@ -1,23 +1,24 @@
 
-import React, { FC, ReactElement, useEffect, useState } from 'react';
+import React, { FC, ReactElement, useState, Suspense } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { onInputChange } from '../../utils/onInputChange';
+import { toggleState } from '../../utils/toggleState';
 
-import { getChangeType, getCreateTask, getEditCategory, getDeleteCategory, getChangeCategoryOrder } from '../../actions/projectSlice';
-import { Container, TopBar, CreateNewPrompt, CategoryTitle, CreateBox, DropDownParent, DropDownContainer } from "./dragAndDrop.styles";
-import { Input, ButtonContainer, PrimaryButton, RedButton, TextArea } from '../../global.style';
+import { getChangeType, getEditCategory, getDeleteCategory, getChangeCategoryOrder } from '../../actions/projectSlice';
+import { Container, TopBar, CategoryTitle, DropDownParent, DropDownContainer } from "./dragAndDrop.styles";
+import { Input, ButtonContainer, PrimaryButton, RedButton, ThinnerShorterPromptContainer} from '../../global.style';
 import Draggable from '../Draggables/Draggable';
 import { DragAndDropProps } from '../../types/draggableTypes';
-import Plus_Icon from '../Svg_Icons/Plus_Icon/Plus_Icon';
-import Edit_Icon from '../Svg_Icons/Edit_Icon/Edit_Icon';
+
+import PlusIcon from '../Svg_Icons/PlusIcon/PlusIcon';
+import EditIcon from '../Svg_Icons/EditIcon/EditIcon';
 import CloseIcon from '../Svg_Icons/CloseIcon/CloseIcon';
-import Move_Icon from '../Svg_Icons/Move_Icon/Move_Svg';
-import { toggleState } from '../../utils/toggleState';
-import "./dragAndDrop.css"
+import MoveIcon from '../Svg_Icons/MoveIcon/MoveIcon';
+
 import { StateType } from '../../types/project.type';
+import ModalHOC from '../ModalHOC/ModalHOC';
 
-// import io from "socket.io-client";
-
-// const socket = io('http://localhost:3001');
+const CreateTaskPrompt = React.lazy(() => (import('../CreateTaskPrompt/CreateTaskPrompt')));
 
 
 const DragAndDrop: FC<DragAndDropProps> = ({ id, name, dropDownCategories }) => {
@@ -27,13 +28,9 @@ const DragAndDrop: FC<DragAndDropProps> = ({ id, name, dropDownCategories }) => 
   const [newVisible, setNewVisible] = useState(false);
   const [editVisible, setEditVisible] = useState(false);
   const [deleteVisible, setDeleteVisible] = useState(false);
+
   const [editTitle, setEditTitle] = useState({title: name});
-  const [newTaskContent, setNewTaskContent] = useState({
 
-    title: "",
-    content: "",
-
-  })
 
   const [ menuVisible, setMenuVisible ] = useState(false);
 
@@ -71,69 +68,6 @@ const DragAndDrop: FC<DragAndDropProps> = ({ id, name, dropDownCategories }) => 
     }
   );
 
-  useEffect(() => {}, [tasks])
-
-  const toggleNewVisible = () => {
-
-    setNewVisible(!newVisible);
-
-  }
-
-  const toggleStateValue = (setFunc: React.Dispatch<React.SetStateAction<any>>, currentState: boolean) => {
-
-    setFunc(!currentState)
-
-  }
-
-  /*  eslint-disable-next-line  no-unused-vars*/
-  const onInputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>, setFunc: React.Dispatch<React.SetStateAction<any>>, CurrentState: object) => {
-
-
-    setFunc((CurrentState: object) => ({...CurrentState, [e.target.name]: (e.target.value).toString()}))
-
-    e.preventDefault();
-
-    
-}
-
-const clearState = (setFunc: React.Dispatch<React.SetStateAction<any>>, CurrentState: object) => {
-
-  Object.keys(CurrentState).forEach( (stateProp) => {
-
-      setFunc((CurrentState: object) => ({...CurrentState, [stateProp]: ""}))
-
-    }
-
-  )
-
-}
-
-  const onCreate = () => {
-
-    try{
-
-        
-        if(project.project_id && id && newTaskContent.content && newTaskContent.title){
-          
-            dispatch(getCreateTask({ project_id: project.project_id, category_id: id, content: newTaskContent.content, title: newTaskContent.title }));
-
-            clearState(setNewTaskContent, newTaskContent);
-
-            toggleNewVisible();
-          }
-          else{
-            
-            return
-        }
-
-      }
-      catch(err){
-
-        console.error(err)
-      }
-
-  }
-
   const onEditCategory = () => {
 
     try{
@@ -144,7 +78,7 @@ const clearState = (setFunc: React.Dispatch<React.SetStateAction<any>>, CurrentS
             dispatch(getEditCategory({ project_id: project.project_id, category_id: id, title: editTitle.title }));
 
 
-            editVisible && toggleStateValue(setEditVisible, editVisible);
+            editVisible && toggleState(setEditVisible, editVisible);
           }
           else{
             
@@ -168,7 +102,6 @@ const clearState = (setFunc: React.Dispatch<React.SetStateAction<any>>, CurrentS
 
     }
 
-    /*eslint no-unused-vars: ["error", { "argsIgnorePattern": "^(_|action)" }]*/
     dispatch(getDeleteCategory(body))
 
   }
@@ -229,22 +162,48 @@ const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
 
   };
 
+ 
+
 
   return (
+
+    <>
+      <ModalHOC visible={editVisible}>
+          <ThinnerShorterPromptContainer>
+              <Input name="title" onChange={(e) => onInputChange(e, setEditTitle, editTitle)} value={`${editTitle.title}`}></Input>
+              <ButtonContainer>
+
+                <PrimaryButton onClick={() => onEditCategory()} >Save</PrimaryButton>
+                <RedButton onClick={() => toggleState(setEditVisible, editVisible)}>Cancel</RedButton>
+
+              </ButtonContainer>
+            </ThinnerShorterPromptContainer>
+      </ModalHOC>
+
+      <ModalHOC visible={deleteVisible}>
+          <ThinnerShorterPromptContainer>
+              <p>Delete Category {category.title}?</p>
+              <ButtonContainer>
+
+                <PrimaryButton onClick={() => onDelete()} >Delete</PrimaryButton>
+                <RedButton onClick={() => toggleState(setDeleteVisible, deleteVisible)}>Cancel</RedButton>
+
+              </ButtonContainer>
+          </ThinnerShorterPromptContainer>
+      </ModalHOC>
+
+      <ModalHOC visible={newVisible}>
+
+          <Suspense fallback={<div>Loading...</div>}>
+              <CreateTaskPrompt project_id={project.project_id} category_id={id} clickConfirm={() => toggleState(setNewVisible, newVisible)} clickCancel={() => toggleState(setNewVisible, newVisible)} ></CreateTaskPrompt>
+          </Suspense>
+       
+      </ModalHOC>
     
     <Container
       onDragStart={(e: React.DragEvent<HTMLDivElement>) => handleDragStart(e)}>
 
-      <Container className={'drag-drop-zone'}
-        // data-name = {name}
-        // data-id= {id}
-        // data-index= {category.index}
-        // draggable
-        // onDrop={e => handleDrop(e)}
-        // onDragOver={e => handleDragOver(e)}
-        // onDragEnter={e => handleDragEnter(e)}
-        // onDragLeave={e => handleDragLeave(e)}
-        >
+      <Container className={'drag-drop-zone'}>
           <div
             data-name = {name}
             data-id= {id}
@@ -256,11 +215,11 @@ const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
             onDragLeave={e => handleDragLeave(e)}
           >
           <TopBar>
-            <CloseIcon clicked={() => toggleStateValue(setDeleteVisible, deleteVisible)} title={"Delete Categoy"}></CloseIcon>
-            <Plus_Icon clicked={() => toggleStateValue(setNewVisible, newVisible)} title={"Create New Task"}></Plus_Icon>
-            <Edit_Icon clicked={() => toggleStateValue(setEditVisible, editVisible)} title={"Edit Category"}></Edit_Icon>
+            <CloseIcon clicked={() => toggleState(setDeleteVisible, deleteVisible)} title={"Delete Categoy"}></CloseIcon>
+            <PlusIcon clicked={() => toggleState(setNewVisible, newVisible)} title={"Create New Task"}></PlusIcon>
+            <EditIcon clicked={() => toggleState(setEditVisible, editVisible)} title={"Edit Category"}></EditIcon>
 
-            <Move_Icon clicked={() => toggleState(setMenuVisible, menuVisible)} title={"Move Category"}></Move_Icon>
+            <MoveIcon clicked={() => toggleState(setMenuVisible, menuVisible)} title={"Move Category"}></MoveIcon>
 
              <DropDownParent>
                   {
@@ -289,53 +248,10 @@ const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
                   }
               </DropDownParent>
           </TopBar>
-          {
-            editVisible 
-            ?
-            <CreateNewPrompt>
-              <Input name="title" onChange={(e) => onInputChange(e, setEditTitle, editTitle)} value={`${editTitle.title}`}></Input>
-              <ButtonContainer>
-
-                <PrimaryButton onClick={() => onEditCategory()} >Save</PrimaryButton>
-                <RedButton onClick={() => toggleStateValue(setEditVisible, editVisible)}>Cancel</RedButton>
-
-              </ButtonContainer>
-            </CreateNewPrompt>
-            :
+          
             <CategoryTitle>{category.title}</CategoryTitle>
-          }
-          {
-            deleteVisible 
-            ?
-            <CreateNewPrompt>
-              <p>Delete Category?</p>
-              <ButtonContainer>
 
-                <PrimaryButton onClick={() => onDelete()} >Delete</PrimaryButton>
-                <RedButton onClick={() => toggleStateValue(setDeleteVisible, deleteVisible)}>Cancel</RedButton>
-
-              </ButtonContainer>
-            </CreateNewPrompt>
-            :
-            ""
-          }
-
-          {
-              newVisible && 
-              <CreateBox>
-        
-                <Input name="title" onChange={(e) => onInputChange(e, setNewTaskContent, newTaskContent)} type="text" value={newTaskContent.title}></Input>
-
-                <TextArea name="content" onChange={(e) => onInputChange(e, setNewTaskContent, newTaskContent)} value={newTaskContent.content} ></TextArea>
-
-                <ButtonContainer>
-
-                  <PrimaryButton onClick={() => onCreate() }>Save</PrimaryButton>
-                  <RedButton onClick={() => toggleStateValue(setNewVisible, newVisible)} >Cancel</RedButton>
-                        
-                </ButtonContainer>
-              </CreateBox>
-          }
+    
           </div>
           <div>
 
@@ -345,6 +261,7 @@ const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
           </div>
       </Container>
     </Container>
+    </>
   );
 };
 export default DragAndDrop;

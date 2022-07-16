@@ -11,7 +11,7 @@ type TaskAndCategoryType = {
     title?: string
 }
 
-export const Edit_Icon: FC<TaskAndCategoryType> = ({ clicked, title, ...props }) => {
+export const EditIcon: FC<TaskAndCategoryType> = ({ clicked, title, ...props }) => {
 
     return (
 
@@ -37,5 +37,5 @@ export const Edit_Icon: FC<TaskAndCategoryType> = ({ clicked, title, ...props })
     )
   }
 
-  export default Edit_Icon;
+  export default EditIcon;
 

@@ -1,6 +1,6 @@
 
 import { FC } from 'react';
-import { TertiarySvg, WhiteSvg } from '../Svg.styles';
+import { TertiarySvg } from '../Svg.styles';
 
 import "../svg_icons.css";
 
@@ -11,7 +11,7 @@ type TaskAndCategoryType = {
 	fill?: string;
 }
 
-export const Plus_Icon: FC<TaskAndCategoryType> = ({ clicked, title, fill }) => {
+export const PlusIcon: FC<TaskAndCategoryType> = ({ clicked, title, fill }) => {
 
 	
 
@@ -40,5 +40,5 @@ export const Plus_Icon: FC<TaskAndCategoryType> = ({ clicked, title, fill }) => 
     )
   }
 
-  export default Plus_Icon;
+  export default PlusIcon;
 

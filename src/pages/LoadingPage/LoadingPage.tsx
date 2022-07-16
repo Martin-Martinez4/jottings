@@ -1,5 +1,5 @@
 
-import Bars from "../../component/Svg_Icons/Loading_Icons/Bars";
+import Bars from "../../component/Svg_Icons/LoadingIcons/Bars";
 import { LoadingPageContainer } from "./LoadingPage.styles";
 
 const LoadingPage = () => {

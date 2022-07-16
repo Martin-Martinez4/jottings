@@ -9,7 +9,7 @@ type TaskAndCategoryType = {
     children?: Element | ReactElement<any, any>,
 }
 
-export const Move_Icon:FC<TaskAndCategoryType> = ({ clicked, title, children }) => {
+export const MoveIcon:FC<TaskAndCategoryType> = ({ clicked, title, children }) => {
 
     return (
 
@@ -45,5 +45,5 @@ export const Move_Icon:FC<TaskAndCategoryType> = ({ clicked, title, children }) 
     )
   }
 
-  export default Move_Icon;
+  export default MoveIcon;
 

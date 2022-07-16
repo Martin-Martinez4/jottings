@@ -11,7 +11,13 @@ const ModalHOC: React.FC<IWithChildern> = ({ children, visible }) => {
 
     return (
         <ModalContainer style={visible?{ display: "block" } : { display: "none" } } >
-            { children }
+            {
+                visible
+                ?
+                    children
+                : 
+                    ""
+            }
         </ModalContainer>
     )
 }

@@ -1,12 +1,12 @@
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { StateType } from "../../types/project.type";
 import { HomeContentContainer, ProjectContainer, ProjectInforamtionContainer } from "./home.styles";
 import { SiginPageTopNav, TopNavRight } from "../signin/Signin.styles";
 import { TransparentButton } from "../../global.style";
-import CreateProjectPrompt from "../../component/CreateProjectPrompt/CreateProjectPrompt";
+// import CreateProjectPrompt from "../../component/CreateProjectPrompt/CreateProjectPrompt";
 import LogoSvg from "../../component/Svg_Icons/Logo/Logo._svg";
-import Plus_Icon from "../../component/Svg_Icons/Plus_Icon/Plus_Icon";
+import PlusIcon from "../../component/Svg_Icons/PlusIcon/PlusIcon";
 import ModalHOC from "../../component/ModalHOC/ModalHOC";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -14,6 +14,8 @@ import { getUser, getSignout } from "../../actions/authSlice";
 
 import ProjectCard from "../../component/ProjectCard/ProjectCard";
 import { toggleState } from "../../utils/toggleState";
+
+const CreateProjectPrompt = React.lazy(() => import("../../component/CreateProjectPrompt/CreateProjectPrompt"));
 
 const Home = () => {
 
@@ -30,17 +32,21 @@ const Home = () => {
 
     }
 
-    useEffect(() => { dispatch(getUser()) }, []);
+    useEffect(() => { dispatch(getUser()) }, [dispatch]);
 
 
     return(
 
         <>
             <ModalHOC visible={createProjectModalVisible}>
-                <CreateProjectPrompt clickConfirm={() => toggleState(setCreateProjectModalVisible, createProjectModalVisible)} clickCancel={() => toggleState(setCreateProjectModalVisible, createProjectModalVisible)} >
+                <Suspense fallback={"Loading..."}>
 
-                </CreateProjectPrompt>
+                    <CreateProjectPrompt clickConfirm={() => toggleState(setCreateProjectModalVisible, createProjectModalVisible)} clickCancel={() => toggleState(setCreateProjectModalVisible, createProjectModalVisible)} >
+
+                    </CreateProjectPrompt>
+                </Suspense>
             </ModalHOC>
+
 
             <SiginPageTopNav>
                 <LogoSvg></LogoSvg>
@@ -58,7 +64,7 @@ const Home = () => {
                     <div style={{display: "flex", alignItems: "center"}}>
 
                     <h3>{user.username}'s project</h3>
-                        <Plus_Icon title={"Create New Project"} clicked={(e) => toggleState(setCreateProjectModalVisible, createProjectModalVisible)} fill="white"></Plus_Icon> 
+                        <PlusIcon title={"Create New Project"} clicked={(e) => toggleState(setCreateProjectModalVisible, createProjectModalVisible)} fill="white"></PlusIcon> 
           
           <div>
             
@@ -84,7 +90,7 @@ const Home = () => {
                     <div style={{display: "flex", alignItems: "center"}}>
 
                         <h3>Team Name</h3>
-                        <Plus_Icon title={"Create New Project"} clicked={(e) => {}} fill="white"></Plus_Icon>
+                        <PlusIcon title={"Create New Project"} clicked={(e) => {}} fill="white"></PlusIcon>
                         
                     </div>
                     <ProjectContainer>
@@ -111,7 +117,7 @@ const Home = () => {
                     <div style={{display: "flex", alignItems: "center"}}>
 
                         <h3>Team Name</h3>
-                        <Plus_Icon title={"Create New Project"} fill="white"></Plus_Icon>
+                        <PlusIcon title={"Create New Project"} fill="white"></PlusIcon>
                     </div>
                     <ProjectContainer>
                         <ProjectInforamtionContainer>

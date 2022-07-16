@@ -1,32 +1,31 @@
 
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, Suspense, useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
-import { getChangeType, getChangeTaskOrder, getDeleteTask, getEditTask } from "../../actions/projectSlice";
+import { getChangeType, getChangeTaskOrder, getDeleteTask } from "../../actions/projectSlice";
 
 import { TopBar, DraggableContainer } from "./draggables.styles";
 
 import { Task, DraggableProps } from "../../types/draggableTypes";
 import { toggleState } from "../../utils/toggleState";
 
-import { DropDownParent, DropDownContainer, DropDownItem } from "../DragAndDrop/dragAndDrop.styles";
+import { DropDownParent, DropDownContainer } from "../DragAndDrop/dragAndDrop.styles";
 
-import { Input, TextArea, ButtonContainer, PrimaryButton, RedButton, Button } from "../../global.style";
+import { Input, ButtonContainer, PrimaryButton, RedButton, ThinnerShorterPromptContainer } from "../../global.style";
 
+import ModalHOC from "../ModalHOC/ModalHOC";
 import CloseIcon from "../Svg_Icons/CloseIcon/CloseIcon";
-import Plus_Icon from "../Svg_Icons/Plus_Icon/Plus_Icon";
-import Edit_Icon from "../Svg_Icons/Edit_Icon/Edit_Icon";
-import Move_Icon from "../Svg_Icons/Move_Icon/Move_Svg";
+import EditIcon from "../Svg_Icons/EditIcon/EditIcon";
+import MoveIcon from "../Svg_Icons/MoveIcon/MoveIcon";
 
 import "./draggable.css"
 import { StateType } from "../../types/project.type";
 
-// category_id and task _id are passed in
-// useSelect to get task info
-// store content and title in a temp local state
-    //  Will be used for editing
-
+const EditTaskPrompt = React.lazy(() => import("../EditTaskPrompt/EditTaskPrompt"));
+    
 const Draggable:FC<DraggableProps> = ({ task, dropDownCategories }) => {
+
+
     
     const [ menuVisible, setMenuVisible ] = useState(false);
     const [editVisible, setEditVisible] = useState(false);
@@ -41,13 +40,7 @@ const Draggable:FC<DraggableProps> = ({ task, dropDownCategories }) => {
     const task2 = useSelector((state: StateType) => state.project.tasks[task.category_id][task.id]);
     const category = useSelector((state: StateType) => state.project.categories[task.category_id])
     const categories = useSelector((state: StateType) => state.project.categories)
-    const project_id = useSelector((state: StateType) => state.project.project.project_id);
-
-    const [ editContent, setEditContent ] = useState({
-
-        content: `${task2.content}`,
-        title: `${task2.title}`
-    })
+  
 
     const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
@@ -67,6 +60,7 @@ const Draggable:FC<DraggableProps> = ({ task, dropDownCategories }) => {
     
 
     const dispatch = useDispatch();
+
 
     const project = useSelector((state: StateType) => state.project.project)
 
@@ -101,37 +95,6 @@ const Draggable:FC<DraggableProps> = ({ task, dropDownCategories }) => {
     const toggleVisible = (setFunc: React.Dispatch<React.SetStateAction<any>>, currentState: boolean) => {
 
         setFunc(!currentState);
-
-    }
-
-    const onInputChange = (e: React.ChangeEvent<any>, setFunc: React.Dispatch<React.SetStateAction<any>>, CurrentState: object) => {
-
-
-        setFunc((CurrentState: object) => ({...CurrentState, [e.target.name]: (e.target.value).toString()}))
-    
-        e.preventDefault();
-    
-        
-    }
-
-    const onEdit = async () => {
-
-        const body = {
-
-            content: editContent.content,
-            title: editContent.title,
-            project_id: project_id,
-            category_id: task.category_id,
-            task_id: task.id,
-            badges: []
-        }
-
-
-        dispatch(getEditTask(body))
-
-        toggleVisible(setEditVisible ,editVisible)
-
-        return
 
     }
 
@@ -174,11 +137,10 @@ const Draggable:FC<DraggableProps> = ({ task, dropDownCategories }) => {
         const old_category_id = task.category_id
         const original_index = task2.index;
 
-        // const newType =  e.currentTarget.getAttribute("data-name");
         const target_category_id =  buttonMoveIndexAndCategory.target_category_id;
         const target_index = buttonMoveIndexAndCategory.target_index;
 
-        if(target_category_id === undefined && target_index === undefined || target_index === undefined || target_index >= categories[target_category_id]["length"] || target_index < 0){
+        if((target_category_id === undefined && target_index === undefined) || (target_index === undefined) || (target_index >= categories[target_category_id]["length"]) || (target_index < 0)){
 
             return
 
@@ -203,7 +165,7 @@ const Draggable:FC<DraggableProps> = ({ task, dropDownCategories }) => {
 
       const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 
-        setButtonMoveIndexAndCategory(state => ({...state, ["target_category_id"]: e.target.value}))
+        setButtonMoveIndexAndCategory(state => ({...state, "target_category_id": e.target.value}))
 
       }
 
@@ -211,11 +173,48 @@ const Draggable:FC<DraggableProps> = ({ task, dropDownCategories }) => {
 
         const target_index= e.target.value === undefined ? undefined : parseInt(e.target.value);
 
-        setButtonMoveIndexAndCategory(state => ({...state, ["target_index"]: target_index}))
+        setButtonMoveIndexAndCategory(state => ({...state, "target_index": target_index}))
 
       }
 
     return(
+        <>
+
+        {
+            deleteVisible
+            ?
+                <ModalHOC visible={deleteVisible}>
+                    <ThinnerShorterPromptContainer>
+                        <p style={{ wordBreak: "break-word" }}>Delete Task: {task2.title}?</p>
+                        <ButtonContainer>
+
+                            <PrimaryButton onClick={() => onDelete() }>Delete</PrimaryButton>
+                            <RedButton onClick={() => toggleVisible(setDeleteVisible, deleteVisible)} >Cancel</RedButton>
+                        </ButtonContainer>
+                    </ThinnerShorterPromptContainer>
+                </ModalHOC>
+            : ""
+
+        }
+        {
+            editVisible
+            ?
+                <ModalHOC visible={editVisible}>
+                    <Suspense  fallback={<div>Loading...</div>}>
+
+                        <EditTaskPrompt 
+                            task={task2} 
+                            category_id={task.category_id }
+                            clickConfirm={(e) => toggleState(setEditVisible, editVisible, e)} 
+                            clickCancel={(e) => toggleState(setEditVisible, editVisible, e)}
+                            >
+
+                        </EditTaskPrompt>
+                    </Suspense>
+                </ModalHOC>
+            : ""
+
+        }
 
         <DraggableContainer
             key={task2._id}
@@ -230,9 +229,9 @@ const Draggable:FC<DraggableProps> = ({ task, dropDownCategories }) => {
                 <TopBar>
 
                     <CloseIcon clicked={() => toggleVisible(setDeleteVisible, deleteVisible)} title={"Delete Task"} ></CloseIcon>
-                    <Edit_Icon clicked={() => toggleVisible(setEditVisible, editVisible)} title={"Edit Task"}></Edit_Icon>
+                    <EditIcon clicked={() => toggleVisible(setEditVisible, editVisible)} title={"Edit Task"}></EditIcon>
 
-                    <Move_Icon clicked={() => toggleState(setMenuVisible, menuVisible)} title={"Move Task"}></Move_Icon>
+                    <MoveIcon clicked={() => toggleState(setMenuVisible, menuVisible)} title={"Move Task"}></MoveIcon>
                     <DropDownParent>
                         {
                         menuVisible === true
@@ -249,17 +248,13 @@ const Draggable:FC<DraggableProps> = ({ task, dropDownCategories }) => {
                                     }
                                     </select>
 
-
-                                    {/* <label>Change Order</label> 
-                                    <input type="checkbox" id="reveal-email" role="button"></input> */}
-
                                     <div>
                                         
-                                    <p>Pick an index between 0 and {buttonMoveIndexAndCategory.target_category_id ? categories[buttonMoveIndexAndCategory.target_category_id]["length"] : category.length} to change position</p>
-                                    <div style={{ display: "flex", justifyContent: "space-around",  }}>
+                                        <p>Pick an index between 0 and {buttonMoveIndexAndCategory.target_category_id ? categories[buttonMoveIndexAndCategory.target_category_id]["length"] : category.length} to change position</p>
+                                        <div style={{ display: "flex", justifyContent: "space-around",  }}>
 
-                                    <Input type="number" width="3rem" min="0" max={`${category.length}`} onChange={(e) => onIndexInputChange(e)}></Input>
-                                    </div>
+                                            <Input type="number" width="3rem" min="0" max={`${category.length}`} onChange={(e) => onIndexInputChange(e)}></Input>
+                                        </div>
                                     </div>
 
                                     <ButtonContainer style={{ display: "flex", justifyContent: "center",  }}>
@@ -276,48 +271,16 @@ const Draggable:FC<DraggableProps> = ({ task, dropDownCategories }) => {
                         }
                     </DropDownParent>
                 </TopBar>
-                {
-                    editVisible
-                    ?
-                        <Input name="title" value={`${editContent.title}`}  onChange={(e) => onInputChange(e, setEditContent, editContent)}></Input>
-                    :
-                    <span>{task2.title}</span>
-                }
+                
+                <span style={{ wordBreak: "break-word" }}>{task2.title}</span>
             </div>
             <div style={{overflow: "hidden"}}>
-                    {
-                        editVisible
-                        ?
-                        <div>
-                            <TextArea name="content" value={`${editContent.content}`} onChange={(e) => onInputChange(e, setEditContent, editContent)} cols={20} rows={10}></TextArea>
-                            <ButtonContainer>
-
-                                <PrimaryButton onClick={() => onEdit() }>Save</PrimaryButton>
-                                <RedButton onClick={() => toggleVisible(setEditVisible, editVisible)} >Cancel</RedButton>
-                            </ButtonContainer>
-                        </div>
-                        :
-                        <p>
-                           {task2.content}
-                        </p>
-                    }
-                    {
-                        deleteVisible
-                        ?
-                        <div>
-                            <p>Delete Task?</p>
-                            <ButtonContainer>
-
-                                <PrimaryButton onClick={() => onDelete() }>Delete</PrimaryButton>
-                                <RedButton onClick={() => toggleVisible(setDeleteVisible, deleteVisible)} >Cancel</RedButton>
-                            </ButtonContainer>
-                        </div>
-                        :
-                        ""
-                    }
+                    
+                <div dangerouslySetInnerHTML={{__html: `${task2.content}`}} />
 
             </div>
         </DraggableContainer>
+        </>
     )
 
 
