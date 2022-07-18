@@ -5,6 +5,7 @@ import { ChangeType, createTask, deleteTask, editTask } from "../../actions/proj
 import { Logout } from "../../actions/authSlice";
 import { HandleChangeTypeType, HandleCreateTaskType, HandleDeleteTaskType, HandleEditTaskType } from "../../types/task.handler.type";
 import { requestChangeType, requestDeleteTask, requestCreateTask, requestEditTask } from "../requests/task.request";
+import { errorMessage } from "../../actions/errorAndLoadingSlice";
 
 export function* handleChangeType(action: HandleChangeTypeType): SagaIterator{
     
@@ -12,22 +13,7 @@ export function* handleChangeType(action: HandleChangeTypeType): SagaIterator{
         
         const response = yield call(requestChangeType, action.payload);
 
-        if(response === "NA" || response === {}){
-
-            yield put(Logout({ 
-                email: "", 
-                username: "", 
-                projects: [], 
-                permissions: {}, 
-                access_token: "", 
-                isAuth: false 
-            }))
-
-        }
-        else{
-
-            yield put(ChangeType({...response}))
-        }
+        yield put(ChangeType({...response}))
 
     }
     catch(err){
@@ -40,22 +26,8 @@ export function* handleDeleteTask(action: HandleDeleteTaskType): SagaIterator{
     try{
         
         const response = yield call(requestDeleteTask, action.payload);
-        if(response === "NA" || response === {}){
 
-            yield put(Logout({ 
-                email: "", 
-                username: "", 
-                projects: [], 
-                permissions: {}, 
-                access_token: "", 
-                isAuth: false 
-            }))
-
-        }
-        else{
-            
-            yield put(deleteTask({...response}))
-        }
+        yield put(deleteTask({...response}))
     }
     catch(err){
 
@@ -68,23 +40,8 @@ export function* handleCreateTask(action: HandleCreateTaskType): SagaIterator{
     try{
         
         const response = yield call(requestCreateTask, action.payload);
-
-        if(response === "NA" || response === {}){
-
-            yield put(Logout({ 
-                email: "", 
-                username: "", 
-                projects: [], 
-                permissions: {}, 
-                access_token: "", 
-                isAuth: false 
-            }))
-
-        }
-        else{
-
-            yield put(createTask({...response}))
-        }
+    
+        yield put(createTask({...response}))
     }
     catch(err){
         
@@ -99,23 +56,8 @@ export function* handleEditTask(action: HandleEditTaskType): SagaIterator{
     try{
 
         const response = yield call(requestEditTask, action.payload);
-
-        if(response === "NA" || response === {}){
-
-            yield put(Logout({ 
-                email: "", 
-                username: "", 
-                projects: [], 
-                permissions: {}, 
-                access_token: "", 
-                isAuth: false 
-            }))
-
-        }
-        else{
             
-            yield put(editTask({...response}))
-        }
+        yield put(editTask({...response}))
     }
     catch(err){
 

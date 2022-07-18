@@ -36,15 +36,14 @@ const ProjectCard: React.FC<IWithProject> = ({ project }) => {
         e.preventDefault();
         e.stopPropagation();
 
-        const el = e.target as HTMLDivElement
 
-        const project_id = el.getAttribute("data-id");
+        const project_id = project._id.toString();
 
         if(project_id){
 
             dispatch(getProject(project_id));
     
-            navigate("/project");
+            navigate(`/project/${project_id}`);
         }   
 
     }
@@ -85,19 +84,19 @@ const ProjectCard: React.FC<IWithProject> = ({ project }) => {
                 </ThinnerShorterPromptContainer>
         </ModalHOC>
         
-        <ProjectInforamtionContainer data-id={project._id.toString()} onClick={(e) => handleGoToProject(e)}>
+        <ProjectInforamtionContainer  onClick={(e) => handleGoToProject(e)}>
             <TopBar>
 
-                <CloseIcon  data-id={project._id.toString()} clicked={(e) => toggleState(setDeletePromptVisible, deletePromptVisible, e)} title={"Delete Project"} ></CloseIcon>
-                <EditIcon data-id={project._id.toString()} clicked={(e) => toggleState(setEditPromptVisible, editPromptVisible, e)}></EditIcon>
+                <CloseIcon   clicked={(e) => toggleState(setDeletePromptVisible, deletePromptVisible, e)} title={"Delete Project"} ></CloseIcon>
+                <EditIcon  clicked={(e) => toggleState(setEditPromptVisible, editPromptVisible, e)}></EditIcon>
             </TopBar>
          
-                <div>
+                <div onClick={(e) => handleGoToProject(e)}>
 
-                    <p data-id={project._id.toString()} onClick={(e) => handleGoToProject(e)}>{project?.logo_url? project?.logo_url.toString() : ""}</p>
-                    <p data-id={project._id.toString()} onClick={(e) => handleGoToProject(e)}>{project.title? project.title.toString(): ""}</p>
-                    {/* <p data-id={project._id.toString()} onClick={(e) => handleGoToProject(e)}>{project.description.toString()}</p> */}
-                    <div  data-id={project._id.toString()} onClick={(e) => handleGoToProject(e)}dangerouslySetInnerHTML={{__html: `${project.description.toString()}`}} />
+                    <p  >{project?.logo_url? project?.logo_url.toString() : ""}</p>
+                    <p  >{project.title? project.title.toString(): ""}</p>
+
+                    <div onClick={(e) => handleGoToProject(e)} dangerouslySetInnerHTML={{__html: `${project.description.toString()}`}} />
                 </div>
             
         </ProjectInforamtionContainer>

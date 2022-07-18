@@ -1,11 +1,12 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import {useNavigate} from "react-router-dom"
-import { getLogin } from "../../actions/authSlice"
+import { getLogin, getUser } from "../../actions/authSlice"
 import { SigninPage, SiginPageTopNav, SiginPageBottomNav,ContentArea, TopNavRight } from "./Signin.styles";
 import { PrimaryButton, SecondaryButton, QuaternaryButton, ButtonContainer, TransparentButton } from "../../global.style";
 import LogoSvg from "../../component/Svg_Icons/Logo/Logo._svg";
 import { useEffect } from "react";
+import { IsLoading } from "../../actions/errorAndLoadingSlice";
 
 const Signin = () => {
 
@@ -15,13 +16,13 @@ const Signin = () => {
     const user = useSelector((state: any) => state.auth)
 
     useEffect(() => {
-
+        
         if(user.isAuth){
-
+            
             navigate("/home")
-
+            
         }
-
+        
     }, [user, navigate])
 
     const handleSignin = () => {

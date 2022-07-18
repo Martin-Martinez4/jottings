@@ -6,11 +6,11 @@
     "node": "^16.16.0"
   },
   "dependencies": {
+    "@redux-saga/types": "^1.1.0",
+    "@reduxjs/toolkit": "^1.8.3",
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
-    "@redux-saga/types": "^1.1.0",
-    "@reduxjs/toolkit": "^1.8.3",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.11.41",
     "@types/react": "^18.0.12",

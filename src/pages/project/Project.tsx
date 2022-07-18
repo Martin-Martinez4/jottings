@@ -2,6 +2,7 @@
 import { toggleState } from '../../utils/toggleState';
 
 import { ReactElement, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import ModalHOC from '../../component/ModalHOC/ModalHOC';
 import CreateCategoryPrompt from '../../component/CreateCategoryPrompt/CreateCategoryPrompt';
 
@@ -14,12 +15,24 @@ import { CategoriesContainer, TopBar, SideBar } from './project.styles';
 
 import DragAndDrop from '../../component/DragAndDrop/DragAndDrop';
 
-import { StateType } from '../../types/project.type';
+import { StateType } from '../../types/state.type';
+import { getProject } from '../../actions/projectSlice';
 
 
 const Project = () => {
 
+ 
     const dispatch = useDispatch();
+
+    const { project_id } = useParams();
+
+    useEffect(() => {
+
+      dispatch(getProject(project_id))
+
+
+    }, [])
+  
     
     const project = useSelector((state: StateType) => state.project.project);
 

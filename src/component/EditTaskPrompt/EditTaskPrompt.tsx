@@ -8,7 +8,8 @@ import { onInputChange } from "../../utils/onInputChange";
 import { ButtonContainer, Input, PrimaryButton, RedButton, TextAreaParent } from "../../global.style";
 import { EditPromptContainer } from "./EditTaskPrompt.styles";
 
-import { StateType, TaskType } from "../../types/project.type";
+import { TaskType } from "../../types/project.type";
+import { StateType } from "../../types/state.type";
 
 import { CKEditor, CKEditorEventPayload } from 'ckeditor4-react';
 

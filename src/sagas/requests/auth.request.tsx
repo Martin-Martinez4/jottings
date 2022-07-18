@@ -1,5 +1,6 @@
 
 import { RegisterType, SigninType } from "../../types/auth.type";
+import { ErrorWithStatusCode } from "../../types/customError.type";
 
 export function requestLogin(body: SigninType){
     
@@ -14,12 +15,22 @@ export function requestLogin(body: SigninType){
     })
     .then(responses =>  {
         
-            return responses.json()
-        })
-        .catch(err => {
-    
-            return "NA"
-        });
+        if(responses.status !== 201){
+
+            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when logging in.")
+
+            error.statusCode = responses.status;
+
+            throw error;
+        }
+        
+
+        return responses.json()
+    })
+    .catch(err => {
+
+         return {isError: true, message: err.message, statusCode: err.statusCode}
+    });
 }
 
 export function requestSignup(body: RegisterType){
@@ -35,11 +46,21 @@ export function requestSignup(body: RegisterType){
     })
     .then(responses =>  {
         
+        if(responses.status !== 201){
+
+            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when registering.")
+
+            error.statusCode = responses.status;
+
+            throw error;
+        }
+        
+
         return responses.json()
     })
     .catch(err => {
 
-        return "NA"
+         return {isError: true, message: err.message, statusCode: err.statusCode}
     });
 
 }
@@ -56,11 +77,21 @@ export function requestSignout(){
     })
     .then(responses =>  {
         
+        if(responses.status !== 201){
+
+            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when signing out.")
+
+            error.statusCode = responses.status;
+
+            throw error;
+        }
+        
+
         return responses.json()
     })
     .catch(err => {
 
-        return "NA"
+         return {isError: true, message: err.message, statusCode: err.statusCode}
     });
 
 } 
@@ -77,11 +108,21 @@ export function requestUser(){
     })
     .then(responses =>  {
         
+        if(responses.status !== 201){
+
+            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when getting user information.")
+
+            error.statusCode = responses.status;
+
+            throw error;
+        }
+        
+
         return responses.json()
     })
     .catch(err => {
 
-        return "NA"
+         return {isError: true, message: err.message, statusCode: err.statusCode}
     });
 }
 
@@ -96,15 +137,23 @@ export function requestEmailAvailable(body: {"email": string}){
     })
     .then(responses =>  {
         
+        if(responses.status !== 201){
+
+            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when checking if email is available.")
+
+            error.statusCode = responses.status;
+
+            throw error;
+        }
+        
+
         return responses.json()
 
 
     })
     .catch(err => {
 
-        console.log(err)
-
-        return "NA"
+        return {isError: true, message: err.message, statusCode: err.statusCode}
     });
 
 }

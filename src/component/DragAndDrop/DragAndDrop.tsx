@@ -15,7 +15,7 @@ import EditIcon from '../Svg_Icons/EditIcon/EditIcon';
 import CloseIcon from '../Svg_Icons/CloseIcon/CloseIcon';
 import MoveIcon from '../Svg_Icons/MoveIcon/MoveIcon';
 
-import { StateType } from '../../types/project.type';
+import { StateType } from '../../types/state.type';
 import ModalHOC from '../ModalHOC/ModalHOC';
 
 const CreateTaskPrompt = React.lazy(() => (import('../CreateTaskPrompt/CreateTaskPrompt')));

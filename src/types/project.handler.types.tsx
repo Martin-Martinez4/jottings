@@ -7,10 +7,22 @@ export type HandleCreateProjectPayloadType = {
 
 }
 
+export type HandleDeleteProjectPayloadType = {
+
+    project_id: string
+
+}
+
 export type HandleCreateProjectType = {
 
     type: string,
     payload: HandleCreateProjectPayloadType
+
+}
+export type HandleDeleteProjectType = {
+
+    type: string,
+    payload: HandleDeleteProjectPayloadType
 
 }
 

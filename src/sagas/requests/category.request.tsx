@@ -1,4 +1,5 @@
 import { handleChangeCategoryOrderPayloadType, HandleChangeTaskOrderPayloadType, HandleCreateCategoryPayloadType, HandleDeleteCategoryPayloadType, HandleEditCategoryPayloadType } from "../../types/category.handler.types";
+import { ErrorWithStatusCode } from "../../types/customError.type";
 
 export function requestCreateCategory(body: HandleCreateCategoryPayloadType){
     /*
@@ -18,13 +19,23 @@ export function requestCreateCategory(body: HandleCreateCategoryPayloadType){
        
     })
     .then(responses =>  {
+
+        if(responses.status !== 201){
+
+            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when creating the category.")
+
+            error.statusCode = responses.status;
+
+            throw error;
+        }
         
-            return responses.json()
-        })
-        .catch(err => {
-    
-            return "NA"
-        });
+
+        return responses.json()
+    })
+    .catch(err => {
+
+        return {isError: true, message: err.message, statusCode: err.statusCode}
+    });
 }
 
 export function requestDeleteCategory(body: HandleDeleteCategoryPayloadType){
@@ -45,13 +56,23 @@ export function requestDeleteCategory(body: HandleDeleteCategoryPayloadType){
        
     })
     .then(responses =>  {
+
+        if(responses.status !== 201){
+
+            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when deleting the category")
+
+            error.statusCode = responses.status;
+
+            throw error;
+        }
         
-            return responses.json()
-        })
-        .catch(err => {
-    
-            return "NA"
-        });
+
+        return responses.json()
+    })
+    .catch(err => {
+
+        return {isError: true, message: err.message, statusCode: err.statusCode}
+    });
 }
 
 export function requestEditCategory(body: HandleEditCategoryPayloadType){
@@ -74,12 +95,22 @@ export function requestEditCategory(body: HandleEditCategoryPayloadType){
     })
     .then(responses =>  {
         
-            return responses.json()
-        })
-        .catch(err => {
-    
-            return "NA"
-        });
+        if(responses.status !== 201){
+
+            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when editing the category.")
+
+            error.statusCode = responses.status;
+
+            throw error;
+        }
+        
+
+        return responses.json()
+    })
+    .catch(err => {
+
+        return {isError: true, message: err.message, statusCode: err.statusCode}
+    });
 }
 
 export function requestChangeTaskOrder(body: HandleChangeTaskOrderPayloadType){
@@ -100,13 +131,22 @@ export function requestChangeTaskOrder(body: HandleChangeTaskOrderPayloadType){
         body: JSON.stringify(body)
         
     })
-    .then(responses =>  {
+    .then(responses => {
         
-            return responses.json()
+        if(responses.status !== 201){
+
+            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when changing the task order.")
+
+            error.statusCode = responses.status;
+
+            throw error;
+        }
+        
+        return responses.json()
     })
     .catch(err => {
 
-        return "NA"
+        return {isError: true, message: err.message, statusCode: err.statusCode}
     });
 }
 
@@ -130,11 +170,20 @@ export function requestChangeCategroyOrder(body: handleChangeCategoryOrderPayloa
     })
     .then(responses =>  {
         
-            return responses.json()
+        if(responses.status !== 201){
+
+            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when changing the Category order.")
+
+            error.statusCode = responses.status;
+
+            throw error;
+        }
+
+        return responses.json()
     })
     .catch(err => {
 
-        return "NA"
+        return {isError: true, message: err.message, statusCode: err.statusCode}
     });
 }
 

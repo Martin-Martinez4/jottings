@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState, Suspense } from "react";
-import { StateType } from "../../types/project.type";
+import { StateType } from "../../types/state.type";
 import { HomeContentContainer, ProjectContainer, ProjectInforamtionContainer } from "./home.styles";
 import { SiginPageTopNav, TopNavRight } from "../signin/Signin.styles";
 import { TransparentButton } from "../../global.style";
@@ -19,7 +19,6 @@ const CreateProjectPrompt = React.lazy(() => import("../../component/CreateProje
 
 const Home = () => {
 
-    console.log("changes")
 
     const dispatch = useDispatch();
 
@@ -33,7 +32,7 @@ const Home = () => {
 
     }
 
-    useEffect(() => { dispatch(getUser()) }, [dispatch]);
+    // useEffect(() => { dispatch(getUser()) }, [dispatch]);
 
 
     return(

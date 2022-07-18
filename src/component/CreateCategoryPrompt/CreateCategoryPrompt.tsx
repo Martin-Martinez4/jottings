@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getCreateCategory } from "../../actions/projectSlice";
-import { StateType } from "../../types/project.type";
+import { StateType } from "../../types/state.type";
 import { ThinnerShorterPromptContainer } from "../../global.style";
 
 import { ButtonContainer, Input, PrimaryButton, RedButton } from "../../global.style";

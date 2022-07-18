@@ -19,7 +19,7 @@ import EditIcon from "../Svg_Icons/EditIcon/EditIcon";
 import MoveIcon from "../Svg_Icons/MoveIcon/MoveIcon";
 
 import "./draggable.css"
-import { StateType } from "../../types/project.type";
+import { StateType } from "../../types/state.type";
 
 const EditTaskPrompt = React.lazy(() => import("../EditTaskPrompt/EditTaskPrompt"));
     

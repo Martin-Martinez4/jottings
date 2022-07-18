@@ -1,3 +1,4 @@
+import { ErrorWithStatusCode } from "../../types/customError.type";
 import { HandleChangeTypePayloadType, HandleCreateTaskPayloadType, HandleDeleteTaskPayloadType, HandleEditTaskPayloadType } from "../../types/task.handler.type";
 
 
@@ -18,13 +19,22 @@ export function requestChangeType(body: HandleChangeTypePayloadType){
        
     })
     .then(responses =>  {
-        
-            return responses.json()
-        })
-        .catch(err => {
-    
-            return "NA"
-        });
+
+        if(responses.status !== 201){
+
+            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when getting the project")
+
+            error.statusCode = responses.status;
+
+            throw error;
+        }
+            
+        return responses.json()
+    })
+    .catch(err => {
+
+         return {isError: true, message: err.message, statusCode: err.statusCode}
+    });
 }
 
 export function requestDeleteTask(body: HandleDeleteTaskPayloadType){
@@ -39,13 +49,22 @@ export function requestDeleteTask(body: HandleDeleteTaskPayloadType){
        
     })
     .then(responses =>  {
-        
-            return responses.json()
-        })
-        .catch(err => {
-    
-            return "NA"
-        });
+
+        if(responses.status !== 201){
+
+            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when getting the project")
+
+            error.statusCode = responses.status;
+
+            throw error;
+        }
+            
+        return responses.json()
+    })
+    .catch(err => {
+
+            return {isError: true, message: err.message, statusCode: err.statusCode}
+    });
 }
 
 export function requestCreateTask(body: HandleCreateTaskPayloadType){
@@ -60,13 +79,22 @@ export function requestCreateTask(body: HandleCreateTaskPayloadType){
        
     })
     .then(responses =>  {
-        
-            return responses.json()
-        })
-        .catch(err => {
-    
-            return "NA"
-        });
+
+        if(responses.status !== 201){
+
+            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when getting the project")
+
+            error.statusCode = responses.status;
+
+            throw error;
+        }
+            
+        return responses.json()
+    })
+    .catch(err => {
+
+            return {isError: true, message: err.message, statusCode: err.statusCode}
+    });
 }
 
 export function requestEditTask(body: HandleEditTaskPayloadType){
@@ -91,13 +119,23 @@ export function requestEditTask(body: HandleEditTaskPayloadType){
        
     })
     .then(responses =>  {
+
+        if(responses.status !== 201){
+
+            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when getting the project")
+
+            error.statusCode = responses.status;
+
+            throw error;
+        }
         
-            return responses.json()
-        })
-        .catch(err => {
-    
-            return "NA"
-        });
+        return responses.json()
+    })
+    .catch(err => {
+
+
+        return {isError: true, message: err.message, statusCode: err.statusCode}
+    });
 }
 
 

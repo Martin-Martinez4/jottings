@@ -4,6 +4,7 @@ import { requestCreateCategory, requestEditCategory, requestDeleteCategory, requ
 import { createCategory, editCategory, deleteCategory, changeTaskOrder, changeCategoryOrder } from "../../actions/projectSlice";
 import { SagaIterator } from "@redux-saga/types";
 import { handleChangeCategoryOrderType, HandleChangeTaskOrderType, HandleCreateCategoryType, HandleDeleteCategoryType, HandleEditCategoryType } from "../../types/category.handler.types";
+import { errorMessage } from "../../actions/errorAndLoadingSlice";
 
 export function* handleCreateCategory(action: HandleCreateCategoryType): SagaIterator{
 
@@ -11,7 +12,9 @@ export function* handleCreateCategory(action: HandleCreateCategoryType): SagaIte
     try{
 
         const response = yield call(requestCreateCategory, action.payload);
+
         yield put(createCategory({...response}))
+
     }
     catch(err){
 
@@ -24,7 +27,9 @@ export function* handleEditCategory(action: HandleEditCategoryType): SagaIterato
     try{
 
         const response = yield call(requestEditCategory, action.payload);
+
         yield put(editCategory({...response}))
+
     }
     catch(err){
 
@@ -37,7 +42,9 @@ export function* handleDeleteCategory(action: HandleDeleteCategoryType): SagaIte
     try{
 
         const response = yield call(requestDeleteCategory, action.payload);
+
         yield put(deleteCategory({...response}))
+
     }
     catch(err){
 
@@ -50,7 +57,9 @@ export function* handleChangeTaskOrder(action: HandleChangeTaskOrderType): SagaI
     try{
 
         const response = yield call(requestChangeTaskOrder, action.payload);
+
         yield put(changeTaskOrder({...response}))
+
     }
     catch(err){
 
@@ -63,7 +72,9 @@ export function* handleChangeCategoryOrder(action: handleChangeCategoryOrderType
     try{
 
         const response = yield call(requestChangeCategroyOrder, action.payload);
+
         yield put(changeCategoryOrder({...response}))
+
     }
     catch(err){
 

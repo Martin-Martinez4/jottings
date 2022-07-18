@@ -1,10 +1,11 @@
 
 import { call, CallEffect, put, PutEffect } from "redux-saga/effects";
 import { oneProject } from "../../actions/projectSlice";
-import { createProject, deleteProject, editProject } from "../../actions/authSlice";
+import { createProject, deleteProject, editProject, Logout } from "../../actions/authSlice";
 import { requestGetOneProject, requestCreateProject, requestEditProject, requestDeleteProject } from "../requests/project.request";
-import { HandleCreateProjectPayloadType, HandleCreateProjectType } from "../../types/project.handler.types";
+import { HandleCreateProjectPayloadType, HandleCreateProjectType, HandleDeleteProjectPayloadType, HandleDeleteProjectType } from "../../types/project.handler.types";
 import { SagaIterator } from "@redux-saga/types";
+import { errorMessage, IsLoading } from "../../actions/errorAndLoadingSlice";
 
 
 export function* handleGetProject(action: { payload: string; }): Generator<
@@ -16,13 +17,21 @@ export function* handleGetProject(action: { payload: string; }): Generator<
     try{
         
         //  takes function name, arguments
-        //  arguements can be passed in on call to dispatch
+
+        yield put(IsLoading(true));
+        
         const response = yield call(requestGetOneProject, project_id);
-        yield put(oneProject({...response as object}))
+
+        yield put(oneProject(response as object))
+
     }
     catch(err){
 
         console.log(err)
+    }
+    finally{
+        yield put(IsLoading(false));
+
     }
 }
 
@@ -33,7 +42,9 @@ export function* handleCreateProject(action: HandleCreateProjectType): SagaItera
         const body: HandleCreateProjectPayloadType = action.payload
         
         const response = yield call((requestCreateProject as any), body);
-        yield put(createProject({...response }))
+
+        yield put(createProject(response));
+
     }
     catch(err){
 
@@ -48,8 +59,9 @@ export function* handleEditProject(action: HandleCreateProjectType): SagaIterato
         const body: HandleCreateProjectPayloadType = action.payload
         
         const response = yield call((requestEditProject as any), body);
+
+        yield put(editProject(response));
         
-        yield put(editProject({...response }))
     }
     catch(err){
 
@@ -57,17 +69,16 @@ export function* handleEditProject(action: HandleCreateProjectType): SagaIterato
     }
 }
 
-export function* handleDeleteProject(action: HandleCreateProjectType): SagaIterator{
+export function* handleDeleteProject(action: HandleDeleteProjectType): SagaIterator{
 
     try{
 
-        const body: HandleCreateProjectPayloadType = action.payload
-
-        console.log(body)
+        const body: HandleDeleteProjectPayloadType = action.payload
         
-        const response = yield call((requestDeleteProject as any), body);
-        console.log(response)
-        yield put(deleteProject({...response }))
+        const response = yield call(requestDeleteProject, body);
+
+        yield put(deleteProject(response));
+
     }
     catch(err){
 
