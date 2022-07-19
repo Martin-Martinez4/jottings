@@ -9,10 +9,7 @@ import errorAndLoadingReducer, { errorMessage } from '../actions/errorAndLoading
 
 const errorHandlerMiddleware = ({dispatch}: {dispatch: any}) => (next: (arg0: any) => void) => (action: any) => {
 
-    // Enum the error messages
-
-    console.log(action.payload)
-    
+    // Enum the error messages    
     if(action.payload?.isError){
 
         dispatch(errorMessage({ isThereAnError: true, message: action.payload.message  }))

@@ -1,5 +1,5 @@
 
-import { MouseEvent, useState } from "react";
+import React, { MouseEvent, Suspense, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
@@ -9,15 +9,17 @@ import CloseIcon from "../Svg_Icons/CloseIcon/CloseIcon";
 import EditIcon from "../Svg_Icons/EditIcon/EditIcon";
 
 import ModalHOC from "../ModalHOC/ModalHOC";
-import EditProjectPrompt from "../EditProjectPrompt/EditProjectPrompt";
-import { ButtonContainer, RedButton, PrimaryButton, ThinnerShorterPromptContainer } from "../../global.style";
+// import EditProjectPrompt from "../EditProjectPrompt/EditProjectPrompt";
+import { ButtonContainer, RedButton, PrimaryButton, ThinnerShorterPromptContainer, PromptContainer } from "../../global.style";
 
 import { TopBar } from "../../component/Draggables/draggables.styles";
 import { ProjectInforamtionContainer } from "./ProjectCard.style";
 import { ProjectDescriptionType } from "../../types/auth.type";
 
-import { getProject } from "../../actions/projectSlice";
 import { getDeleteProject } from "../../actions/authSlice";
+import Circles from "../Svg_Icons/LoadingIcons/Circles";
+
+const EditProjectPrompt = React.lazy(() => import("../EditProjectPrompt/EditProjectPrompt"))
 
 interface IWithProject {
     project: ProjectDescriptionType;
@@ -40,10 +42,11 @@ const ProjectCard: React.FC<IWithProject> = ({ project }) => {
         const project_id = project._id.toString();
 
         if(project_id){
-
-            dispatch(getProject(project_id));
-    
+                        
+            
             navigate(`/project/${project_id}`);
+            
+
         }   
 
     }
@@ -59,18 +62,16 @@ const ProjectCard: React.FC<IWithProject> = ({ project }) => {
 
         toggleState(setDeletePromptVisible, deletePromptVisible);
 
-
-
-
     }
 
     return (
         <>
         
         <ModalHOC visible={editPromptVisible}>
-                <EditProjectPrompt project={project} clickConfirm={() => toggleState(setEditPromptVisible, editPromptVisible)} clickCancel={() => toggleState(setEditPromptVisible, editPromptVisible)} >
+            <Suspense fallback={<PromptContainer><Circles></Circles></PromptContainer>}>
 
-                </EditProjectPrompt>
+                <EditProjectPrompt project={project} clickConfirm={() => toggleState(setEditPromptVisible, editPromptVisible)} clickCancel={() => toggleState(setEditPromptVisible, editPromptVisible)} ></EditProjectPrompt>
+            </Suspense>
         </ModalHOC>
 
         <ModalHOC visible={deletePromptVisible}>

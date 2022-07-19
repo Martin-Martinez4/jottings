@@ -37,6 +37,7 @@ const EditProjectPrompt: React.FC<IConfirmCancelButtons> = ({ clickConfirm, clic
 
     setEditValues(state => ({...state, ["description"]: e.editor.getData()}));
 
+
     // setFunc((CurrentState: object) => ({...CurrentState, [e.target.name]: (e.target.value).toString()}))
 
     // e.preventDefault();
@@ -72,15 +73,16 @@ const EditProjectPrompt: React.FC<IConfirmCancelButtons> = ({ clickConfirm, clic
                     onChange={(e) => inputHandler(e)}
                     type="classic"
                     config={{
-                    toolbar: [
-                        ['Table'],
-                        [ 'Format', 'Font', 'FontSize' ],
-                        [ 'Bold', 'Italic' ],
-                        ['BulletedList', 'NumberedList'], 
-                        [ 'Undo', 'Redo' ],
-            
-                    ],
-                    width: '75%',
+                        toolbar: [
+                            ['Table'],
+                            [ 'Format', 'Font', 'FontSize' ],
+                            [ 'Bold', 'Italic' ],
+                            ['BulletedList', 'NumberedList'], 
+                            [ 'Undo', 'Redo' ],
+                
+                        ],
+                        disableNativeSpellChecker: false,
+                        width: '75%',
                     
                     }} 
                 />

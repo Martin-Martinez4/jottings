@@ -35,7 +35,7 @@ const ErrorModal = () => {
                 ?  
                     <ErrorModalContainer>
                         { error.message }
-                        <p style={{ position: "absolute", top: "-10px", right: "10px" }}>X</p>
+                        <p style={{ position: "absolute", top: "-10px", right: "10px", cursor: "pointer" }} onClick={() => {dispatch(resetErrorMessage())}}>X</p>
                     </ErrorModalContainer>
                 :
                 ""

@@ -9,8 +9,8 @@ import { TopBar, DraggableContainer } from "./draggables.styles";
 import { Task, DraggableProps } from "../../types/draggableTypes";
 import { toggleState } from "../../utils/toggleState";
 
-import { DropDownParent, DropDownContainer } from "../DragAndDrop/dragAndDrop.styles";
-
+import { PromptContainer } from "../../global.style";
+import Circles from "../Svg_Icons/LoadingIcons/Circles";
 import { Input, ButtonContainer, PrimaryButton, RedButton, ThinnerShorterPromptContainer } from "../../global.style";
 
 import ModalHOC from "../ModalHOC/ModalHOC";
@@ -180,41 +180,64 @@ const Draggable:FC<DraggableProps> = ({ task, dropDownCategories }) => {
     return(
         <>
 
-        {
-            deleteVisible
-            ?
-                <ModalHOC visible={deleteVisible}>
-                    <ThinnerShorterPromptContainer>
-                        <p style={{ wordBreak: "break-word" }}>Delete Task: {task2.title}?</p>
-                        <ButtonContainer>
+       
+        <ModalHOC visible={deleteVisible}>
+            <ThinnerShorterPromptContainer>
+                <p style={{ wordBreak: "break-word" }}>Delete Task: {task2.title}?</p>
+                <ButtonContainer>
 
-                            <PrimaryButton onClick={() => onDelete() }>Delete</PrimaryButton>
-                            <RedButton onClick={() => toggleVisible(setDeleteVisible, deleteVisible)} >Cancel</RedButton>
-                        </ButtonContainer>
-                    </ThinnerShorterPromptContainer>
-                </ModalHOC>
-            : ""
+                    <PrimaryButton onClick={() => onDelete() }>Delete</PrimaryButton>
+                    <RedButton onClick={() => toggleVisible(setDeleteVisible, deleteVisible)} >Cancel</RedButton>
+                </ButtonContainer>
+            </ThinnerShorterPromptContainer>
+        </ModalHOC>
 
-        }
-        {
-            editVisible
-            ?
-                <ModalHOC visible={editVisible}>
-                    <Suspense  fallback={<div>Loading...</div>}>
+    
+        <ModalHOC visible={editVisible}>
+            <Suspense  fallback={<PromptContainer><Circles></Circles></PromptContainer>}>
 
-                        <EditTaskPrompt 
-                            task={task2} 
-                            category_id={task.category_id }
-                            clickConfirm={(e) => toggleState(setEditVisible, editVisible, e)} 
-                            clickCancel={(e) => toggleState(setEditVisible, editVisible, e)}
-                            >
+                <EditTaskPrompt 
+                    task={task2} 
+                    category_id={task.category_id }
+                    clickConfirm={(e) => toggleState(setEditVisible, editVisible, e)} 
+                    clickCancel={(e) => toggleState(setEditVisible, editVisible, e)}
+                    >
 
-                        </EditTaskPrompt>
-                    </Suspense>
-                </ModalHOC>
-            : ""
+                </EditTaskPrompt>
+            </Suspense>
+        </ModalHOC>
+        
+        <ModalHOC visible={menuVisible}>
+            <ThinnerShorterPromptContainer>
+                <div>
 
-        }
+                    <p>Choose a category to move the task to</p>
+                    <select name="categories" id="categories" onChange={(e) => onSelectChange(e)}>
+
+                    {
+                        dropDownCategories
+                    }
+                    </select>
+
+                    <div>
+                        
+                        <p>Pick an index between 0 and {buttonMoveIndexAndCategory.target_category_id ? categories[buttonMoveIndexAndCategory.target_category_id]["length"] : category.length} to change position</p>
+                        <div style={{ display: "flex", justifyContent: "space-around",  }}>
+
+                            <Input type="number" width="3rem" min="0" max={`${category.length}`} onChange={(e) => onIndexInputChange(e)}></Input>
+                        </div>
+                    </div>
+
+                    <ButtonContainer style={{ display: "flex", justifyContent: "center",  }}>
+                        <PrimaryButton onClick={(e) => moveByButton(e)}>Confirm</PrimaryButton>
+                        <RedButton onClick={() => toggleState(setMenuVisible, menuVisible)}>Cancel</RedButton>
+                    </ButtonContainer>
+
+                </div>
+                
+            </ThinnerShorterPromptContainer>
+        </ModalHOC>
+        
 
         <DraggableContainer
             key={task2._id}
@@ -230,46 +253,8 @@ const Draggable:FC<DraggableProps> = ({ task, dropDownCategories }) => {
 
                     <CloseIcon clicked={() => toggleVisible(setDeleteVisible, deleteVisible)} title={"Delete Task"} ></CloseIcon>
                     <EditIcon clicked={() => toggleVisible(setEditVisible, editVisible)} title={"Edit Task"}></EditIcon>
-
                     <MoveIcon clicked={() => toggleState(setMenuVisible, menuVisible)} title={"Move Task"}></MoveIcon>
-                    <DropDownParent>
-                        {
-                        menuVisible === true
-                        ?
 
-                            <DropDownContainer>
-                                <div>
-
-                                    <p>Choose a category to move the task to</p>
-                                    <select name="categories" id="categories" onChange={(e) => onSelectChange(e)}>
-
-                                    {
-                                        dropDownCategories
-                                    }
-                                    </select>
-
-                                    <div>
-                                        
-                                        <p>Pick an index between 0 and {buttonMoveIndexAndCategory.target_category_id ? categories[buttonMoveIndexAndCategory.target_category_id]["length"] : category.length} to change position</p>
-                                        <div style={{ display: "flex", justifyContent: "space-around",  }}>
-
-                                            <Input type="number" width="3rem" min="0" max={`${category.length}`} onChange={(e) => onIndexInputChange(e)}></Input>
-                                        </div>
-                                    </div>
-
-                                    <ButtonContainer style={{ display: "flex", justifyContent: "center",  }}>
-                                        <PrimaryButton onClick={(e) => moveByButton(e)}>Confirm</PrimaryButton>
-                                        <RedButton onClick={() => toggleState(setMenuVisible, menuVisible)}>Cancel</RedButton>
-                                    </ButtonContainer>
-
-                                </div>
-                                
-                            </DropDownContainer>
-
-                        :
-                            ""
-                        }
-                    </DropDownParent>
                 </TopBar>
                 
                 <span style={{ wordBreak: "break-word" }}>{task2.title}</span>

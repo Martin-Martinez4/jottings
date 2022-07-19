@@ -15,6 +15,9 @@ import EditIcon from '../Svg_Icons/EditIcon/EditIcon';
 import CloseIcon from '../Svg_Icons/CloseIcon/CloseIcon';
 import MoveIcon from '../Svg_Icons/MoveIcon/MoveIcon';
 
+import { PromptContainer } from '../../global.style';
+import Circles from '../Svg_Icons/LoadingIcons/Circles';
+
 import { StateType } from '../../types/state.type';
 import ModalHOC from '../ModalHOC/ModalHOC';
 
@@ -33,6 +36,8 @@ const DragAndDrop: FC<DragAndDropProps> = ({ id, name, dropDownCategories }) => 
 
   const [ menuVisible, setMenuVisible ] = useState(false);
 
+  const [ targetIndex, setTargetindex] = useState({  targetIndex: undefined });
+
   const project = useSelector((state: StateType) => state.project.project)
 
   const category = useSelector((state: StateType) => state.project.categories[id])
@@ -50,7 +55,9 @@ const DragAndDrop: FC<DragAndDropProps> = ({ id, name, dropDownCategories }) => 
   
             const task = tasks[task_id]
 
-            toReturn[task.index] = <div key={task._id}>
+            // toReturn[category.length - task.index] To disaplay the tasks in revese order
+            // Adding to the end of an array is faster but user usually want the new task to be on top so the order of the tasks in a category is reversed to have fast inserts and the desired UX
+            toReturn[category.length - task.index] = <div key={task._id}>
                                     <Draggable key={task._id} task={{id: task._id, taskName: task.title, type: name, content: task.content, category_id: id}} dropDownCategories={dropDownCategories}></Draggable>
                                   </div>
   
@@ -161,9 +168,24 @@ const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
 
   };
 
+
+  const changeCategoryOrderBYButton = () => {
+
+    console.log(targetIndex.targetIndex)
+
+    if(targetIndex){
+
+      dispatch(getChangeCategoryOrder({ project_id: project.project_id, category_id: id, original_index: category.index, target_index: targetIndex.targetIndex }));
+    }
+    else{
+
+      return
+    }
+
+
+  }
+
  
-
-
   return (
 
     <>
@@ -192,10 +214,26 @@ const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
       </ModalHOC>
 
       <ModalHOC visible={newVisible}>
-
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<PromptContainer><Circles></Circles></PromptContainer>}>
               <CreateTaskPrompt project_id={project.project_id} category_id={id} clickConfirm={() => toggleState(setNewVisible, newVisible)} clickCancel={() => toggleState(setNewVisible, newVisible)} ></CreateTaskPrompt>
           </Suspense>
+       
+      </ModalHOC>
+
+      <ModalHOC visible={menuVisible}>
+
+          <ThinnerShorterPromptContainer>
+            <p>Pick an index between 0 and {project.length -1}</p>
+            <div style={{ display: "flex", justifyContent: "space-around",  }}>
+
+              <Input type="number"  min="1" max="50" width="3.5rem" name="targetIndex" onChange={(e) => onInputChange(e, setTargetindex, targetIndex) }></Input>
+            </div>
+            <ButtonContainer style={{ display: "flex", justifyContent: "center",  }}>
+                <PrimaryButton onClick={() => changeCategoryOrderBYButton()}>Confirm</PrimaryButton>
+                <RedButton onClick={() => toggleState(setMenuVisible, menuVisible)}>Cancel</RedButton>
+            </ButtonContainer>
+
+          </ThinnerShorterPromptContainer>
        
       </ModalHOC>
     
@@ -220,32 +258,6 @@ const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
 
             <MoveIcon clicked={() => toggleState(setMenuVisible, menuVisible)} title={"Move Category"}></MoveIcon>
 
-             <DropDownParent>
-                  {
-                  menuVisible === true
-                  ?
-
-                      <DropDownContainer>
-                          <div>
-                          <p>Pick an index between 0 and {project.length -1}</p>
-                          <div style={{ display: "flex", justifyContent: "space-around",  }}>
-
-                          <Input type="number"  min="1" max="50" width="3.5rem" ></Input>
-                          <Input type="number" width="3.5rem" ></Input>
-                          </div>
-                          <ButtonContainer style={{ display: "flex", justifyContent: "center",  }}>
-                              <PrimaryButton>Confirm</PrimaryButton>
-                              <RedButton>Cancel</RedButton>
-                          </ButtonContainer>
-
-                          </div>
-                          
-                      </DropDownContainer>
-
-                  :
-                      ""
-                  }
-              </DropDownParent>
           </TopBar>
           
             <CategoryTitle>{category.title}</CategoryTitle>

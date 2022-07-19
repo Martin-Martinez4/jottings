@@ -1,6 +1,6 @@
 
 import { call, CallEffect, put, PutEffect } from "redux-saga/effects";
-import { oneProject } from "../../actions/projectSlice";
+import { clearProject, oneProject } from "../../actions/projectSlice";
 import { createProject, deleteProject, editProject, Logout } from "../../actions/authSlice";
 import { requestGetOneProject, requestCreateProject, requestEditProject, requestDeleteProject } from "../requests/project.request";
 import { HandleCreateProjectPayloadType, HandleCreateProjectType, HandleDeleteProjectPayloadType, HandleDeleteProjectType } from "../../types/project.handler.types";
@@ -78,6 +78,19 @@ export function* handleDeleteProject(action: HandleDeleteProjectType): SagaItera
         const response = yield call(requestDeleteProject, body);
 
         yield put(deleteProject(response));
+
+    }
+    catch(err){
+
+        console.log(err)
+    }
+}
+
+export function* handleClearProject(): SagaIterator{
+
+    try{
+
+        yield put(clearProject());
 
     }
     catch(err){

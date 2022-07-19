@@ -2,6 +2,7 @@
 
 import { FC } from "react";
 import { LoadingSVG } from "./Loading_Icon.styles";
+import { PromptContainer } from "../../../global.style";
 
 const Circles: FC = () => {
 

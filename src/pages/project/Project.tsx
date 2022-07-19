@@ -17,6 +17,7 @@ import DragAndDrop from '../../component/DragAndDrop/DragAndDrop';
 
 import { StateType } from '../../types/state.type';
 import { getProject } from '../../actions/projectSlice';
+import { IsLoading } from '../../actions/errorAndLoadingSlice';
 
 
 const Project = () => {
@@ -27,10 +28,9 @@ const Project = () => {
     const { project_id } = useParams();
 
     useEffect(() => {
-
+      
       dispatch(getProject(project_id))
-
-
+      
     }, [])
   
     
@@ -46,6 +46,8 @@ const Project = () => {
 
         let dropDownCategories:any[] = [];
         
+        // Adds an empty selection option so taht users can deselect a category
+        // This allows users to cancel moving tasks from one category to another
         const selectElements =  [<option id={``} value=""></option>, ...Object.keys(categories).map((object)  => {
 
           const category = categories[`${object}`]
@@ -79,7 +81,13 @@ const Project = () => {
 
     });
 
-    useEffect(() => { dispatch(getUser()) }, [project, dispatch]);
+    useEffect(() => {
+      dispatch(IsLoading(true));
+      
+      dispatch(getUser()) 
+
+      dispatch(IsLoading(false));
+    }, [project, dispatch]);
     
 
     const [newVisible, setNewVisible] = useState(false);

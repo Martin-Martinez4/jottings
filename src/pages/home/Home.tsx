@@ -8,12 +8,15 @@ import { TransparentButton } from "../../global.style";
 import LogoSvg from "../../component/Svg_Icons/Logo/Logo._svg";
 import PlusIcon from "../../component/Svg_Icons/PlusIcon/PlusIcon";
 import ModalHOC from "../../component/ModalHOC/ModalHOC";
+import { PromptContainer } from "../../global.style";
+import Circles from "../../component/Svg_Icons/LoadingIcons/Circles";
 
 import { useSelector, useDispatch } from "react-redux";
 import { getUser, getSignout } from "../../actions/authSlice";
 
 import ProjectCard from "../../component/ProjectCard/ProjectCard";
 import { toggleState } from "../../utils/toggleState";
+import { getClearPoject } from "../../actions/projectSlice";
 
 const CreateProjectPrompt = React.lazy(() => import("../../component/CreateProjectPrompt/CreateProjectPrompt"));
 
@@ -32,14 +35,14 @@ const Home = () => {
 
     }
 
-    // useEffect(() => { dispatch(getUser()) }, [dispatch]);
+    useEffect(() => { dispatch(getClearPoject()); }, [dispatch]);
 
 
     return(
 
         <>
             <ModalHOC visible={createProjectModalVisible}>
-                <Suspense fallback={"Loading..."}>
+                <Suspense fallback={<PromptContainer><Circles></Circles></PromptContainer>}>
 
                     <CreateProjectPrompt clickConfirm={() => toggleState(setCreateProjectModalVisible, createProjectModalVisible)} clickCancel={() => toggleState(setCreateProjectModalVisible, createProjectModalVisible)} >
 
@@ -86,59 +89,6 @@ const Home = () => {
                                                 
                     </ProjectContainer>
                 </div>
-                <div>
-                    <div style={{display: "flex", alignItems: "center"}}>
-
-                        <h3>Team Name</h3>
-                        <PlusIcon title={"Create New Project"} clicked={(e) => {}} fill="white"></PlusIcon>
-                        
-                    </div>
-                    <ProjectContainer>
-                        <ProjectInforamtionContainer>
-
-                            <p>Logo</p>
-                            <p>Project Name</p>
-                            <p>description: Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis quisquam amet quae ipsa nihil ut doloribus quasi velit fugiat consequatur.</p>
-                        </ProjectInforamtionContainer>
-                        <ProjectInforamtionContainer>
-                            <p>Logo</p>
-                            <p>Project Name</p>
-                            <p>description: Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis quisquam amet quae ipsa nihil ut doloribus quasi velit fugiat consequatur.</p>
-                        </ProjectInforamtionContainer>
-                        <ProjectInforamtionContainer>
-                            <p>Logo</p>
-                            <p>Project Name</p>
-                            <p>description: Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis quisquam amet quae ipsa nihil ut doloribus quasi velit fugiat consequatur.</p>
-                        </ProjectInforamtionContainer>
-
-                    </ProjectContainer>
-                </div>
-                <div>
-                    <div style={{display: "flex", alignItems: "center"}}>
-
-                        <h3>Team Name</h3>
-                        <PlusIcon title={"Create New Project"} fill="white"></PlusIcon>
-                    </div>
-                    <ProjectContainer>
-                        <ProjectInforamtionContainer>
-
-                            <p>Logo</p>
-                            <p>Project Name</p>
-                            <p>description: Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis quisquam amet quae ipsa nihil ut doloribus quasi velit fugiat consequatur.</p>
-                        </ProjectInforamtionContainer>
-                        <ProjectInforamtionContainer>
-                            <p>Logo</p>
-                            <p>Project Name</p>
-                            <p>description: Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis quisquam amet quae ipsa nihil ut doloribus quasi velit fugiat consequatur.</p>
-                        </ProjectInforamtionContainer>
-                        <ProjectInforamtionContainer>
-                            <p>Logo</p>
-                            <p>Project Name</p>
-                            <p>description: Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis quisquam amet quae ipsa nihil ut doloribus quasi velit fugiat consequatur.</p>
-                        </ProjectInforamtionContainer>
-
-                    </ProjectContainer>
-                </div>
 
             </HomeContentContainer>
         </>
@@ -147,4 +97,8 @@ const Home = () => {
 }
 
 export default Home;
+
+function clearProject(): any {
+    throw new Error("Function not implemented.");
+}
 

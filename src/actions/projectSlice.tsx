@@ -16,6 +16,12 @@ const projectSlice = createSlice({
             return {...state, project: action.payload.project, categories: action.payload.categories, tasks: action.payload.tasks }
 
         },
+        getClearPoject(state){},
+        clearProject: (state) => {
+
+            return {...state, project: {}, categories: {}, tasks: {} }
+
+        },
         getChangeType(state, action) {},
         ChangeType: (state, action) => {
   
@@ -141,7 +147,8 @@ const projectSlice = createSlice({
 })
 
 export const { 
-                getProject, oneProject, 
+                getProject, oneProject,
+                getClearPoject, clearProject, 
                 getChangeType, ChangeType, 
                 getDeleteTask, deleteTask, 
                 getCreateTask, createTask,

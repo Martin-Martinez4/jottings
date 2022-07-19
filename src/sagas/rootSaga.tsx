@@ -1,8 +1,8 @@
 
 import io from 'socket.io-client';
 import { take, takeLatest, } from "redux-saga/effects";
-import { handleCreateProject, handleDeleteProject, handleEditProject, handleGetProject } from "./handler/project.handler";
-import { getChangeType } from "../actions/projectSlice";
+import { handleClearProject, handleCreateProject, handleDeleteProject, handleEditProject, handleGetProject } from "./handler/project.handler";
+import { getChangeType, getClearPoject } from "../actions/projectSlice";
 import { 
         getProject, 
         getDeleteTask, getCreateTask, getEditTask,
@@ -18,6 +18,7 @@ import { handleLogin, handleUser, handleSignup, handleSignout } from './handler/
 export function* watcherSaga(){
     
     yield takeLatest((getProject.type as any), handleGetProject)
+    yield takeLatest(getClearPoject.type, handleClearProject)
     yield takeLatest(getChangeType.type, handleChangeType)
     yield takeLatest(getDeleteTask.type, handleDeleteTask)
     yield takeLatest(getCreateTask.type, handleCreateTask)
