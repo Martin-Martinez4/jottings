@@ -41,4 +41,16 @@ export const TopBar  = styled.div`
 
 `
 
+export const WordBreakP = styled.p`
+
+    word-break: break-word;
+
+`;
+
+
+export const OverflowHidden = styled.div`
+
+    overflow: hidden;
+`;
+
 

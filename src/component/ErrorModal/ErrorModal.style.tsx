@@ -21,4 +21,13 @@ export const ErrorModalContainer = styled.div`
     z-index: 3; 
 `;
 
+export const ExitCross = styled.p`
+
+    position: absolute; 
+    top: -10px; 
+    right: 10px; 
+    cursor: pointer;
+
+`;
+
 

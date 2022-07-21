@@ -1,16 +1,11 @@
 
+import { TaskAndCategoryType } from '../../../types/TaskAndCategory.type';
 
 import { FC } from 'react';
 
-import { BaseSVG, RedSVG } from '../Svg.styles';
+import { RedSVG } from '../Svg.styles';
 
 import "../svg_icons.css";
-
-type TaskAndCategoryType = {
-
-    clicked: (e: any) => any;
-    title?: string
-}
 
 
 export const CloseIcon: FC<TaskAndCategoryType> = ({ clicked, title, ...props }) => {

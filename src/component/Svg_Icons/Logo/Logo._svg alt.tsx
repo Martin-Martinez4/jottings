@@ -1,12 +1,9 @@
 
+import { withClickedType } from "../../../types/clicked.types";
+
 import { LogoSVG } from "../Svg.styles";
 import { useNavigate } from "react-router-dom";
 import { FC } from "react";
-
-type withClickedType = {
-
-    clicked?: (e: any) => any;
-}
 
 const LogoSVGAlt: FC<withClickedType> = ({ clicked }) => {
 

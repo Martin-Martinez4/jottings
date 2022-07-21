@@ -7,17 +7,9 @@ import { getEditProject } from "../../actions/authSlice";
 import { ButtonContainer, Input, PrimaryButton, RedButton, TextAreaParent } from "../../global.style";
 import { EditPromptContainer } from "./EditProjectPrompt.styles";
 
-import { CKEditor, CKEditorEventPayload } from 'ckeditor4-react';
-
-
-interface IConfirmCancelButtons {
-
-    clickConfirm?: (arg0?: any) => any;
-    clickCancel?: (arg0?: any) => any;
-    project: any;
-    children?: Element[] | Element | JSX.Element;
-
-}
+import { IConfirmCancelButtons } from "../../types/clicked.types";
+import { CKEditorEventPayload } from 'ckeditor4-react';
+import CKEditor4 from "../CKEditor/CKEditor";
 
 
 
@@ -35,7 +27,7 @@ const EditProjectPrompt: React.FC<IConfirmCancelButtons> = ({ clickConfirm, clic
 
     const inputHandler = (e: CKEditorEventPayload<"change">) => {
 
-    setEditValues(state => ({...state, ["description"]: e.editor.getData()}));
+    setEditValues(state => ({...state, "description": e.editor.getData()}));
 
 
     // setFunc((CurrentState: object) => ({...CurrentState, [e.target.name]: (e.target.value).toString()}))
@@ -68,24 +60,8 @@ const EditProjectPrompt: React.FC<IConfirmCancelButtons> = ({ clickConfirm, clic
                 <Input placeholder="Logo Url" name="logo_url" width={"70%"} onChange={(e: React.ChangeEvent<HTMLInputElement>) => onInputChange(e, setEditValues, editValues)} value={editValues.logo_url}></Input>
               
                 <TextAreaParent height="auto" >
-                <CKEditor 
-                    initData={editValues.description} 
-                    onChange={(e) => inputHandler(e)}
-                    type="classic"
-                    config={{
-                        toolbar: [
-                            ['Table'],
-                            [ 'Format', 'Font', 'FontSize' ],
-                            [ 'Bold', 'Italic' ],
-                            ['BulletedList', 'NumberedList'], 
-                            [ 'Undo', 'Redo' ],
-                
-                        ],
-                        disableNativeSpellChecker: false,
-                        width: '75%',
-                    
-                    }} 
-                />
+                    <CKEditor4 initData={editValues.description} inputHandler={inputHandler} ></CKEditor4>
+            
                 </TextAreaParent>
 
                 <ButtonContainer>

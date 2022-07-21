@@ -1,39 +1,28 @@
 
 import { CreateProjectType } from "../../types/project.type";
-import { ErrorWithStatusCode } from "../../types/customError.type";
 import { HandleDeleteProjectPayloadType } from "../../types/project.handler.types";
+import { ResponseClass } from "../../types/responseClass.types";
+import { processServerResponse } from "../../utils/proccessServerResponse";
+import { ProjectErrorMessages } from "../../types/errorMessage.types";
 
-export function requestGetOneProject(project_id: string){
+export async function requestGetOneProject(project_id: string){
     
-    return fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/project/${project_id}`, {
+    const response = fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/project/${project_id}`, {
         
         method: "get",
         headers: { "Content-Type": "application/json"},
        
         
-    })
-    .then(responses =>  {
-
-        if(responses.status !== 201){
-
-            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when getting the project")
-
-            error.statusCode = responses.status;
-
-            throw error;
-        }
-    
-        return responses.json()
-    })
-    .catch(err => {
-
-        return {isError: true, message: err.message, statusCode: err.statusCode}
     });
+
+    const getProjectResponse = new ResponseClass(response, ProjectErrorMessages.GET_PROJECT);
+
+    return await processServerResponse(getProjectResponse);
 }
 
-export function requestCreateProject(body: CreateProjectType){
+export async function requestCreateProject(body: CreateProjectType){
 
-    return fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/project`, {
+    const response = fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/project`, {
         
         method: "put",
         credentials:'include',
@@ -42,31 +31,17 @@ export function requestCreateProject(body: CreateProjectType){
         body: JSON.stringify(body)
        
         
-    })
-    .then(responses =>  {
-
-        if(responses.status !== 201){
-
-            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when getting the project")
-
-            error.statusCode = responses.status;
-
-            throw error;
-        }
-    
-    
-        return responses.json()
-    })
-    .catch(err => {
-
-        return {isError: true, message: err.message, statusCode: err.statusCode}
     });
+
+    const createProjectResponse = new ResponseClass(response, ProjectErrorMessages.CREATE_PROJECT);
+
+    return await processServerResponse(createProjectResponse);
 
 }
 
-export function requestEditProject(body: CreateProjectType){
+export async function requestEditProject(body: CreateProjectType){
 
-    return fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/project`, {
+    const response = fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/project`, {
         
         method: "post",
         credentials:'include',
@@ -75,30 +50,17 @@ export function requestEditProject(body: CreateProjectType){
         body: JSON.stringify(body)
        
         
-    })
-    .then(responses =>  {
-
-        if(responses.status !== 201){
-
-            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when editing the project")
-
-            error.statusCode = responses.status;
-
-            throw error;
-        }
-    
-        return responses.json()
-    })
-    .catch(err => {
-
-        return {isError: true, message: err.message, statusCode: err.statusCode}
     });
+
+    const updateProjectResponse = new ResponseClass(response, ProjectErrorMessages.UPDATE_PROJECT);
+
+    return await processServerResponse(updateProjectResponse);
 
 }
 
-export function requestDeleteProject(project_id: HandleDeleteProjectPayloadType){
+export async function requestDeleteProject(project_id: HandleDeleteProjectPayloadType){
 
-    return fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/project`, {
+    const response = fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/project`, {
         
         method: "delete",
         credentials:'include',
@@ -107,25 +69,11 @@ export function requestDeleteProject(project_id: HandleDeleteProjectPayloadType)
         body: JSON.stringify({project_id: project_id})
        
         
-    })
-    .then(responses =>  {
-
-        if(responses.status !== 201){
-
-            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when getting the project")
-
-            error.statusCode = responses.status;
-
-            throw error;
-        }
-    
-    
-        return responses.json()
-    })
-    .catch(err => {
-
-        return {isError: true, message: err.message, statusCode: err.statusCode}
     });
+
+    const deleteProjectResponse = new ResponseClass(response, ProjectErrorMessages.DELETE_PROJECT);
+
+    return await processServerResponse(deleteProjectResponse);
 
 }
 

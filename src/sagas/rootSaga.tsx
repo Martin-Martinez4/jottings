@@ -1,6 +1,5 @@
 
-import io from 'socket.io-client';
-import { take, takeLatest, } from "redux-saga/effects";
+import { takeLatest, } from "redux-saga/effects";
 import { handleClearProject, handleCreateProject, handleDeleteProject, handleEditProject, handleGetProject } from "./handler/project.handler";
 import { getChangeType, getClearPoject } from "../actions/projectSlice";
 import { 
@@ -9,7 +8,7 @@ import {
         getCreateCategory, getEditCategory, getDeleteCategory, getChangeTaskOrder, getChangeCategoryOrder,
       } from "../actions/projectSlice";
 
-import { getLogin, getUser, getSignup, getSignout, getCreateProject, getEditProject, getDeleteProject, getLogout } from '../actions/authSlice';
+import { getLogin, getUser, getSignup, getSignout, getCreateProject, getEditProject, getDeleteProject } from '../actions/authSlice';
 
 import { handleChangeType, handleDeleteTask, handleCreateTask, handleEditTask } from "./handler/task.handler";
 import { handleCreateCategory, handleEditCategory, handleDeleteCategory, handleChangeTaskOrder, handleChangeCategoryOrder } from "./handler/category.handler";

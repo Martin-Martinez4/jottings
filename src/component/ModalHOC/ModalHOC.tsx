@@ -1,11 +1,7 @@
 
 import { ModalContainer } from "./ModalHOC.styles";
+import { IWithChildern } from "../../types/TaskAndCategory.type";
 
-interface IWithChildern{
-
-    children: any;
-    visible: boolean;
-}
 
 const ModalHOC: React.FC<IWithChildern> = ({ children, visible }) => {
 

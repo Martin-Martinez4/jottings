@@ -7,13 +7,14 @@ import { clearState } from "../../utils/clearState";
 import { ButtonContainer, Input, PrimaryButton, RedButton, TextAreaParent } from "../../global.style";
 import { CreateProjectPromptContainer } from "./CreateProjectPrompt.styles";
 
-import { CKEditor, CKEditorEventPayload } from 'ckeditor4-react';
+import { CKEditorEventPayload } from 'ckeditor4-react';
+import CKEditor4 from "../CKEditor/CKEditor";
 
 
 interface IConfirmCancelButtons {
 
-    clickConfirm?: (arg0?: any) => any;
-    clickCancel?: (arg0?: any) => any;
+    clickConfirm?: () => void;
+    clickCancel?: () => void;
     children?: Element[] | Element | JSX.Element
 
 }
@@ -72,25 +73,9 @@ const CreateProjectPrompt: React.FC<IConfirmCancelButtons> = ({ clickConfirm, cl
            
                 
                 <TextAreaParent height="auto" >
-                <CKEditor 
-                    // initData={"Description"} 
-                    onChange={(e) => inputHandler(e)}
-                    type="classic"
-                    config={{
-                        extraPlugins: "editorplaceholder",
-                        editorplaceholder: "Project Description",
-                        toolbar: [
-                            ['Table'],
-                            [ 'Format', 'Font', 'FontSize' ],
-                            [ 'Bold', 'Italic' ],
-                            ['BulletedList', 'NumberedList'], 
-                            [ 'Undo', 'Redo' ],
+
+                    <CKEditor4 placeholder={"Project Description"} inputHandler={inputHandler} />
                 
-                        ],
-                        width: '75%',
-                    
-                    }} 
-                />
                 </TextAreaParent>
 
                 <ButtonContainer>

@@ -4,14 +4,14 @@ import React, { FC, Suspense, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getChangeType, getChangeTaskOrder, getDeleteTask } from "../../actions/projectSlice";
 
-import { TopBar, DraggableContainer } from "./draggables.styles";
+import { TopBar, DraggableContainer, WordBreakP, OverflowHidden } from "./draggables.styles";
 
 import { Task, DraggableProps } from "../../types/draggableTypes";
 import { toggleState } from "../../utils/toggleState";
 
 import { PromptContainer } from "../../global.style";
 import Circles from "../Svg_Icons/LoadingIcons/Circles";
-import { Input, ButtonContainer, PrimaryButton, RedButton, ThinnerShorterPromptContainer } from "../../global.style";
+import { Input, ButtonContainer, PrimaryButton, RedButton, ThinnerShorterPromptContainer, ButtonContainerJustifyContentCenter, FlexJustifyContentSpaceAround } from "../../global.style";
 
 import ModalHOC from "../ModalHOC/ModalHOC";
 import CloseIcon from "../Svg_Icons/CloseIcon/CloseIcon";
@@ -92,7 +92,7 @@ const Draggable:FC<DraggableProps> = ({ task, dropDownCategories }) => {
 
     }
 
-    const toggleVisible = (setFunc: React.Dispatch<React.SetStateAction<any>>, currentState: boolean) => {
+    const toggleVisible = (setFunc: React.Dispatch<React.SetStateAction<boolean>>, currentState: boolean) => {
 
         setFunc(!currentState);
 
@@ -183,7 +183,7 @@ const Draggable:FC<DraggableProps> = ({ task, dropDownCategories }) => {
        
         <ModalHOC visible={deleteVisible}>
             <ThinnerShorterPromptContainer>
-                <p style={{ wordBreak: "break-word" }}>Delete Task: {task2.title}?</p>
+                <WordBreakP>Delete Task: {task2.title}?</WordBreakP>
                 <ButtonContainer>
 
                     <PrimaryButton onClick={() => onDelete() }>Delete</PrimaryButton>
@@ -222,16 +222,16 @@ const Draggable:FC<DraggableProps> = ({ task, dropDownCategories }) => {
                     <div>
                         
                         <p>Pick an index between 0 and {buttonMoveIndexAndCategory.target_category_id ? categories[buttonMoveIndexAndCategory.target_category_id]["length"] : category.length} to change position</p>
-                        <div style={{ display: "flex", justifyContent: "space-around",  }}>
+                        <FlexJustifyContentSpaceAround>
 
                             <Input type="number" width="3rem" min="0" max={`${category.length}`} onChange={(e) => onIndexInputChange(e)}></Input>
-                        </div>
+                        </FlexJustifyContentSpaceAround>
                     </div>
 
-                    <ButtonContainer style={{ display: "flex", justifyContent: "center",  }}>
+                    <ButtonContainerJustifyContentCenter>
                         <PrimaryButton onClick={(e) => moveByButton(e)}>Confirm</PrimaryButton>
                         <RedButton onClick={() => toggleState(setMenuVisible, menuVisible)}>Cancel</RedButton>
-                    </ButtonContainer>
+                    </ButtonContainerJustifyContentCenter>
 
                 </div>
                 
@@ -257,13 +257,13 @@ const Draggable:FC<DraggableProps> = ({ task, dropDownCategories }) => {
 
                 </TopBar>
                 
-                <span style={{ wordBreak: "break-word" }}>{task2.title}</span>
+                <WordBreakP>{task2.title}</WordBreakP>
             </div>
-            <div style={{overflow: "hidden"}}>
+            <OverflowHidden>
                     
                 <div dangerouslySetInnerHTML={{__html: `${task2.content}`}} />
 
-            </div>
+            </OverflowHidden>
         </DraggableContainer>
         </>
     )

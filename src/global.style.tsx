@@ -154,6 +154,10 @@ export const ButtonContainer = styled.div`
     display: flex;
 
 `
+export const ButtonContainerJustifyContentCenter = styled(ButtonContainer)`
+    
+    justify-content: center;
+`;
 
 export const Button = styled.div<{width?: string, height?: string}>`
     
@@ -228,12 +232,30 @@ export const PromptContainer = styled.div`
 export const ThinnerPromptContainer = styled(PromptContainer)`
 
     width: 25%;
-    left: calc(25% + 14%);   
+    left: calc(25% + 14%);
+    
+    &{
+
+        width: 90%; 
+        height: 50%; 
+        position: relative; 
+        left: 1rem; 
+        top: 1rem;
+    }
+        
 `;
 
 export const ShorterPromptContainer = styled(PromptContainer)`
 
     height: 25%; 
+
+    &{
+
+        height: 35%; 
+        position: relative; 
+        left: 1rem; 
+        top: 1rem;
+    }
 `;
 
 export const ThinnerShorterPromptContainer = styled(PromptContainer)`
@@ -241,6 +263,45 @@ export const ThinnerShorterPromptContainer = styled(PromptContainer)`
     height: 25%;
     width: 25%;
     left: calc(25% + 14%);  
+
+    @media screen and (max-width: 800px){
+
+    &{
+
+        width: 90%; 
+        height: 40%; 
+        position: relative; 
+        left: 1rem; 
+        top: 1rem;
+    }
+
+}
+`;
+
+export const FlexJustifyContentSpaceAround = styled.div`
+
+    display: flex;
+
+    justify-content: space-around;
+`;
+export const FlexAlignItemsCenter = styled.div`
+
+    display: flex;
+    align-items: center;
+`;
+
+export const Flex = styled.div`
+
+    display: flex;
+
+`;
+
+export const Width100Height100OverflowHidden = styled.div`
+
+    width: 100vw;
+    height: 100vh; 
+    overflow: hidden;
+
 `;
 
 export const PrimaryButton = styled(Button)`

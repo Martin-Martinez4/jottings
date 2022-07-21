@@ -3,7 +3,8 @@ import { useState, FC } from "react";
 import { useDispatch } from "react-redux";
 import { getCreateTask } from "../../actions/projectSlice";
 
-import { CKEditor, CKEditorEventPayload } from 'ckeditor4-react';
+import CKEditor4 from "../CKEditor/CKEditor";
+import { CKEditorEventPayload } from 'ckeditor4-react';
 
 import { onInputChange } from "../../utils/onInputChange";
 import { clearState } from "../../utils/clearState";
@@ -15,8 +16,8 @@ interface IConfirmCancelButtons {
     project_id: string;
     category_id: string;
 
-    clickConfirm: (arg0?: any) => any;
-    clickCancel: (arg0?: any) => any;
+    clickConfirm: () => void;
+    clickCancel: () => void;
     children?: Element[] | Element | JSX.Element
 
 }
@@ -71,26 +72,11 @@ const CreateTaskPrompt: FC<IConfirmCancelButtons> = ({ project_id, category_id, 
           <p>Create Task</p>
           <Input name="title" placeholder="Title" onChange={(e) => onInputChange(e, setNewTaskContent, newTaskContent)} type="text" value={newTaskContent.title} width="72%"></Input>
 
-          <TextAreaParent height="auto" >
-                <CKEditor 
-                    onChange={(e) => inputHandler(e)}
-                    type="classic"
-                    config={{
-                        extraPlugins: "editorplaceholder",
-                        editorplaceholder: "Task Body",
-                        toolbar: [
-                            ['Table'],
-                            [ 'Format', 'Font', 'FontSize' ],
-                            [ 'Bold', 'Italic' ],
-                            ['BulletedList', 'NumberedList'], 
-                            [ 'Undo', 'Redo' ],
+            <TextAreaParent height="auto" >
+
+                <CKEditor4 placeholder={"Task Body"} inputHandler={inputHandler} />
                 
-                        ],
-                        width: '75%',
-                    
-                    }} 
-                />
-                </TextAreaParent>
+            </TextAreaParent>
 
           <ButtonContainer>
 

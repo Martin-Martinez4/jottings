@@ -11,7 +11,9 @@ import PlusIcon from '../../component/Svg_Icons/PlusIcon/PlusIcon';
 import LogoSVGAlt from '../../component/Svg_Icons/Logo/Logo._svg alt';
 import { getUser } from '../../actions/authSlice';
 
-import { CategoriesContainer, TopBar, SideBar } from './project.styles';
+import { Flex, Width100Height100OverflowHidden } from '../../global.style';
+
+import { CategoriesContainer, TopBar } from './project.styles';
 
 import DragAndDrop from '../../component/DragAndDrop/DragAndDrop';
 
@@ -31,7 +33,7 @@ const Project = () => {
       
       dispatch(getProject(project_id))
       
-    }, [])
+    }, [dispatch, project_id])
   
     
     const project = useSelector((state: StateType) => state.project.project);
@@ -44,23 +46,23 @@ const Project = () => {
 
       if(categories){
 
-        let dropDownCategories:any[] = [];
+        let dropDownCategories: JSX.Element[] = [];
         
         // Adds an empty selection option so taht users can deselect a category
         // This allows users to cancel moving tasks from one category to another
-        const selectElements =  [<option id={``} value=""></option>, ...Object.keys(categories).map((object)  => {
+        const selectElements =  [<option key={`${project_id}_empty_option`} id={``} value=""></option>, ...Object.keys(categories).map((object)  => {
 
           const category = categories[`${object}`]
 
           return (
             
-                  <option id={`${category._id}`} value={category._id}>{category.title}</option>
+                  <option key={`${category._id}_option`} id={`${category._id}`} value={category._id}>{category.title}</option>
           )
 
         })]
 
 
-        dropDownCategories.push(selectElements)
+        dropDownCategories.push(...selectElements)
         
         Object.keys(categories).forEach((object) => {
                   
@@ -101,7 +103,7 @@ const Project = () => {
         </ModalHOC>
 
 
-      <div style={{ width: "100vw", height: "100vh", overflow: "hidden" }}>
+      <Width100Height100OverflowHidden>
         <TopBar>
           <LogoSVGAlt></LogoSVGAlt>
           
@@ -114,25 +116,20 @@ const Project = () => {
         </TopBar>
 
 
-        <div style={{display: "flex"}}>
+          <Flex>
 
-        <SideBar>
-          <p style={{color: "white"}}>...</p>
+              <div>
 
-        </SideBar>
-
-        <div>
-
-        <CategoriesContainer> 
-            {
-              categories
-            }
-        </CategoriesContainer>
-          </div>
-        </div>
-      </div>
+                <CategoriesContainer> 
+                    {
+                      categories
+                    }
+                </CategoriesContainer>
+              </div>
+          </Flex>
+      </Width100Height100OverflowHidden>
       </>
-    )
+  )
 
 
 }

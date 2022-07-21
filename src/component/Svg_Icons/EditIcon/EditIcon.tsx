@@ -1,15 +1,11 @@
 
+import { TaskAndCategoryType } from '../../../types/TaskAndCategory.type';
+
 import { FC } from 'react';
 
 import "../svg_icons.css";
 
 import { SecondarySvg } from "../Svg.styles";
-
-type TaskAndCategoryType = {
-
-    clicked: (e: any) => any;
-    title?: string
-}
 
 export const EditIcon: FC<TaskAndCategoryType> = ({ clicked, title, ...props }) => {
 

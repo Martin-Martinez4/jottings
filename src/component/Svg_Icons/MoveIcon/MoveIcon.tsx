@@ -1,15 +1,9 @@
 
+import { TaskAndCategoryType } from "../../../types/TaskAndCategory.type";
 import { FC, ReactElement } from "react"
 import { SecondarySvg } from "../Svg.styles";
 
-type TaskAndCategoryType = {
-
-    clicked: (e: any) => any;
-    title?: string,
-    children?: Element | ReactElement<any, any>,
-}
-
-export const MoveIcon:FC<TaskAndCategoryType> = ({ clicked, title, children }) => {
+export const MoveIcon:FC<TaskAndCategoryType> = ({ clicked, title }) => {
 
     return (
 

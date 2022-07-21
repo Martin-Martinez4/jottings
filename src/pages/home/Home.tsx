@@ -1,14 +1,14 @@
 
 import React, { useEffect, useState, Suspense } from "react";
 import { StateType } from "../../types/state.type";
-import { HomeContentContainer, ProjectContainer, ProjectInforamtionContainer } from "./home.styles";
+import { HomeContentContainer, ProjectContainer } from "./home.styles";
 import { SiginPageTopNav, TopNavRight } from "../signin/Signin.styles";
 import { TransparentButton } from "../../global.style";
 // import CreateProjectPrompt from "../../component/CreateProjectPrompt/CreateProjectPrompt";
 import LogoSvg from "../../component/Svg_Icons/Logo/Logo._svg";
 import PlusIcon from "../../component/Svg_Icons/PlusIcon/PlusIcon";
 import ModalHOC from "../../component/ModalHOC/ModalHOC";
-import { PromptContainer } from "../../global.style";
+import { PromptContainer, FlexAlignItemsCenter } from "../../global.style";
 import Circles from "../../component/Svg_Icons/LoadingIcons/Circles";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -64,16 +64,12 @@ const Home = () => {
                     <p>{user.username}</p>
                 </div>
                 <div>
-                    <div style={{display: "flex", alignItems: "center"}}>
+                    <FlexAlignItemsCenter>
 
                     <h3>{user.username}'s project</h3>
                         <PlusIcon title={"Create New Project"} clicked={(e) => toggleState(setCreateProjectModalVisible, createProjectModalVisible)} fill="white"></PlusIcon> 
-          
-          <div>
-            
-          </div>
         
-                    </div>
+                    </FlexAlignItemsCenter>
                     <ProjectContainer> 
 
                        {
@@ -98,7 +94,4 @@ const Home = () => {
 
 export default Home;
 
-function clearProject(): any {
-    throw new Error("Function not implemented.");
-}
 

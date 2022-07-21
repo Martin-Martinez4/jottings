@@ -5,8 +5,8 @@ import { onInputChange } from '../../utils/onInputChange';
 import { toggleState } from '../../utils/toggleState';
 
 import { getChangeType, getEditCategory, getDeleteCategory, getChangeCategoryOrder } from '../../actions/projectSlice';
-import { Container, TopBar, CategoryTitle, DropDownParent, DropDownContainer } from "./dragAndDrop.styles";
-import { Input, ButtonContainer, PrimaryButton, RedButton, ThinnerShorterPromptContainer} from '../../global.style';
+import { Container, TopBar, CategoryTitle } from "./dragAndDrop.styles";
+import { Input, ButtonContainer, ButtonContainerJustifyContentCenter, PrimaryButton, RedButton, ThinnerShorterPromptContainer, FlexJustifyContentSpaceAround } from '../../global.style';
 import Draggable from '../Draggables/Draggable';
 import { DragAndDropProps } from '../../types/draggableTypes';
 
@@ -224,14 +224,14 @@ const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
 
           <ThinnerShorterPromptContainer>
             <p>Pick an index between 0 and {project.length -1}</p>
-            <div style={{ display: "flex", justifyContent: "space-around",  }}>
+            <FlexJustifyContentSpaceAround>
 
               <Input type="number"  min="1" max="50" width="3.5rem" name="targetIndex" onChange={(e) => onInputChange(e, setTargetindex, targetIndex) }></Input>
-            </div>
-            <ButtonContainer style={{ display: "flex", justifyContent: "center",  }}>
+            </FlexJustifyContentSpaceAround>
+            <ButtonContainerJustifyContentCenter>
                 <PrimaryButton onClick={() => changeCategoryOrderBYButton()}>Confirm</PrimaryButton>
                 <RedButton onClick={() => toggleState(setMenuVisible, menuVisible)}>Cancel</RedButton>
-            </ButtonContainer>
+            </ButtonContainerJustifyContentCenter>
 
           </ThinnerShorterPromptContainer>
        

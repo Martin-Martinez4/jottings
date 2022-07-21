@@ -1,14 +1,17 @@
-import { handleChangeCategoryOrderPayloadType, HandleChangeTaskOrderPayloadType, HandleCreateCategoryPayloadType, HandleDeleteCategoryPayloadType, HandleEditCategoryPayloadType } from "../../types/category.handler.types";
-import { ErrorWithStatusCode } from "../../types/customError.type";
 
-export function requestCreateCategory(body: HandleCreateCategoryPayloadType){
+import { ResponseClass } from "../../types/responseClass.types";
+import { CategoryErrorMessages } from "../../types/errorMessage.types";
+import { processServerResponse } from "../../utils/proccessServerResponse";
+import { handleChangeCategoryOrderPayloadType, HandleChangeTaskOrderPayloadType, HandleCreateCategoryPayloadType, HandleDeleteCategoryPayloadType, HandleEditCategoryPayloadType } from "../../types/category.handler.types";
+
+export async function requestCreateCategory(body: HandleCreateCategoryPayloadType){
     /*
         Body:{
             "title",
             "project_id",
         }
     */
-    return fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/category/`, {
+    const response = fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/category/`, {
 
         
         method: "put",
@@ -17,35 +20,21 @@ export function requestCreateCategory(body: HandleCreateCategoryPayloadType){
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify(body)
        
-    })
-    .then(responses =>  {
-
-        if(responses.status !== 201){
-
-            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when creating the category.")
-
-            error.statusCode = responses.status;
-
-            throw error;
-        }
-        
-
-        return responses.json()
-    })
-    .catch(err => {
-
-        return {isError: true, message: err.message, statusCode: err.statusCode}
     });
+
+    const createCategoryResponse = new ResponseClass(response, CategoryErrorMessages.CREATE_CATEGORY);
+
+    return await processServerResponse(createCategoryResponse);
 }
 
-export function requestDeleteCategory(body: HandleDeleteCategoryPayloadType){
+export async function requestDeleteCategory(body: HandleDeleteCategoryPayloadType){
     /*
         Body:{
             "category_id",
             "project_id",
         }
     */
-    return fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/category/`, {
+    const response =  fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/category/`, {
 
         
         method: "delete",
@@ -54,28 +43,14 @@ export function requestDeleteCategory(body: HandleDeleteCategoryPayloadType){
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify(body)
        
-    })
-    .then(responses =>  {
-
-        if(responses.status !== 201){
-
-            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when deleting the category")
-
-            error.statusCode = responses.status;
-
-            throw error;
-        }
-        
-
-        return responses.json()
-    })
-    .catch(err => {
-
-        return {isError: true, message: err.message, statusCode: err.statusCode}
     });
+
+    const deleteCategoryResponse = new ResponseClass(response, CategoryErrorMessages.DELETE_CATEGORY);
+
+    return await processServerResponse(deleteCategoryResponse);
 }
 
-export function requestEditCategory(body: HandleEditCategoryPayloadType){
+export async function requestEditCategory(body: HandleEditCategoryPayloadType){
     /*
         Body:{
             "title",
@@ -83,7 +58,7 @@ export function requestEditCategory(body: HandleEditCategoryPayloadType){
             "project_id",
         }
     */
-    return fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/category/`, {
+    const response = fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/category/`, {
 
         
         method: "post",
@@ -92,28 +67,14 @@ export function requestEditCategory(body: HandleEditCategoryPayloadType){
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify(body)
        
-    })
-    .then(responses =>  {
-        
-        if(responses.status !== 201){
-
-            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when editing the category.")
-
-            error.statusCode = responses.status;
-
-            throw error;
-        }
-        
-
-        return responses.json()
-    })
-    .catch(err => {
-
-        return {isError: true, message: err.message, statusCode: err.statusCode}
     });
+
+    const editCategoryResponse = new ResponseClass(response, CategoryErrorMessages.UPDATE_CATEGORY);
+
+    return await processServerResponse(editCategoryResponse);
 }
 
-export function requestChangeTaskOrder(body: HandleChangeTaskOrderPayloadType){
+export async function requestChangeTaskOrder(body: HandleChangeTaskOrderPayloadType){
   /*
         Body:{
             "title",
@@ -121,7 +82,7 @@ export function requestChangeTaskOrder(body: HandleChangeTaskOrderPayloadType){
             "project_id",
         }
     */
-    return fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/category/task/order`, {
+    const response =  fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/category/task/order`, {
 
     
         method: "post",
@@ -130,27 +91,14 @@ export function requestChangeTaskOrder(body: HandleChangeTaskOrderPayloadType){
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify(body)
         
-    })
-    .then(responses => {
-        
-        if(responses.status !== 201){
-
-            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when changing the task order.")
-
-            error.statusCode = responses.status;
-
-            throw error;
-        }
-        
-        return responses.json()
-    })
-    .catch(err => {
-
-        return {isError: true, message: err.message, statusCode: err.statusCode}
     });
+
+    const changeTaskOrderResponse = new ResponseClass(response, CategoryErrorMessages.CHANGING_TASK_ORDER);
+
+    return await processServerResponse(changeTaskOrderResponse);
 }
 
-export function requestChangeCategroyOrder(body: handleChangeCategoryOrderPayloadType){
+export async function requestChangeCategroyOrder(body: handleChangeCategoryOrderPayloadType){
   /*
         Body:{
             "title",
@@ -158,7 +106,7 @@ export function requestChangeCategroyOrder(body: handleChangeCategoryOrderPayloa
             "project_id",
         }
     */
-    return fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/category/order`, {
+    const response = fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/category/order`, {
 
     
         method: "post",
@@ -167,24 +115,10 @@ export function requestChangeCategroyOrder(body: handleChangeCategoryOrderPayloa
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify(body)
         
-    })
-    .then(responses =>  {
-        
-        if(responses.status !== 201){
-
-            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when changing the Category order.")
-
-            error.statusCode = responses.status;
-
-            throw error;
-        }
-
-        return responses.json()
-    })
-    .catch(err => {
-
-        return {isError: true, message: err.message, statusCode: err.statusCode}
     });
+
+    const changeCategoryOrderResponse = new ResponseClass(response, CategoryErrorMessages.CHANGE_ORDER_CATEGORY);
+
+    return await processServerResponse(changeCategoryOrderResponse);
+
 }
-
-

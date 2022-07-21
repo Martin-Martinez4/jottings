@@ -8,25 +8,15 @@ import { onInputChange } from "../../utils/onInputChange";
 import { ButtonContainer, Input, PrimaryButton, RedButton, TextAreaParent } from "../../global.style";
 import { EditPromptContainer } from "./EditTaskPrompt.styles";
 
-import { TaskType } from "../../types/project.type";
+import { IConfirmCancelButtons } from "../../types/clicked.types";
 import { StateType } from "../../types/state.type";
 
-import { CKEditor, CKEditorEventPayload } from 'ckeditor4-react';
+import CKEditor4 from "../CKEditor/CKEditor";
+
+import { CKEditorEventPayload } from 'ckeditor4-react';
 
 
-interface IConfirmCancelButtons {
-
-    clickConfirm?: (arg0?: any) => any;
-    clickCancel?: (arg0?: any) => any;
-    task: TaskType;
-    category_id: string;
-    children?: Element[] | Element | JSX.Element;
-
-}
-
-
-
-const EditTaskPrompt: React.FC<IConfirmCancelButtons> = ({ clickConfirm, clickCancel, task, category_id, children }) => {
+const EditTaskPrompt: React.FC<IConfirmCancelButtons> = ({ clickConfirm, clickCancel, task, category_id }) => {
 
     const dispatch = useDispatch()
 
@@ -36,9 +26,9 @@ const EditTaskPrompt: React.FC<IConfirmCancelButtons> = ({ clickConfirm, clickCa
 
         project_id: project.project_id,
         category_id: category_id,
-        task_id: task._id,
-        title: task.title,
-        content: task.content,
+        task_id: task?._id,
+        title: task?.title,
+        content: task?.content,
 
     });
 
@@ -47,7 +37,7 @@ const EditTaskPrompt: React.FC<IConfirmCancelButtons> = ({ clickConfirm, clickCa
 
     const inputHandler = (e: CKEditorEventPayload<"change">) => {
 
-    setEditTaskValues(state => ({...state, ["content"]: e.editor.getData()}));
+    setEditTaskValues(state => ({...state, "content": e.editor.getData()}));
 
 
 
@@ -77,23 +67,7 @@ const EditTaskPrompt: React.FC<IConfirmCancelButtons> = ({ clickConfirm, clickCa
                
               
                 <TextAreaParent height="auto" >
-                <CKEditor 
-                    initData={editTaskValues.content} 
-                    onChange={(e) => inputHandler(e)}
-                    type="classic"
-                    config={{
-                    toolbar: [
-                        ['Table'],
-                        [ 'Format', 'Font', 'FontSize' ],
-                        [ 'Bold', 'Italic' ],
-                        ['BulletedList', 'NumberedList'], 
-                        [ 'Undo', 'Redo' ],
-            
-                    ],
-                    width: '75%',
-                    
-                    }} 
-                />
+                    <CKEditor4 initData={editTaskValues.content} inputHandler={inputHandler} ></CKEditor4>
                 </TextAreaParent>
 
                 <ButtonContainer>

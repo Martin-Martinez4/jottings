@@ -1,10 +1,13 @@
 
+import { ResponseClass } from "../../types/responseClass.types";
+import { processServerResponse } from "../../utils/proccessServerResponse";
+import { AuthErrorMessages, UserInfoErrorMessages } from "../../types/errorMessage.types";
 import { RegisterType, SigninType } from "../../types/auth.type";
 import { ErrorWithStatusCode } from "../../types/customError.type";
 
-export function requestLogin(body: SigninType){
+export async function requestLogin(body: SigninType){
     
-    return fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/auth/signin`, {
+    const response =  fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/auth/signin`, {
         
         method: "put",
         credentials:'include',
@@ -12,30 +15,17 @@ export function requestLogin(body: SigninType){
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify(body)
        
-    })
-    .then(responses =>  {
-        
-        if(responses.status !== 201){
-
-            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when logging in.")
-
-            error.statusCode = responses.status;
-
-            throw error;
-        }
-        
-
-        return responses.json()
-    })
-    .catch(err => {
-
-         return {isError: true, message: err.message, statusCode: err.statusCode}
     });
+    
+    const loginResponse = new ResponseClass(response, AuthErrorMessages.SIGN_IN);
+
+    return await processServerResponse(loginResponse);
+
 }
 
-export function requestSignup(body: RegisterType){
+export async function requestSignup(body: RegisterType){
 
-    return fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/auth/signup`, {
+    const response =  fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/auth/signup`, {
         
         method: "put",
         credentials:'include',
@@ -43,118 +33,60 @@ export function requestSignup(body: RegisterType){
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify(body)
        
-    })
-    .then(responses =>  {
-        
-        if(responses.status !== 201){
-
-            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when registering.")
-
-            error.statusCode = responses.status;
-
-            throw error;
-        }
-        
-
-        return responses.json()
-    })
-    .catch(err => {
-
-         return {isError: true, message: err.message, statusCode: err.statusCode}
     });
+
+    const signupResponse = new ResponseClass(response, AuthErrorMessages.SIGN_IN);
+
+    return await processServerResponse(signupResponse);
 
 }
 
-export function requestSignout(){
+export async function requestSignout(){
 
-    return fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/auth/signout`, {
+    const response =  fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/auth/signout`, {
         
         method: "put",
         credentials:'include',
         cache:'no-cache',
         headers: { "Content-Type": "application/json"},
        
-    })
-    .then(responses =>  {
-        
-        if(responses.status !== 201){
-
-            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when signing out.")
-
-            error.statusCode = responses.status;
-
-            throw error;
-        }
-        
-
-        return responses.json()
-    })
-    .catch(err => {
-
-         return {isError: true, message: err.message, statusCode: err.statusCode}
     });
+
+    const signoutResponse = new ResponseClass(response, AuthErrorMessages.SIGN_OUT);
+
+    return await processServerResponse(signoutResponse);
 
 } 
 
-export function requestUser(){
+export async function requestUser(){
     
-    return fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/auth/`, {
+    const response = fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/auth/`, {
         
         method: "get",
         credentials:'include',
         cache:'no-cache',
         headers: { "Content-Type": "application/json"},
        
-    })
-    .then(responses =>  {
-        
-        if(responses.status !== 201){
-
-            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when getting user information.")
-
-            error.statusCode = responses.status;
-
-            throw error;
-        }
-        
-
-        return responses.json()
-    })
-    .catch(err => {
-
-         return {isError: true, message: err.message, statusCode: err.statusCode}
     });
+
+    const userInfoResponse = new ResponseClass(response, UserInfoErrorMessages.USER_INFO);
+
+    return await processServerResponse(userInfoResponse);
 }
 
-export function requestEmailAvailable(body: {"email": string}){
+export async function requestEmailAvailable(body: {"email": string}){
 
-    return fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/auth/email`, {
+    const response = fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/auth/email`, {
         
         method: "post",
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify(body)
 
-    })
-    .then(responses =>  {
-        
-        if(responses.status !== 201){
-
-            const error:Partial<ErrorWithStatusCode> = responses.status === 403 ?  new Error("Authentication Error") : new Error("An error occured when checking if email is available.")
-
-            error.statusCode = responses.status;
-
-            throw error;
-        }
-        
-
-        return responses.json()
-
-
-    })
-    .catch(err => {
-
-        return {isError: true, message: err.message, statusCode: err.statusCode}
     });
+
+    const emailAvailableResponse = new ResponseClass(response, UserInfoErrorMessages.EMAIL_AVAILABLE);
+
+    return await processServerResponse(emailAvailableResponse);
 
 }
 

@@ -1,11 +1,11 @@
 
 import { call, CallEffect, put, PutEffect } from "redux-saga/effects";
 import { clearProject, oneProject } from "../../actions/projectSlice";
-import { createProject, deleteProject, editProject, Logout } from "../../actions/authSlice";
+import { createProject, deleteProject, editProject } from "../../actions/authSlice";
 import { requestGetOneProject, requestCreateProject, requestEditProject, requestDeleteProject } from "../requests/project.request";
 import { HandleCreateProjectPayloadType, HandleCreateProjectType, HandleDeleteProjectPayloadType, HandleDeleteProjectType } from "../../types/project.handler.types";
 import { SagaIterator } from "@redux-saga/types";
-import { errorMessage, IsLoading } from "../../actions/errorAndLoadingSlice";
+import { IsLoading } from "../../actions/errorAndLoadingSlice";
 
 
 export function* handleGetProject(action: { payload: string; }): Generator<

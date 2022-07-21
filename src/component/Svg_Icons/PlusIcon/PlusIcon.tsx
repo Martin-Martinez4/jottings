@@ -1,15 +1,9 @@
 
+import { TaskAndCategoryType } from '../../../types/TaskAndCategory.type';
 import { FC } from 'react';
 import { TertiarySvg } from '../Svg.styles';
 
 import "../svg_icons.css";
-
-type TaskAndCategoryType = {
-
-    clicked?: (e: any) => any;
-	title? :string;
-	fill?: string;
-}
 
 export const PlusIcon: FC<TaskAndCategoryType> = ({ clicked, title, fill }) => {
 

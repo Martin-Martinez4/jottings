@@ -1,6 +1,7 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from '../app/store';
+import { ProjectType } from "../types/project.type";
 import { EditTaskType } from "../types/project.actions.types";
 
 
@@ -50,8 +51,8 @@ const projectSlice = createSlice({
                             ...state, 
                             tasks: newTasks,
                             categories:{...state.categories, 
-                                [action.payload.old_category_id]: {...(state.categories as any)[action.payload.old_category_id], length: action.payload.old_category_length},
-                                [action.payload.new_category_id]: {...(state.categories as any)[action.payload.new_category_id], length: action.payload.new_category_length}
+                                [action.payload.old_category_id]: {...(state as ProjectType).categories[action.payload.old_category_id], length: action.payload.old_category_length},
+                                [action.payload.new_category_id]: {...(state as ProjectType).categories[action.payload.new_category_id], length: action.payload.new_category_length}
                             }
                           }
   
@@ -69,7 +70,7 @@ const projectSlice = createSlice({
             const newTasksObject = action.payload.new_tasks_object;
 
             const category_id = action.payload.category_id;
-            return state = {...state, categories:{...state.categories, [action.payload.category_id]: {...(state.categories as any)[category_id], length: action.payload.length}}, tasks: {...state.tasks, ...newTasksObject}}
+            return state = {...state, categories:{...state.categories, [action.payload.category_id]: {...(state as ProjectType).categories[category_id], length: action.payload.length}}, tasks: {...state.tasks, ...newTasksObject}}
 
         },
         getCreateTask(state, action) {},
@@ -79,7 +80,7 @@ const projectSlice = createSlice({
 
             const category_id = action.payload.category_id;
 
-            return state = {...state, categories:{...state.categories, [category_id]: {...(state.categories as any)[category_id], length: action.payload.length}}, tasks: {...state.tasks, ...newTasksObject}}
+            return state = {...state, categories:{...state.categories, [category_id]: {...(state as ProjectType).categories[category_id], length: action.payload.length}}, tasks: {...state.tasks, ...newTasksObject}}
 
         },
         getEditTask(state, action) {},
@@ -88,7 +89,7 @@ const projectSlice = createSlice({
             const category_id = action.payload.category_id;
             const newTaskObject = action.payload.new_task_object;
 
-            return state = {...state, tasks: {...state.tasks, [category_id]:{...(state.tasks as any)[category_id], ...newTaskObject}}};
+            return state = {...state, tasks: {...state.tasks, [category_id]:{...(state as ProjectType).tasks[category_id], ...newTaskObject}}};
 
         },
         getCreateCategory(state, action) {},

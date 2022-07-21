@@ -1,19 +1,19 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import {useNavigate} from "react-router-dom"
-import { getLogin, getUser } from "../../actions/authSlice"
+import { getLogin } from "../../actions/authSlice"
 import { SigninPage, SiginPageTopNav, SiginPageBottomNav,ContentArea, TopNavRight } from "./Signin.styles";
 import { PrimaryButton, SecondaryButton, QuaternaryButton, ButtonContainer, TransparentButton } from "../../global.style";
+import { StateType } from "../../types/state.type";
 import LogoSvg from "../../component/Svg_Icons/Logo/Logo._svg";
 import { useEffect } from "react";
-import { IsLoading } from "../../actions/errorAndLoadingSlice";
 
 const Signin = () => {
 
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
-    const user = useSelector((state: any) => state.auth)
+    const user = useSelector((state: StateType) => state.auth)
 
     useEffect(() => {
         
